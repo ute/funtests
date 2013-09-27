@@ -13,14 +13,14 @@
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 mean.xydata <- function (x, trim = 0, na.rm = FALSE, ...) 
-  apply.xydata (x, mean, trim = trim, na.rm = na.rm, ...) 
+  apply.xydata (x, mean, fopt = list(trim = trim, na.rm = na.rm, ...)) 
 
 #' @rdname summaryfunctions.xydata
 #' @S3method median xydata 
 # @usage median.xydata (x, na.rm = FALSE)
 #' @export
 median.xydata <- function (x, na.rm = FALSE)
-   apply.xydata(x, median, na.rm = na.rm) 
+   apply.xydata(x, median, fopt = list( na.rm = na.rm) )
 
 #' @rdname summaryfunctions.xydata
 #' @S3method quantile xydata 
@@ -29,5 +29,6 @@ median.xydata <- function (x, na.rm = FALSE)
 #' @export
 quantile.xydata <- function(x, probs = seq(0, 1, 0.25), na.rm = FALSE,
          names = TRUE, type = 7, ...)
- apply.xydata(x, quantile, probs = probs,  na.rm = na.rm,  names = names, type = type, ...)
+ apply.xydata(x, quantile, fopt = list(probs = probs,  na.rm = na.rm,  
+   names = names, type = type, ...))
       

@@ -131,7 +131,8 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 #' @S3method apply xydata
 #' @param xy object of type \code{\link{xydata}}
 #' @param fun the function to apply, defaults to the mean
-#' @param ... optional, list of (plot) options for updating \code{options} element of the result
+#' @param fopt list of options to \code{fun}
+#' @param ... optional, (plot) options for updating \code{options} element of the result
 #' @details The function \code{fun} should return a single number or a vector of
 #' fixed length. This is not checked.
 #' @export
@@ -147,18 +148,19 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 #' # apply median and change axis label
 #' str(apply.xydata(xyda, median, xlab = "median of y-values"))
 
-apply.xydata <- function(xy, fun = mean, ...)
+apply.xydata <- function(xy, fun = mean, fopt = list(), ...)
 {
   stopifnot(is.xydata(xy))
   dimsx <- length(xy$nx)
-  newy <- as.array(aaply(xy$y, 1:dimsx, .fun = fun, ...))
+  #argus <- c(fopt, list(...))
+  newy <- do.call(aaply, c(list(.data = xy$y, .margins = 1:dimsx, .fun = fun), fopt))
   # did fun return vectors? then newy is two dimensional
   # if (length(dim(newy)) == 2) 
   # {    
   # }
   # dimly <- length(names(xy$y))
   # names(newy) <- names(xy$y)[-dimly]
-  newxy <- xydata(xy$x, newy, xy$options, sumfun = fun, ...)
+  newxy <- xydata(xy$x, as.array(newy), xy$options,  ...)
   return(newxy)
 } 
 
@@ -188,11 +190,11 @@ print.xydata <- function (x, ...)
 
 # @rdname xydata-internal
 # @keywords internal
-# @export
+#' @export
 # @title Plotting defaults for xydata
 # List of defaults for plotting \code{\link{xydata}}-objects
-# @rdname dafaultsxydata
-# @docType data
+#' @rdname xydata
+#' @docType data
 defaultoptions.xydata <- list (
   xlab = "x",
   ylab = "y",
