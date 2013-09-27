@@ -97,9 +97,28 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 
 "[.xydata" <- function(x, i, j, drop, ...) 
   {
-    # attach typemarks to marks
-    xx <- x$x
+    xx <- as.array(x$x)
+    if (length(dim(xx))>1) sstop("sorry, not implemented yet for higher dimensions")
     yy <- x$y[,i]
+    opt <- x$options
+    return(xydata(xx, yy, opt))
+  }
+
+#' @rdname extract.xydata
+#' @S3method [<- xydata
+#' @export
+#' @param value Replacement for the subset, an array or an xydata object. 
+#' @details Currently only possible if x$x is one-dimensional.
+#' Replacement y-values have to be of same dimension as the original.
+
+"[<-.xydata" <- function(x, i, j, value) 
+  {
+    xx <- as.array(x$x)
+    if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
+    yy <- x$y
+    if(is.array(value)) yy[, i] <- value 
+    else if(is.xydata(value)) yy[, i] <- value$y
+    else stop("can only replace with vectors or xydata objects")
     opt <- x$options
     return(xydata(xx, yy, opt))
   }
