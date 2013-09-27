@@ -41,6 +41,7 @@ inst/*
 *.blg
 Sweave.sty
 *.tex
+/*.pdf
 #
 # compiled stuff
 #

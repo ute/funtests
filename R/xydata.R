@@ -113,6 +113,8 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 #' @param xy object of type \code{\link{xydata}}
 #' @param fun the function to apply, defaults to the mean
 #' @param ... optional, list of (plot) options for updating \code{options} element of the result
+#' @details The function \code{fun} should return a single number or a vector of
+#' fixed length. This is not checked.
 #' @export
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
@@ -130,9 +132,13 @@ apply.xydata <- function(xy, fun = mean, ...)
 {
   stopifnot(is.xydata(xy))
   dimsx <- length(xy$nx)
-  newy <- aaply(xy$y, 1:dimsx, .fun = fun)
-  dimly <- length(names(xy$y))
-  names(newy) <- names(xy$y)[-dimly]
+  newy <- as.array(aaply(xy$y, 1:dimsx, .fun = fun, ...))
+  # did fun return vectors? then newy is two dimensional
+  # if (length(dim(newy)) == 2) 
+  # {    
+  # }
+  # dimly <- length(names(xy$y))
+  # names(newy) <- names(xy$y)[-dimly]
   newxy <- xydata(xy$x, newy, xy$options, sumfun = fun, ...)
   return(newxy)
 } 

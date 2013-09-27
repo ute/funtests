@@ -77,21 +77,21 @@ lightcol <- function(col, light = 0){
 #' # as a matrix nx x ny
 #' y <- t(sapply(x, function(s) rnorm(ny, mean = 4 - 2*s, sd = s)))
 #' xyda <- xydata(x, y, sumfun = mean)
-#' plot(xyda)
+#' summaryplot(xyda)
 #' 
 #' # plot mean and median in a minimax envelope
-#' plot(xyda, envelope = 1)
-#' plot(xyda, envelope = NULL, sumfun = median, 
+#' summaryplot(xyda, envelope = 1)
+#' summaryplot(xyda, envelope = NULL, sumfun = median, 
 #'           add = TRUE, col = "red", lwd.indiv = 0)
 #' 
 #' # using a predefined list of options, 
 #' # summary function will be plotted in black (default)
 #' blau <- list(envelope = .9, col.indiv = "blue", light.indiv = .8)
-#' plot(xyda, blau)
+#' summaryplot(xyda, blau)
 #' # add individual lines, overriding options contained in xyli and blau
-#' plot(xyda, blau, env = NULL, light = 0.2, add = TRUE)
+#' summaryplot(xyda, blau, env = NULL, light = 0.2, add = TRUE)
 
-plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
+summaryplot <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   if (length(x$nx) > 1) stop ("sorry, plotting of higher dimensional xydatas not yet supported")
  
