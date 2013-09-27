@@ -1,0 +1,48 @@
+# History files
+.Rhistory
+# Example code in package build process
+*-Ex.R
+# Rstudio stuff
+.Rproj.user
+.Rhistory
+.RData
+.Rbuildignore
+*.Rproj
+#
+# backups
+#
+*.bak
+.gitignore-bak
+#
+# roxygened files
+#
+NAMESPACE
+# maybe include that later again
+*.Rd
+!*-package.Rd
+#
+# all figures, testkram und anderes
+#
+testing/*
+#
+# documentation aux files
+#
+inst/*
+!inst/*.Rnw
+!inst/doc/*
+#
+# texfiles
+#
+*.aux
+*.bak
+*.synctex*
+*.bbl
+*.log
+*.blg
+Sweave.sty
+*.tex
+#
+# compiled stuff
+#
+*.o
+*.dll
