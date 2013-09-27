@@ -98,7 +98,7 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 "[.xydata" <- function(x, i, j, drop, ...) 
   {
     xx <- as.array(x$x)
-    if (length(dim(xx))>1) sstop("sorry, not implemented yet for higher dimensions")
+    if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
     yy <- x$y[,i]
     opt <- x$options
     return(xydata(xx, yy, opt))

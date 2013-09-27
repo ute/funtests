@@ -58,11 +58,11 @@ lightcol <- function(col, light = 0){
 #' plot(xyda)
 #' # using a predefined list of options
 #' blau <- list(col = "blue", light = .6)
-#' plot(xyda, blau, main="mein blau", includey = -2)
+#' plot(xyda, blau, main="mein blau", includy = -2)
 #' # add mean
 #' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
 
-plot.xydata <- function(x, ploptions = NULL, includey = NULL, add=F,  ...)
+plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   if (length(x$nx) > 1) stop ("sorry, plotting of higher dimensional xydatas not yet supported")
  
@@ -74,7 +74,7 @@ plot.xydata <- function(x, ploptions = NULL, includey = NULL, add=F,  ...)
   if (!add) # make a plot window
   {  
     # set information for plotwindow
-    if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includey)
+    if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
     if(is.null(allopt$xlim)) allopt$xlim <- range(x$x)
     # Want type = "n"
     pargus <- updateoptions(.plotparams, allopt)
@@ -155,16 +155,16 @@ plot.xydata <- function(x, ploptions = NULL, includey = NULL, add=F,  ...)
 #' summaryplot(xyda)
 #' 
 #' # plot mean and median in a minimax envelope
-#' summaryplot(xyda, envelope = 1)
-#' summaryplot(xyda, envelope = NULL, sumfun = median, 
+#' summaryplot(xyda, envprob = 1)
+#' summaryplot(xyda, envprob = NULL, sumfun = median, 
 #'           add = TRUE, col = "red", lwd.indiv = 0)
 #' 
 #' # using a predefined list of options, 
 #' # summary function will be plotted in black (default)
-#' blau <- list(envelope = .9, col.indiv = "blue", light.indiv = .8)
-#' summaryplot(xyda, blau)
-#' # add individual lines, overriding options contained in xyli and blau
-#' summaryplot(xyda, blau, env = NULL, light = 0.2, add = TRUE)
+#' blau <- list(col = "blue", light.env = .8)
+#' summaryplot(xyda, sumfun = "mean", envprob = .8, ploptions = blau, light = .2)
+
+#' # add individual lines, overriding options contained in xyda and blau
 
 summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
                        ploptions = NULL, includy = NULL, add=F,  ...)

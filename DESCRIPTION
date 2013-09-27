@@ -1,5 +1,5 @@
 Package: xystat
-Version: 0.6
+Version: 0.8
 Date: 2013-09-27
 Title: Methods for x-y-data, such as time series, multivariate or functional data.
 Author: Ute Hahn <ute@imf.au.dk>
@@ -7,7 +7,8 @@ Creator: Ute Hahn
 Maintainer: Ute Hahn <ute@imf.au.dk>
 Depends:
     R (>= 2.15),
-    plyr
+    plyr,
+    stats
 Description: Nonparametric testing and visualization of data consisting of 
     vectors or arrays of independent (x-) and a dependent (y-) variable, such as functional
     data, time series or multivariate data (in the latter case, x is just an index).

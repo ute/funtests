@@ -75,13 +75,13 @@ envelope <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...)
 #' envy <- envelope(xyda, prob = .9, lightup = .9)
 #' # using a predefined list of options
 #' blau <- list(col = "blue")
-#' plot(envy, blau, main="mein blau", includey = -2)
+#' plot(envy, blau, main="mein blau", includy = -2)
 #' # add lines and mean
 #' plot(xyda, blau, light = 0.4, add = TRUE)
 #' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
 #' 
 
-plot.envelope <- function(x, ploptions = NULL, includey = NULL, add=F,  ...)
+plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   argu <- list(...)
   xopt <- updateoptions(updateoptions(x$options, ploptions), argu)
@@ -90,7 +90,7 @@ plot.envelope <- function(x, ploptions = NULL, includey = NULL, add=F,  ...)
   if (!add) # make a plot window
   {  
     # set information for plotwindow
-    if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includey)
+    if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
     if(is.null(allopt$xlim)) allopt$xlim <- range(x$x)
     # Want type = "n"
     pargus <- updateoptions(.plotparams, allopt)
