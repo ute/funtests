@@ -46,10 +46,10 @@ is.xydata <- function(x) inherits(x, "xydata")
 #' @return a list with elements 
 #' \tabular{ll}{
 #'  \code{x} \tab{the x-values}\cr
-#' \code{y}  \tab{the function y-values}\cr
-#' \code{nx} \tab{integer, dimension of \code{x}}\cr
-#' \code{ny} \tab{integer, number of functions y included in the list}\cr
-#' \code{options} \tab list of plot options, see \code{\link{plot.xydata}}
+#'  \code{y}  \tab{the function y-values}\cr
+#'  \code{nx} \tab{integer, dimension of \code{x}}\cr
+#'  \code{ny} \tab{integer, number of functions y included in the list}\cr
+#'  \code{options} \tab list of plot options, see \code{\link{plot.xydata}}
 #' }
 #' @export
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
@@ -197,16 +197,17 @@ defaultoptions.xydata <- list (
   xlab = "x",
   ylab = "y",
   col = "black",
-  col.indiv = NULL, # if NULL, use col for individuals - hope R no longer removes NULLs
-  light.indiv = .66, # how to lighten up the color for the individual lines
-  lwd.sum = 2,
-  lwd.indiv = 1,
-  lty.sum = "solid",
-  lty.indiv = "solid",
-  sumfun = "mean", # if NULL, do not plot a summary function
-  envelope = NULL # if NULL, plot individual lines, 
-  # otherwise one or two numbers are expected that specify pointwise envelopes
-)
+  light = 0, # how to lighten up the color for the individual lines
+  lwd = 1,
+  lty = "solid"
+)  
+  
+#   
+#   lty.indiv = "solid",
+#   sumfun = "mean", # if NULL, do not plot a summary function
+#   envelope = NULL # if NULL, plot individual lines, 
+#   # otherwise one or two numbers are expected that specify pointwise envelopes
+# )
 
 #' Update a list of options, e.g. for plotting
 #' 
