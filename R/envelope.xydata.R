@@ -10,7 +10,7 @@
 #'@param multi currently ignored
 #'@param lightup a number between 0 and 1, regulates brightness of color in plot.
 #'@param ... arguments for updating the \code{options} list in the result.
-#'@return an object of class \code{envelope}, which is essentially an \code{xydata}
+#'@return an object of class \code{envel}, which is essentially an \code{xydata}
 #'object with own \code{plot} method.
 #'
 #'@details The envelope is specified as follows:
@@ -21,16 +21,16 @@
 #'
 #'A default value for the brightness of the color is calculated from the options in \code{xy} 
 #'and the argument \code{lightup}, namely
-#'lightup + (1-lightup)*xy$options$light
+#'\code{lightup + (1-lightup)*xy$options$light}.
 #\code{light = ((0.1 + xy$options$light) / 1.1)^(1 - lightup)}.
 #'Thus \code{lightup = 0} results in retaining original brightness, and \code{lightup = 1}
 #'in white color. Can be overridden by the \code{...} arguments.
 #' @export
 #' @examples
-#' str(envelope(xyda, 1, col = "blue"))
+#' str(envel(xyda, 1, col = "blue"))
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #'
-envelope <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...) 
+envel <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...) 
 {
   if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2) 
   else quants <- range(prob)
@@ -39,7 +39,7 @@ envelope <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...)
   opt <- result$options
   opt$light = lightup + (1-lightup)*xy$options$light
   result$options <- updateoptions(opt, ...)
-  class(result) <- c("envelope", class(xy))
+  class(result) <- c("envel", class(xy))
   attr(result, "prob") <- prob
   return(result)
 }  
@@ -66,13 +66,14 @@ envelope <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...)
 #' is lightened up, 0 means no extra light. \cr
 #' \code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and {"y"}.\cr
 #' }
-#' @S3method plot envelope
+#' @S3method plot envel
+#' @method plot envel
 #' @export
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' # load example data and calculate 90 % envelope
 #' data(exampledata)
-#' envy <- envelope(xyda, prob = .9, lightup = .9)
+#' envy <- envel(xyda, prob = .9, lightup = .9)
 #' # using a predefined list of options
 #' blau <- list(col = "blue")
 #' plot(envy, blau, main="mein blau", includy = -2)
@@ -81,7 +82,7 @@ envelope <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...)
 #' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
 #' 
 
-plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
+plot.envel <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   argu <- list(...)
   xopt <- updateoptions(updateoptions(x$options, ploptions), argu)

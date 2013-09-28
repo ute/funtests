@@ -12,7 +12,6 @@
 #  WANT: testing. Requires aligned functions, one x, several y
 #
 #  TODOS: 
-#  struktur überdenken 
 #  coerce unify groups: interpolate all functions
 #  klist into xydata mit nur 1 x-variable
 # interpolate an array of functions
@@ -28,7 +27,7 @@ require(plyr)
 #' @param x any R-object
 #' @return \code{TRUE}, if \code{x} belongs to class \code{xydata}, otherwise \code{FALSE}
 #' @export
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 is.xydata <- function(x) inherits(x, "xydata")
 
@@ -52,7 +51,7 @@ is.xydata <- function(x) inherits(x, "xydata")
 #'  \code{options} \tab list of plot options, see \code{\link{plot.xydata}}
 #' }
 #' @export
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
 xydata <- function(x, y, optlist, ...) #fun = mean, ...)
@@ -134,7 +133,7 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 # @export
 #' @rdname xydata-internal
 #' @keywords {internal}
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 yrange <- function(xy, includy=NULL) range(c( range(xy$y), includy))
 
@@ -166,7 +165,8 @@ print.xydata <- function (x, ...)
 #' @export
 # @title Plotting defaults for xydata
 # List of defaults for plotting \code{\link{xydata}}-objects
-#' @rdname xydata
+#' @rdname xydata-internal
+#' @aliases defaultoptions.xydata
 #' @docType data
 defaultoptions.xydata <- list (
   xlab = "x",
