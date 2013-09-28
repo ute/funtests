@@ -28,7 +28,11 @@
 #' @export
 #' @examples
 #' str(envel(xyda, 1, col = "blue"))
+<<<<<<< HEAD
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
+=======
+#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+>>>>>>> 9054c738e688ccf3a13518e8566d428f02168082
 #'
 envel <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...) 
 {
