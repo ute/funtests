@@ -1,16 +1,16 @@
-# envelope of an xy data set
+# envelope of an functional data sample
 
-#'@title Calculate pointwise envelope of an xy-data set
+#'@title Calculate pointwise envelope of an functional data sample
 #'
 #'@description Calculates symmetric or non symmetric pointwise envelopes of 
-#'the \eqn{y}-values
+#'the function values
 #'
-#'@param xy object of class \code{\link{xydata}}
+#'@param x object of class \code{\link{fdsample}}
 #'@param prob numeric, covering probability for the envelope, see Details.
 #'@param multi currently ignored
 #'@param lightup a number between 0 and 1, regulates brightness of color in plot.
 #'@param ... arguments for updating the \code{options} list in the result.
-#'@return an object of class \code{envel}, which is essentially an \code{xydata}
+#'@return an object of class \code{envelope}, which is essentially an \code{fdsample}
 #'object with own \code{plot} method.
 #'
 #'@details The envelope is specified as follows:
@@ -22,28 +22,23 @@
 #'A default value for the brightness of the color is calculated from the options in \code{xy} 
 #'and the argument \code{lightup}, namely
 #'\code{lightup + (1-lightup)*xy$options$light}.
-#\code{light = ((0.1 + xy$options$light) / 1.1)^(1 - lightup)}.
+#\code{light = ((0.1 + x$options$light) / 1.1)^(1 - lightup)}.
 #'Thus \code{lightup = 0} results in retaining original brightness, and \code{lightup = 1}
 #'in white color. Can be overridden by the \code{...} arguments.
 #' @export
 #' @examples
-#' str(envel(xyda, 1, col = "blue"))
-<<<<<<< HEAD
+#' str(envel(fuda, 1, col = "blue"))
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
-=======
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
->>>>>>> 9054c738e688ccf3a13518e8566d428f02168082
-#'
-envel <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...) 
+pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...) 
 {
   if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2) 
   else quants <- range(prob)
   # not much user input rubbish control here...
-  result <- quantile(xy, probs = quants)
+  result <- quantile(x, probs = quants)
   opt <- result$options
-  opt$light = lightup + (1-lightup)*xy$options$light
+  opt$light = lightup + (1-lightup)*x$options$light
   result$options <- updateoptions(opt, ...)
-  class(result) <- c("envel", class(xy))
+  class(result) <- c("envelope", class(x))
   attr(result, "prob") <- prob
   return(result)
 }  
@@ -70,23 +65,23 @@ envel <- function (xy, prob = 1, multi = FALSE, lightup = .5, ...)
 #' is lightened up, 0 means no extra light. \cr
 #' \code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and {"y"}.\cr
 #' }
-#' @S3method plot envel
-#' @method plot envel
+#' @S3method plot envelope
+#' @method plot envelope
 #' @export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' # load example data and calculate 90 % envelope
 #' data(exampledata)
-#' envy <- envel(xyda, prob = .9, lightup = .9)
+#' envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
 #' # using a predefined list of options
 #' blau <- list(col = "blue")
 #' plot(envy, blau, main="mein blau", includy = -2)
 #' # add lines and mean
-#' plot(xyda, blau, light = 0.4, add = TRUE)
-#' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
+#' plot(fuda, blau, light = 0.4, add = TRUE)
+#' plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
 #' 
 
-plot.envel <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
+plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   argu <- list(...)
   xopt <- updateoptions(updateoptions(x$options, ploptions), argu)
@@ -96,7 +91,7 @@ plot.envel <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   {  
     # set information for plotwindow
     if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
-    if(is.null(allopt$xlim)) allopt$xlim <- range(x$x)
+    if(is.null(allopt$xlim)) allopt$xlim <- range(x$args)
     # Want type = "n"
     pargus <- updateoptions(.plotparams, allopt)
     pargus$type="n"
@@ -109,5 +104,5 @@ plot.envel <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   # plot individual lines
   if(allopt$light > 0) plopt$col <- lightcol(allopt$col, allopt$light)
   plopt$border <- NA
-  do.call (polygon, c(list(c(x$x, rev(x$x)), c(x$y[ ,1], rev(x$y[ ,2]))), plopt))
+  do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
 }  

@@ -19,7 +19,7 @@
 NAMESPACE
 # maybe include that later again
 *.Rd
-!*-package.Rd
+#!*-package.Rd
 #
 # all figures, testkram und anderes
 #

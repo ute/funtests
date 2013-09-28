@@ -1,0 +1,178 @@
+####################################################
+#
+# fdsample - a data type for functional data
+#
+###################################################
+# groups of function values are stored as arrays
+# in the current version, it is required that they all are taken on the same x-values
+# later we can provide a unifying function
+# started 04.09.2013. Das wäre Hiltis 82. Geburtstag gewesen.
+#
+#
+#  WANT: testing. Requires aligned functions, one x, several y
+#
+#  TODOS: 
+#  coerce unify groups: interpolate all functions
+#  klist into fdsample mit nur 1 x-variable
+# interpolate an array of functions
+# plotting parameters are extra objects (list) fdsampleplotparm ? oder einfach listen
+# flipp1 <- fdsamplepar(col="blue", default=.flippdefault) # default values
+# 
+
+#' Check whether object is a function list
+#' 
+#' Checks whether object is of type \code{fdsample}
+#' @param x any R-object
+#' @return \code{TRUE}, if \code{x} belongs to class \code{fdsample}, otherwise \code{FALSE}
+#' @export
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+is.fdsample <- function(x) inherits(x, "fdsample")
+
+# fdsample is a list with elements
+#' Make a functional data sample
+#' 
+#' Generate an object of class \code{fdsample}
+#' 
+#' @param args  numeric, array, the function arguments, dimension dimarg 
+#' @param fvals  numeric, array of function values, dimension: dimarg x groupsize 
+#' @param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
+#' @param ... plot options, see \code{\link{plot.fdsample}}
+# @param fun the summary function to be applied on the values of \code{y}, defaults to \code{mean}
+#' 
+#' @return a list with elements 
+#' \tabular{ll}{
+#'   \code{args} \tab{the function arguments}\cr
+#'  \code{fvals}  \tab{the function value samples}\cr
+#'  \code{dimarg} \tab{integer, dimension of \code{x}}\cr
+#'  \code{groupsize} \tab{integer, number of functions y included in the list}\cr
+#'  \code{options} \tab list of plot options, see \code{\link{plot.fdsample}}
+#' }
+#' @export
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+
+fdsample <- function(x, y, optlist, ...) #fun = mean, ...)
+{
+  xa <- as.array(x)
+  dimarg <- dim(xa)
+  ya <- as.array(y)
+  if (length(dim(xa)) == length(dim(ya))) groupsize <- 1 else groupsize <- dim(ya)[length(dim(ya))] # only one y
+  if (groupsize == 1) my <- dim(ya) else my <- dim(ya)[-length(dim(ya))]
+  if (any(dimarg != my)) stop("dimensions do not match")
+ # argu <- list(...)
+  if (missing(optlist)) optlist <- NULL
+  argu <- list(...)
+  
+ #  options <- updateoptions(defaultoptions.fdsample, optlist)
+  options <- updateoptions(updateoptions(defaultoptions.fdsample, optlist), argu)
+#  options <- do.call(updateoptions, c(list(defaultoptions.fdsample), argu))
+  xy <- list(args = xa, 
+             fvals = ya,
+             dimarg = dim(xa),
+             groupsize = groupsize,
+             options = options)
+  class(xy) <- "fdsample"
+  return(xy)
+}
+
+
+
+#' Extract or replace subset of an fdsample
+#' 
+#' curves (rows of y-values) are extracted or replaced
+#' 
+#' @rdname extract.fdsample
+# @name extract.fdsample 
+#' @aliases [.fdsample [<-.fdsample
+#' @S3method [ fdsample
+#' @method [ fdsample
+#' @export
+#' @param x an object of class \code{"fdsample"}. 
+#' @param i subset index.
+#' @param j,drop ignored.
+#' @seealso \code{\link{fdsample}} for details on the class.
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+
+"[.fdsample" <- function(x, i, j, drop, ...) 
+  {
+    xx <- as.array(x$args)
+    if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
+    yy <- x$fvals[,i]
+    opt <- x$options
+    return(fdsample(xx, yy, opt))
+  }
+
+#' @rdname extract.fdsample
+#' @S3method [<- fdsample
+#' @method [<- fdsample
+#' @export
+#' @param value Replacement for the subset, an array or an fdsample object. 
+#' @details Currently only possible if x$args is one-dimensional.
+#' Replacement y-values have to be of same dimension as the original.
+
+"[<-.fdsample" <- function(x, i, j, value) 
+  {
+    xx <- as.array(x$args)
+    if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
+    yy <- x$fvals
+    if(is.array(value)) yy[, i] <- value 
+    else if(is.fdsample(value)) yy[, i] <- value$fvals
+    else stop("can only replace with vectors or fdsample objects")
+    opt <- x$options
+    return(fdsample(xx, yy, opt))
+  }
+
+# range of y-values
+# @param x the data to be inspected
+# @param includy anything to be included in the range
+# @return numeric vector of two
+#' @export
+#' @rdname fdsample-internal
+#' @keywords {internal}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+yrange <- function(x, includy=NULL) range(c( range(x$fvals), includy))
+
+#' Print brief details of an xy-list
+#'
+#' Gives short dimensions of the elements in the argument
+#'
+#' @S3method print fdsample
+#' @method print fdsample
+#' @param x object of type \code{\link{fdsample}}
+#' @param ... ignored
+#' @export
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+
+print.fdsample <- function (x, ...)
+{
+  dimx <- x$dimarg[1]
+  if (length(x$dimarg) > 1) for (i in 2: length(x$dimarg)) dimx <- paste(dimx, x$dimarg[i], sep="x")
+  
+  cat("fdsample with",dimx,"arg-values and", x$groupsize,"sets of function values,\n",
+    "arg-range:", range(x$args), " fval-range:", range(x$fvals),"\n")
+}
+
+
+
+# @rdname fdsample-internal
+# @keywords internal
+#' @export
+# @title Plotting defaults for fdsample
+# List of defaults for plotting \code{\link{fdsample}}-objects
+#' @rdname fdsample-internal
+#' @aliases defaultoptions.fdsample
+#' @docType data
+defaultoptions.fdsample <- list (
+  xlab = "t",
+  ylab = "X(t)",
+  main = "",
+  col = "black",
+  light = 0, # how to lighten up the color for the individual lines
+  lwd = 1,
+  lty = "solid"
+)  
+
