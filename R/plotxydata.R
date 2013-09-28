@@ -49,6 +49,7 @@ lightcol <- function(col, light = 0){
 #' }
 #' 
 #' @S3method plot xydata 
+#' @method plot xydata 
 #' @export
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}
@@ -139,7 +140,6 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 #' If \code{envprob} is a single number between 0 and 1, a central pointwise envelope covering
 #' \code{envprob}*100 percent of the function values. If two numbers are given, they are used to
 #' specify the lower and upper quantile used for the envelope.
-#' @S3method plot xydata 
 #' @export
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}

@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\newcommand{\pkg}[1]{\texttt{#1}}
+\newcommand{\bold}[1]{{\textbf {#1}}}
+\newcommand{\R}{{\sf R}}
+\newcommand{\spst}{\pkg{spatstat}}
+\newcommand{\Spst}{\pkg{Spatstat}}
+
+%\VignetteIndexEntry{Short Overview of xystat}
+%\VignetteKeywords{xydata, plot.xydata, studpermute.test} \\
+%\VignettePackage{xystat} \\
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\title{Short Overview of \texttt{xystat}}
+\author{Ute Hahn}
+
+\maketitle
+
+
+
+\end{document}

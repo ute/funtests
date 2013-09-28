@@ -86,13 +86,16 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 #' curves (rows of y-values) are extracted or replaced
 #' 
 #' @rdname extract.xydata
+# @name extract.xydata 
+#' @aliases [.xydata [<-.xydata
 #' @S3method [ xydata
+#' @method [ xydata
 #' @export
 #' @param x an object of class \code{"xydata"}. 
 #' @param i subset index.
 #' @param j,drop ignored.
 #' @seealso \code{\link{xydata}} for details on the class.
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
 "[.xydata" <- function(x, i, j, drop, ...) 
@@ -106,6 +109,7 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
 
 #' @rdname extract.xydata
 #' @S3method [<- xydata
+#' @method [<- xydata
 #' @export
 #' @param value Replacement for the subset, an array or an xydata object. 
 #' @details Currently only possible if x$x is one-dimensional.
@@ -123,46 +127,14 @@ xydata <- function(x, y, optlist, ...) #fun = mean, ...)
     return(xydata(xx, yy, opt))
   }
 
-
-#' Apply summary function to the y-values in an xydata
-#'
-#' Applies a function to the \eqn{y}-values in a list, for each \eqn{x}
-#'
-#' @S3method apply xydata
-#' @param xy object of type \code{\link{xydata}}
-#' @param fun the function to apply, defaults to the mean
-#' @param fopt list of options to \code{fun}
-#' @param ... optional, (plot) options for updating \code{options} element of the result
-#' @details The function \code{fun} should return a single number or a vector of
-#' fixed length. This is not checked.
-#' @export
+# range of y-values
+# @param xy the data to be inspected
+# @param includy anything to be included in the range
+# @return numeric vector of two
+# @export
+#' @rdname xydata-internal
+#' @keywords {internal}
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
-#' @examples
-#' data(exampledata)  
-#' # look at data set xyda 
-#' str(xyda)
-#' # apply the summary function contained in xyda$options
-#' str(apply.xydata(xyda))
-#' # apply the median  
-#' str(apply.xydata(xyda, "median"))
-#' # apply median and change axis label
-#' str(apply.xydata(xyda, median, xlab = "median of y-values"))
-
-apply.xydata <- function(xy, fun = mean, fopt = list(), ...)
-{
-  stopifnot(is.xydata(xy))
-  dimsx <- length(xy$nx)
-  #argus <- c(fopt, list(...))
-  newy <- do.call(aaply, c(list(.data = xy$y, .margins = 1:dimsx, .fun = fun), fopt))
-  # did fun return vectors? then newy is two dimensional
-  # if (length(dim(newy)) == 2) 
-  # {    
-  # }
-  # dimly <- length(names(xy$y))
-  # names(newy) <- names(xy$y)[-dimly]
-  newxy <- xydata(xy$x, as.array(newy), xy$options,  ...)
-  return(newxy)
-} 
 
 yrange <- function(xy, includy=NULL) range(c( range(xy$y), includy))
 
@@ -171,6 +143,7 @@ yrange <- function(xy, includy=NULL) range(c( range(xy$y), includy))
 #' Gives short dimensions of the elements in the argument
 #'
 #' @S3method print xydata
+#' @method print xydata
 #' @param x object of type \code{\link{xydata}}
 #' @param ... ignored
 #' @export
@@ -203,166 +176,4 @@ defaultoptions.xydata <- list (
   lwd = 1,
   lty = "solid"
 )  
-  
-#   
-#   lty.indiv = "solid",
-#   sumfun = "mean", # if NULL, do not plot a summary function
-#   envelope = NULL # if NULL, plot individual lines, 
-#   # otherwise one or two numbers are expected that specify pointwise envelopes
-# )
 
-#' Update a list of options, e.g. for plotting
-#' 
-#' Compares the optional ... arguments with the list elements in \code{default}
-#' and return an updated list. The function was written for setting plotting defaults
-#' for xy-lists, but may be useful also for other lists.
-#'
-#' @param default the list to be updated
-#' @param optlist optional list of updates
-#' @param ... optional named pairs, updates for \code{default}
-#' @return a list with same names as the elements of \code{default}
-#' @export
-# @seealso \code{\link{unusedoptions}}
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
-
-updateoptions <- function(default, optlist=NULL, ...)
-{
-  argu <- list(...)
-  if(is.list(optlist)) argu <- c(argu, optlist) 
-  result <- default
-  if(length(argu) > 0)
-  {
-    namdef <- names(default)
-    pmatch(names(argu), namdef) -> keys
-    if (length(keys) > 0) {
-      argna <- lapply(argu, function(z) if (is.null(z)) NA else z)
-      resna <- lapply(result, function(z) if (is.null(z)) NA else z)
-      for (ki in 1:length(keys)) if (!is.na(keys[ki])) resna[[keys[ki]]] <- argna[[ki]]
-      result <- lapply(resna, function(z) if(is.function(z) || !is.na(z)) z else NULL)
-      }  
-  } 
-  return(result)
-}
-
-#' Get options 
-#' 
-#' Update the options element in an \code{\link{xydata}} object or another list with an element \code{$options}, 
-#' according to arguments
-#' 
-#' @param x list with element \code{options} to be updated
-#' @param optlist optional list of updates
-#' @param ... optional named pairs, updates for \code{default}
-#' @return a list, copy of \code{x$options}, with updated elements
-#' @details A copy of \code{x$options} is updated according to the remaining arguments, 
-#' where arguments given as \code{...} have highest priority. The element names may be 
-#' unambiguously abbreviated.
-#' 
-#' If no arguments are given, the \code{options} element of list \code{x} is returned as is.
-#' @export
-# @seealso \code{\link{unusedoptions}}
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
-#' @examples
-#' # load simulated example data
-#' data(exampledata) 
-#' str(xyda$options)
-#' blue <- getoptions(xyda, col = "blue")
-#' str(blue)
-#' # abbreviating names and using a predefined list
-#' bluegreen <- getoptions(xyda, blue, col.i = "green", light = .5)
-#' str(bluegreen)
-
-getoptions <- function(x, optlist=NULL, ...)
-{
-  return(updateoptions(updateoptions(x$options, optlist), ...))
-}
-
-#' Internal functions for class \code{xydata}
-#'
-#' Internal functions for dealing with objects of class \code{xydata}, and plotting options
-#
-# Return arguments matching a default list
-# 
-# Compares the optional ... arguments with the list elements in \code{default}
-# and returns a list of all arguments with names that match names of elements in \code{default}. 
-# The function was written for \code{defaultsoptions.xydata} but can also be 
-# used for other lists.
-#
-# @param default the list to be updated
-# @param ... named pairs, updates for \code{default}
-# @return a list with elements with names that match those in \code{default}
-# @export
-#' @rdname xydata-internal
-#' @keywords{internal}
-# @seealso \code{\link{setoptions}}
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
-
-matchingoptions <- function(default = defaultoptions.xydata, optlist,...)
-{
-  argu <- list(...)
-  namdef <- names(default)
-  pmatch(names(argu), namdef) -> keys
-  result <- argu
-  matchkeys <- which(!is.na(keys))
-  if (length(matchkeys) > 0)
-    return(result[matchkeys]) else return(NULL)
-}
-
-
-# Return arguments not matching a default list
-# 
-# Compares the optional ... arguments with the list elements in \code{default}
-# and returns a list of all arguments the names of which do not match names of elements in \code{default}. 
-# The function was written for \code{defaultoptions.xydata} but can also be 
-# used for other lists.
-#
-# @param default the list to be updated
-# @param optlist optional list of options to be updated
-# @param ... named pairs, updates for \code{default}
-# @return a list with elements with names that differ from those in \code{default}
-# @export
-#' @rdname xydata-internal
-#' @keywords internal
-# @seealso \code{\link{setoptions}}
-# @author Ute Hahn,  \email{ute@@imf.au.dk}
-
-unusedoptions <- function(default = defaultoptions.xydata, optlist = NULL, ...)
-{
-  argu <- uniquelist(c(list(...), optlist))
-  namdef <- names(default)
-  pmatch(names(argu), namdef) -> keys
-  result <- argu
-  leftoverkeys <- which(is.na(keys))
-  if (length(leftoverkeys) > 0)
-    return(result[leftoverkeys]) else return(NULL)
-}
-
-# return unique elements
-# @param xlist the list to be simplified
-# @return a list with unique elements, priority: the first element counts
-# @export
-#' @rdname xydata-internal
-#' @keywords{internal}
-# @seealso \code{\link{setoptions}}
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
-
-uniquelist <- function(xlist) xlist[!duplicated(names(xlist))]
-
-#
-# Data documentation
-#
-
-#' @name exampledata
-#' @aliases xyda xyda1 xyda2
-#' @title Example data
-#' @description Three data sets for use in the examples: objects of class \code{\link{xydata}},  
-#' generated by simulation.
-#' @docType data
-# usage data(exampledata) 
-#' @details Regression type data with normal distributed \eqn{y}-values. Mean values:
-#' \tabular{ll}{
-#' \code{xyda}  \tab{mean \eqn{y = x^2}}\cr
-#' \code{xyda1} \tab{mean \eqn{y = 4 - x^2}}\cr
-#' \code{xyda2} \tab{mean \eqn{y = 4.2 - 1.2 x^2 }}\cr
-#' }
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
- NULL

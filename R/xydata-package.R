@@ -1,12 +1,12 @@
 # xystat package
 #'@import stats
 #'
-#'@rdname{xystat-package}
+#'@name xystat-package
 #'
 #'@aliases xystat-package  xystat
 #'@docType package
-#'@title{The xystat package}
-#'@description{
+#'@title The xystat package
+#'@description 
 #'  The package \pkg{xystat} is a collection of methods for analysis and 
 #'  visualisation of grouped data that consist of an independent (\eqn{x}-) 
 #'  variable and a dependent (\eqn{y}-) variable.  Such data could be time 
@@ -14,31 +14,26 @@
 #'  In the latter case, \eqn{x} is just an index variable.
 #'    Individual data sets are supposed to share the same \eqn{x}-variable 
 #'    (this   will be changed in a future version). 
-#'}
-#'@section{Data class and generic methods}{
+#'@section {Data class and generic methods}
 #'   \tabular{ll}{
 #'    \code{\link{xydata}} \tab basic data type\cr
 #'    \code{\link{print.xydata}} \tab print brief details of an xy-list\cr
 #'    \code{\link{plot.xydata}} \tab plot individual members, summary function \cr
 #'       \tab or envelopes of an xy-list\cr
 #'  } 
-#'}
-#'@section{Manipulation and Analysis}{
+#'@section {Manipulation and Analysis}
 #'   \tabular{ll}{
 #'    \code{\link{apply.xydata}} \tab apply a summary function on the \eqn{y}-values\cr
 #'    \code{\link{studpermute.test}} \tab studentized permutation test for two samples\cr
 #'  } 
-#'}
-#'
-#'@author  Ute Hahn  \email{ute@imf.au.dk}
-#'} 
-#'@references{
+#'@author Ute Hahn, \email{ute@@imf.au.dk}
+#'@references 
 #'Hahn, U. (2012) A studentized permutation test for
 #'the comparison of spatial point  patterns.
 #'\emph{Journal of the American Statistical Association} \strong{107} (498), 754--764.
-#'}
-#'@keywords {package}
-#'@examples{
+#'
+#'@keywords package
+#'@examples 
 #' # simulated data sets, consisting of 8 and 9 
 #' x <- seq(0, 1, .1)
 #' y1 <- replicate(8, rnorm(length(x), mean = x, sd = .2))
@@ -61,6 +56,4 @@
 #'
 #'studpermute.test(xy1, xy2) 
 #'studpermute.test(xy1, xy1b) 
-#'}
-#'
-NULL
+NA
