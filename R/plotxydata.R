@@ -40,9 +40,9 @@ lightcol <- function(col, light = 0){
 #' given explicitely, default values contained in the list \code{x$options} are used. 
 #' The list of options in an \code{xydata}-object has elements
 #' \tabular{ll}{
-#' \code{col} \tab color for plotting the individual functions, defaults to "black"\cr
+#'  \code{col} \tab color for plotting the individual functions, defaults to "black"\cr
 #' \code{light} \tab numeric between 0 and 1. Regulates how much the color of individual functions
-#' is lightened up, 0 means no extra light. Defaults to 0. \cr
+#' is \cr lightened up, 0 means no extra light. Defaults to 0. \cr
 #' \code{lwd} \tab numeric, line width for individual function. Defaults to 1.\cr
 #' \code{lty} \tab line type (character or numeric), defaults to "solid".\cr
 #' \code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and {"y"}.\cr
@@ -51,7 +51,7 @@ lightcol <- function(col, light = 0){
 #' @S3method plot xydata 
 #' @method plot xydata 
 #' @export
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}
 #' @examples
 #' # load example data
@@ -141,7 +141,7 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 #' \code{envprob}*100 percent of the function values. If two numbers are given, they are used to
 #' specify the lower and upper quantile used for the envelope.
 #' @export
-#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}
 #' @examples
 #' # make a xydata-object first 
@@ -197,7 +197,7 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
     if (is.null(env.col)) env.col <- def.col
     env.li <- allopt$light.env 
     if (is.null(env.li)) env.li <- 0.7 + 0.3*def.light
-    envy <- envelope(x, prob = envprob)
+    envy <- envel(x, prob = envprob)
     plot(envy, allopt, add = T, col = env.col, 
          light = env.li)
   }

@@ -37,7 +37,7 @@
 #' # simulated data sets, consisting of 8 and 9 
 #' x <- seq(0, 1, .1)
 #' y1 <- replicate(8, rnorm(length(x), mean = x, sd = .2))
-#' y2 <- replicate(7, rnorm(length(x), mean = x*1.1, sd = .2))
+#' y2 <- replicate(7, rnorm(length(x), mean = x*1.2, sd = .2))
 #' y1b <- replicate(7, rnorm(length(x), mean = x, sd = .2))
 #' 
 #' xy1 <- xydata(x, y1)
@@ -46,12 +46,12 @@
 #'
 #'# visualize the data sets
 #'
-#'plot(xy1, envelope = 1)
-#'plot(xy1b, add = TRUE, col = "blue")
-#'plot(xy2, add = TRUE, col = "red")
+#'summaryplot(xy1, envprob=1)
+#'summaryplot(xy1b, add = TRUE, col = "blue")
+#'summaryplot(xy2, add = TRUE, col = "red")
 #'
 #'# there should be a slightly significant difference between xyl1 
-#'# and cyl2, but not between xyl1 and xyl1b. 
+#'# and xyl2, but not between xyl1 and xyl1b. 
 #'# However, with simulated data, the result may be unexpected...
 #'
 #'studpermute.test(xy1, xy2) 

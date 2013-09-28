@@ -44,7 +44,8 @@ xy1b <- xydata(x, y1b)
 
 # visualize the data sets
 
-plot(xy1, envelope = 1)
+plot(envel (xy1))
+plot(xy1, add = TRUE)
 plot(xy1b, add = TRUE, col = "blue")
 plot(xy2, add = TRUE, col = "red")
 

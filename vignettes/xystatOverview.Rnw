@@ -1,11 +1,13 @@
 \documentclass{article}
 \usepackage{graphicx}
 
+\usepackage{amsmath, amssymb}
 \newcommand{\pkg}[1]{\texttt{#1}}
-\newcommand{\bold}[1]{{\textbf {#1}}}
 \newcommand{\R}{{\sf R}}
-\newcommand{\spst}{\pkg{spatstat}}
-\newcommand{\Spst}{\pkg{Spatstat}}
+\newcommand{\xy}{\pkg{xystat}}
+\newcommand{\xvec}{\ensuremath{\mathbf{x}}}
+\newcommand{\yvec}{\ensuremath{\mathbf{y}}}
+\newcommand{\xydata}{\xvec-\yvec-data}
 
 %\VignetteIndexEntry{Short Overview of xystat}
 %\VignetteKeywords{xydata, plot.xydata, studpermute.test} \\
@@ -15,11 +17,37 @@
 \SweaveOpts{concordance=TRUE}
 
 
-\title{Short Overview of \texttt{xystat}}
+\title{Introduction to \texttt{xystat}}
 \author{Ute Hahn}
 
 \maketitle
 
+The package \xy\/  collects methods for
+  statistical analysis and visualisation of \xydata\/, i.e.\ data that consist
+  of an independent \xvec-variable and a dependent
+  \yvec-variable, where \xvec\/ and \yvec\/ are vectors or higher dimensional.
+  Such data could be time series or
+  values of a function, or generally any multivariate data; in the latter case, 
+  \xvec\/ can be considered as an index variable.
+  The aim of the package is to explore the functional relation between \xvec\/ 
+  and \yvec\/
+  nonparametrically. 
+  
+This vignette  introduces the methods in \xy\/ and explains their statistical background.
+
+\section*{\xydata: structure and model}
+In particular, test whether the relation is the same in
+  groups of samples, or goodness-of-fit test, whether an observation 
+When we deal with questions
+
+\[
+  \yvec = f(\xvec)
+\]
+
+
+ \xydata, that is data which 
+consist of an independent variable \xvec and a dependent variable \yvec. The 
+independent variable is usually a vector, and data sets consist of groups
 
 
 \end{document}
