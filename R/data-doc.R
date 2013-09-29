@@ -35,7 +35,7 @@
 #' @examples
 #' data(CanadianTemperatures)
 #' 
-#' # plot summary the data together with 80% pointwise envelopes
+#' # plot summary of the data together with 80% pointwise envelopes
 #' 
 #' summaryplot(TempAtla, light=.4, envprob=.8, col="seagreen")
 #' summaryplot(TempCont, light=.4, envprob=.8, col="brown", add = TRUE)
@@ -43,4 +43,30 @@
 #' # replot atlantic temperatures without envelope to uncover the lines
 #' 
 #' summaryplot(TempAtla, light=.4, col="seagreen", add = TRUE)
+NULL
+
+
+#' @name DeltaKBronze
+#' @title Delta K_dir estimates for bronzefilter point pattern
+#' @description Delta K_dir estimates for \pkg{spatstat} point pattern \code{bronzefilter}, 
+#' as in Hahn & Jensen (2013)
+#' @docType data
+# usage data(DeltaKBronze) 
+#' @details A list of two \code{\link{fdsample}}-objects, corresponding to the Delta K_dir function
+#' estimated on two subsets of the backtransformed bronze filter point pattern, see Hahn & Jensen (2013).
+#' 
+#'  The list has elements \code{high}  and \code{low} for the functions estimated high and 
+#'  low point density subsets of the point pattern.
+#' @examples
+#' data(DeltaKBronze)
+#' 
+#' # plot summary 
+#' 
+#' summaryplot(DeltaKBronze$high, col="red")
+#' summaryplot(DeltaKBronze$low,  col="blue")
+#'
+#' # test significance
+#' 
+#' with(DeltaKBronze, studpermute.test(high, low))
+
 NULL
