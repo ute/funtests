@@ -6,7 +6,8 @@
 .plotparams <- list(type = "p",  xlim = NULL, ylim = NULL,
                     log = "", main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
                     ann = par("ann"), axes = TRUE, frame.plot = TRUE,
-                    panel.first = NULL, panel.last = NULL, asp = NA)
+                    panel.first = NULL, panel.last = NULL, asp = NA,
+                    mgp = par("mgp"))
 # parameters that may cause warnings in low level plotting functions, but not in plot.default
 
 # lighten up a colour -----------------------------------------------------
