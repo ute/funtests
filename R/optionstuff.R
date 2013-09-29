@@ -16,6 +16,8 @@
 
 updateoptions <- function(default, optlist=NULL, ...)
 {
+  owa <- options("warn")
+  options("warn" = -1) #because of is.na which may not be applied to functions etc
   argu <- list(...)
   if(is.list(optlist)) argu <- c(argu, optlist) 
   result <- default
@@ -27,9 +29,10 @@ updateoptions <- function(default, optlist=NULL, ...)
       argna <- lapply(argu, function(z) if (is.null(z)) NA else z)
       resna <- lapply(result, function(z) if (is.null(z)) NA else z)
       for (ki in 1:length(keys)) if (!is.na(keys[ki])) resna[[keys[ki]]] <- argna[[ki]]
-      result <- lapply(resna, function(z) if(is.function(z) || !is.na(z)) z else NULL)
+      result <- lapply(resna, function(z) if(!is.na(z)) z else NULL)
       }  
   } 
+  options("warn") <- owa
   return(result)
 }
 

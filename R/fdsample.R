@@ -124,16 +124,18 @@ fdsample <- function(x, y, optlist, ...) #fun = mean, ...)
     return(fdsample(xx, yy, opt))
   }
 
-# range of y-values
-# @param x the data to be inspected
-# @param includy anything to be included in the range
-# @return numeric vector of two
+#' @title range of function values
+#' @description Range of \code{fvals} contained in an \code{fdasample} object, 
+#' purpose: convenient way to find plot y-limits.
+#' @param x the data to be inspected
+#' @param includy anything to be included in the range
+#' @return numeric vector of two
 #' @export
-#' @rdname fdsample-internal
-#' @keywords {internal}
+# @rdname fdsample-internal
+# @keywords {internal}
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
-yrange <- function(x, includy=NULL) range(c( range(x$fvals), includy))
+yrange <- function(x, includy = NULL) range(c( range(x$fvals), includy))
 
 #' Print brief details of an xy-list
 #'
