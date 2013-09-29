@@ -1,13 +1,17 @@
-# xystat package
+# fdsamples package
+
+require(plyr)
+
+
 #'@import stats
 #'
-#'@name xystat-package
+#'@name fdsamples-package
 #'
-#'@aliases xystat-package  xystat
+#'@aliases fdsamples-package  fdsamples
 #'@docType package
-#'@title The xystat package
+#'@title The fdsamples package
 #'@description 
-#'  The package \pkg{xystat} is a collection of methods for analysis and 
+#'  The package \pkg{fdsamples} is a collection of methods for analysis and 
 #'  visualisation of grouped data that consist of an independent (\eqn{x}-) 
 #'  variable and a dependent (\eqn{y}-) variable.  Such data could be time 
 #'  series or values of a function, or generally any multivariate data.  
@@ -16,14 +20,14 @@
 #'    (this   will be changed in a future version). 
 #'@section {Data class and generic methods}
 #'   \tabular{ll}{
-#'    \code{\link{xydata}} \tab basic data type\cr
-#'    \code{\link{print.xydata}} \tab print brief details of an xy-list\cr
-#'    \code{\link{plot.xydata}} \tab plot individual members, summary function \cr
-#'       \tab or envelopes of an xy-list\cr
+#'    \code{\link{fdsample}} \tab basic data type\cr
+#'    \code{\link{print.fdsample}} \tab print brief details of an fdsample\cr
+#'    \code{\link{plot.fdsample}} \tab plot individual members, summary function \cr
+#'       \tab or envelopes of an fdsample\cr
 #'  } 
 #'@section {Manipulation and Analysis}
 #'   \tabular{ll}{
-#'    \code{\link{apply.xydata}} \tab apply a summary function on the \eqn{y}-values\cr
+#'    \code{\link{apply.fdsample}} \tab apply a summary function on the function values\cr
 #'    \code{\link{studpermute.test}} \tab studentized permutation test for two samples\cr
 #'  } 
 #'@author Ute Hahn, \email{ute@@imf.au.dk}
@@ -40,9 +44,9 @@
 #' y2 <- replicate(7, rnorm(length(x), mean = x*1.2, sd = .2))
 #' y1b <- replicate(7, rnorm(length(x), mean = x, sd = .2))
 #' 
-#' xy1 <- xydata(x, y1)
-#' xy2 <- xydata(x, y2)
-#' xy1b <- xydata(x, y1b)
+#' xy1 <- fdsample(x, y1)
+#' xy2 <- fdsample(x, y2)
+#' xy1b <- fdsample(x, y1b)
 #'
 #'# visualize the data sets
 #'

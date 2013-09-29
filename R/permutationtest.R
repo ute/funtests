@@ -2,9 +2,9 @@
 #' 
 #' Perform a studentized permutation test of equal distribution (mean) for two 
 #' samples of functional or multivariate data.
-#' @param xylist1,xylist2 lists of function values, object of type \code{fovlist}, 
+#' @param sample1,sample2 lists of function values, object of type \code{fovlist}, 
 #'   need to have identical x-values. Below, let \eqn{m_1} \eqn{m_2} denote the group sizes
-#'  for  \code{xylist1} and \code{xylist2}.
+#'  for  \code{sample1} and \code{sample2}.
 #' @param use.tbar logical, defaults to \code{FALSE}. Whether to apply 
 #'   studentization after integration, see `Details'.
 #' @param nperm \code{NULL} or an integer giving the number of random 
@@ -50,17 +50,17 @@
 #' @keywords nonparametric
 #' @keywords ts    
 
-studpermute.test <- function (xylist1, xylist2, use.tbar=FALSE, nperm = 25000)
+studpermute.test <- function (sample1, sample2, use.tbar=FALSE, nperm = 25000)
 {
   ##### preparations ----------------
-  if(xylist1$nx != xylist2$nx) stop("not the same length of x vector")
-  if(mean( abs(xylist1$x - xylist2$x))/mean(abs(xylist1$x)) > 0.05)  
-    stop("not the same x-values, even approximately")
-  m1 <- xylist1$ny
-  m2 <- xylist2$ny
+  if(sample1$dimarg != sample2$dimarg) stop("not the same length of x vector")
+  if(mean( abs(sample1$args - sample2$args))/mean(abs(sample1$args)) > 0.05)  
+    stop("not even approximately the same x-values")
+  m1 <- sample1$groupsize
+  m2 <- sample2$groupsize
   if (m1 <2 | m2 < 2) stop("need at least two y-vectors per group")
   m <- m1+m2
-  foos <- cbind(xylist1$y, xylist2$y)
+  foos <- cbind(sample1$fvals, sample2$fvals)
   # get the permutations. 
   # If m1 == m2, break the symmetry and save half time and memory!
   
@@ -107,7 +107,7 @@ studpermute.test <- function (xylist1, xylist2, use.tbar=FALSE, nperm = 25000)
   pval <- mean(Tvals >= Tvals[1])           
   stat <- Tvals[1]
   names(stat) <- if(use.tbar) "Tbar" else "T"
-  datname <- paste( deparse(substitute(xylist1)),"and", deparse(substitute(xylist2)))
+  datname <- paste( deparse(substitute(sample1)),"and", deparse(substitute(sample2)))
   method <- c(paste("Studentized two sample permutation test for fda, using T",
                   ifelse(use.tbar, "bar", ""), sep=""),
               ifelse(allcomb, paste("exact test, using all",ncomb,"permutations (combinations)"), 

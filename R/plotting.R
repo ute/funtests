@@ -13,7 +13,7 @@
 
 # @param col color
 # @param add coefficient on rgb, a single number
-#' @rdname xydata-internal
+#' @rdname fdsample-internal
 #' @keywords internal
 #' @export
 # @details works on all devices that support rgb
@@ -23,13 +23,13 @@ lightcol <- function(col, light = 0){
   rgb(RGB["red", ], RGB["green", ], RGB["blue", ])
 }  
 
-# plot an xydata object
+# plot an fdsample object
 
-#' Plot an xydata object
+#' Plot an fdsample object
 #'
-#' Plots the individual functions  coerced in an object of class \code{\link{xydata}}. 
+#' Plots the individual functions  coerced in an object of class \code{\link{fdsample}}. 
 #' 
-#' @param x the xydata to be plotted
+#' @param x the fdsample to be plotted
 #' @param ploptions optional list of plotting parameters, see the Details
 #' @param includy optional numeric vector containing values that are to be included in the 
 #' \code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
@@ -38,7 +38,7 @@ lightcol <- function(col, light = 0){
 #' @details
 #' Plotting parameters can be given as list \code{"ploptions"} or separately. If not
 #' given explicitely, default values contained in the list \code{x$options} are used. 
-#' The list of options in an \code{xydata}-object has elements
+#' The list of options in an \code{fdsample}-object has elements
 #' \tabular{ll}{
 #'  \code{col} \tab color for plotting the individual functions, defaults to "black"\cr
 #' \code{light} \tab numeric between 0 and 1. Regulates how much the color of individual functions
@@ -46,10 +46,11 @@ lightcol <- function(col, light = 0){
 #' \code{lwd} \tab numeric, line width for individual function. Defaults to 1.\cr
 #' \code{lty} \tab line type (character or numeric), defaults to "solid".\cr
 #' \code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and {"y"}.\cr
+#' \code{main} \tab character, axes labels, default to \code{""}.\cr
 #' }
 #' 
-#' @S3method plot xydata 
-#' @method plot xydata 
+#' @S3method plot fdsample 
+# @method plot fdsample 
 #' @export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}
@@ -63,9 +64,9 @@ lightcol <- function(col, light = 0){
 #' # add mean
 #' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
 
-plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
+plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
-  if (length(x$nx) > 1) stop ("sorry, plotting of higher dimensional xydatas not yet supported")
+  if (length(x$dimarg) > 1) stop ("sorry, plotting of higher dimensional fdsamples not yet supported")
  
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
   argu <- list(...)
@@ -76,7 +77,7 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   {  
     # set information for plotwindow
     if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
-    if(is.null(allopt$xlim)) allopt$xlim <- range(x$x)
+    if(is.null(allopt$xlim)) allopt$xlim <- range(x$args)
     # Want type = "n"
     pargus <- updateoptions(.plotparams, allopt)
     pargus$type="n"
@@ -88,19 +89,19 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   plopt <- updateoptions (.grapar, allopt)
   # plot individual lines
   if(allopt$light > 0) plopt$col <- lightcol(allopt$col, allopt$light)
-    if (x$ny == 1) do.call(lines, c(list(x$x, x$y), plopt))
-  else  apply(x$y, 2, function(yy) do.call(lines, c(list(x$x, yy), plopt)))
+    if (x$groupsize == 1) do.call(lines, c(list(x$args, x$fvals), plopt))
+  else  apply(x$fvals, 2, function(yy) do.call(lines, c(list(x$args, yy), plopt)))
 }  
 
 #----------------------------------------------------
 
 
-#' Plot summary of an xydata object
+#' Plot summary of an fdsample object
 #'
 #' Plots the individual functions or a pointwise envelope, as well as a summary function, 
-#' of function values coerced in an object of class \code{\link{xydata}}. 
+#' of function values coerced in an object of class \code{\link{fdsample}}. 
 #' 
-#' @param x the xydata to be plotted
+#' @param x the fdsample to be plotted
 #' @param sumfun the summary function. If NULL, no summary function is plotted.
 #' Defaults to \code{"mean"}.
 #' @param fopt list of options for \code{sumfun}.
@@ -131,7 +132,7 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 #' \code{lty.sum} \tab numeric, line type for summary function. Defaults to \code{lty}.\cr
 #' }
 #' 
-# The summary function given in \code{xy} is used, if not overridden by the parameter
+# The summary function given in \code{x} is used, if not overridden by the parameter
 # \code{sumfun}. By default this is the mean.
 #' 
 #' To suppress plotting of the summary function or the individual functions, 
@@ -144,32 +145,32 @@ plot.xydata <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @seealso \code{\link{getoptions}}
 #' @examples
-#' # make a xydata-object first 
-#' nx <- 5
-#' ny <- 10
-#' x <- seq(1, 2, len = nx)
+#' # make a fdsample-object first 
+#' n <- 5
+#' m <- 10
+#' x <- seq(1, 2, len = n)
 #' # generate normal random variables with mean 4-2x and variance x^2
-#' # as a matrix nx x ny
-#' y <- t(sapply(x, function(s) rnorm(ny, mean = 4 - 2*s, sd = s)))
-#' xyda <- xydata(x, y, sumfun = mean)
+#' # as a matrix n x m
+#' y <- t(sapply(x, function(s) rnorm(m, mean = 4 - 2*s, sd = s)))
+#' fuda <- fdsample(x, y, sumfun = mean)
 #' summaryplot(xyda)
 #' 
 #' # plot mean and median in a minimax envelope
-#' summaryplot(xyda, envprob = 1)
-#' summaryplot(xyda, envprob = NULL, sumfun = median, 
+#' summaryplot(fuda, envprob = 1)
+#' summaryplot(fuda, envprob = NULL, sumfun = median, 
 #'           add = TRUE, col = "red", lwd.indiv = 0)
 #' 
 #' # using a predefined list of options, 
 #' # summary function will be plotted in black (default)
 #' blau <- list(col = "blue", light.env = .8)
-#' summaryplot(xyda, sumfun = "mean", envprob = .8, ploptions = blau, light = .2)
+#' summaryplot(fuda, sumfun = "mean", envprob = .8, ploptions = blau, light = .2)
 
 #' # add individual lines, overriding options contained in xyda and blau
 
 summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
                        ploptions = NULL, includy = NULL, add=F,  ...)
 {
-  if (length(x$nx) > 1) stop ("sorry, plotting of higher dimensional xydatas not yet supported")
+  if (length(x$dimarg) > 1) stop ("sorry, plotting of higher dimensional fdsamples not yet supported")
  
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
   argu <- list(...)
@@ -180,7 +181,7 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
   {  
     # set information for plotwindow
     if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
-    if(is.null(allopt$xlim)) allopt$xlim <- range(x$x)
+    if(is.null(allopt$xlim)) allopt$xlim <- range(x$args)
     # Want type = "n"
     pargus <- updateoptions(.plotparams, allopt)
     pargus$type="n"
@@ -197,7 +198,7 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
     if (is.null(env.col)) env.col <- def.col
     env.li <- allopt$light.env 
     if (is.null(env.li)) env.li <- 0.7 + 0.3*def.light
-    envy <- envel(x, prob = envprob)
+    envy <- pwEnvelope(x, prob = envprob)
     plot(envy, allopt, add = T, col = env.col, 
          light = env.li)
   }
@@ -214,7 +215,7 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
     if (is.null(sum.lwd)) sum.lwd <- 2
     sum.li <- allopt$light.sum
     if (is.null(sum.li)) sum.li <- 0
-    sufu <- apply.xydata(x, sumfun, fopt)
+    sufu <- apply.fdsample(x, sumfun, fopt)
     plot(sufu, allopt, add=T, col=sum.col, light = sum.li, lwd = sum.lwd, lty = sum.lty)
   }
   

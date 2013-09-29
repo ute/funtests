@@ -35,7 +35,7 @@ updateoptions <- function(default, optlist=NULL, ...)
 
 #' Get options 
 #' 
-#' Update the options element in an \code{\link{xydata}} object or another list with an element \code{$options}, 
+#' Update the options element in an \code{\link{fdsample}} object or another list with an element \code{$options}, 
 #' according to arguments
 #' 
 #' @param x list with element \code{options} to be updated
@@ -65,27 +65,27 @@ getoptions <- function(x, optlist=NULL, ...)
   return(updateoptions(updateoptions(x$options, optlist), ...))
 }
 
-#' Internal functions for class \code{xydata}
+#' Internal functions for class \code{fdsample}
 #'
-#' Internal functions for dealing with objects of class \code{xydata}, and plotting options
+#' Internal functions for dealing with objects of class \code{fdsample}, and plotting options
 #
 # Return arguments matching a default list
 # 
 # Compares the optional ... arguments with the list elements in \code{default}
 # and returns a list of all arguments with names that match names of elements in \code{default}. 
-# The function was written for \code{defaultsoptions.xydata} but can also be 
+# The function was written for \code{defaultsoptions.fdsample} but can also be 
 # used for other lists.
 #
 # @param default the list to be updated
 # @param ... named pairs, updates for \code{default}
 # @return a list with elements with names that match those in \code{default}
 # @export
-#' @rdname xydata-internal
+#' @rdname fdsample-internal
 #' @keywords {internal}
 # @seealso \code{\link{setoptions}}
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 
-matchingoptions <- function(default = defaultoptions.xydata, optlist,...)
+matchingoptions <- function(default = defaultoptions.fdsample, optlist,...)
 {
   argu <- list(...)
   namdef <- names(default)
@@ -101,7 +101,7 @@ matchingoptions <- function(default = defaultoptions.xydata, optlist,...)
 # 
 # Compares the optional ... arguments with the list elements in \code{default}
 # and returns a list of all arguments the names of which do not match names of elements in \code{default}. 
-# The function was written for \code{defaultoptions.xydata} but can also be 
+# The function was written for \code{defaultoptions.fdsample} but can also be 
 # used for other lists.
 #
 # @param default the list to be updated
@@ -109,12 +109,12 @@ matchingoptions <- function(default = defaultoptions.xydata, optlist,...)
 # @param ... named pairs, updates for \code{default}
 # @return a list with elements with names that differ from those in \code{default}
 # @export
-#' @rdname xydata-internal
+#' @rdname fdsample-internal
 #' @keywords internal
 # @seealso \code{\link{setoptions}}
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
-unusedoptions <- function(default = defaultoptions.xydata, optlist = NULL, ...)
+unusedoptions <- function(default = defaultoptions.fdsample, optlist = NULL, ...)
 {
   argu <- uniquelist(c(list(...), optlist))
   namdef <- names(default)
@@ -129,7 +129,7 @@ unusedoptions <- function(default = defaultoptions.xydata, optlist = NULL, ...)
 # @param xlist the list to be simplified
 # @return a list with unique elements, priority: the first element counts
 # @export
-#' @rdname xydata-internal
+#' @rdname fdsample-internal
 #' @keywords {internal}
 # @seealso \code{\link{setoptions}}
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
