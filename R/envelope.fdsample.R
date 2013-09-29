@@ -19,7 +19,7 @@
 #'If two numbers are given, they are used to specify the lower and upper quantile 
 #'used for the envelope.
 #'
-#'A default value for the brightness of the color is calculated from the options in \code{xy} 
+#'A default value for the brightness of the color is calculated from the options in \code{x} 
 #'and the argument \code{lightup}, namely
 #'\code{lightup + (1-lightup)*xy$options$light}.
 #\code{light = ((0.1 + x$options$light) / 1.1)^(1 - lightup)}.
@@ -27,7 +27,8 @@
 #'in white color. Can be overridden by the \code{...} arguments.
 #' @export
 #' @examples
-#' str(envel(fuda, 1, col = "blue"))
+#' data(ExampleData)
+#' str(pwEnvelope(fuda, 1, col = "blue"))
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...) 
 {
@@ -71,7 +72,7 @@ pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...)
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' # load example data and calculate 90 % envelope
-#' data(exampledata)
+#' data(Exampledata)
 #' envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
 #' # using a predefined list of options
 #' blau <- list(col = "blue")

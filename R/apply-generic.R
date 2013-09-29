@@ -15,14 +15,14 @@
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' data(exampledata)  
-#' # look at data set xyda 
-#' str(xyda)
-#' # apply the summary function contained in xyda$options
-#' str(apply.fdsample(xyda))
+#' # look at data set fuda 
+#' str(fuda)
+#' # apply the summary function contained in fuda$options
+#' str(apply.fdsample(fuda))
 #' # apply the median  
-#' str(apply.fdsample(xyda, "median"))
+#' str(apply.fdsample(fuda, "median"))
 #' # apply median and change axis label
-#' str(apply.fdsample(xyda, median, xlab = "median of y-values"))
+#' str(apply.fdsample(fuda, median, xlab = "median of y-values"))
 
 apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
 {
@@ -62,7 +62,7 @@ apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
 #' @method mean fdsample 
 #' @export
 #' @examples
-#' str(mean(xyda))
+#' str(mean(fuda))
 
 mean.fdsample <- function (x, trim = 0, na.rm = FALSE, ...) 
   apply.fdsample (x, mean, fopt = list(trim = trim, na.rm = na.rm, ...)) 

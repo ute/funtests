@@ -56,13 +56,13 @@ lightcol <- function(col, light = 0){
 #' @seealso \code{\link{getoptions}}
 #' @examples
 #' # load example data
-#' data(exampledata)
-#' plot(xyda)
+#' data(ExampleData)
+#' plot(fuda)
 #' # using a predefined list of options
 #' blau <- list(col = "blue", light = .6)
-#' plot(xyda, blau, main="mein blau", includy = -2)
+#' plot(fuda, blau, main="mein blau", includy = -2)
 #' # add mean
-#' plot(mean(xyda), blau, light = 0, lwd = 2, add = TRUE)
+#' plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
 
 plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
@@ -149,23 +149,26 @@ plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 #' n <- 5
 #' m <- 10
 #' x <- seq(1, 2, len = n)
+#' 
 #' # generate normal random variables with mean 4-2x and variance x^2
 #' # as a matrix n x m
+#' 
 #' y <- t(sapply(x, function(s) rnorm(m, mean = 4 - 2*s, sd = s)))
 #' fuda <- fdsample(x, y, sumfun = mean)
-#' summaryplot(xyda)
+#' summaryplot(fuda)
 #' 
 #' # plot mean and median in a minimax envelope
+#' 
 #' summaryplot(fuda, envprob = 1)
 #' summaryplot(fuda, envprob = NULL, sumfun = median, 
 #'           add = TRUE, col = "red", lwd.indiv = 0)
 #' 
 #' # using a predefined list of options, 
 #' # summary function will be plotted in black (default)
+#' 
 #' blau <- list(col = "blue", light.env = .8)
 #' summaryplot(fuda, sumfun = "mean", envprob = .8, ploptions = blau, light = .2)
-
-#' # add individual lines, overriding options contained in xyda and blau
+#' # adds individual lines, overriding light options contained in fuda and blau
 
 summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
                        ploptions = NULL, includy = NULL, add=F,  ...)

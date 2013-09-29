@@ -52,12 +52,12 @@ updateoptions <- function(default, optlist=NULL, ...)
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' # load simulated example data
-#' data(exampledata) 
-#' str(xyda$options)
-#' blue <- getoptions(xyda, col = "blue")
+#' data(ExampleData) 
+#' str(fuda$options)
+#' blue <- getoptions(fuda, col = "blue")
 #' str(blue)
 #' # abbreviating names and using a predefined list
-#' bluegreen <- getoptions(xyda, blue, col.i = "green", light = .5)
+#' bluegreen <- getoptions(fuda, blue, col.i = "green", light = .5)
 #' str(bluegreen)
 
 getoptions <- function(x, optlist=NULL, ...)
