@@ -172,9 +172,9 @@ defaultoptions.fdsample <- list (
   xlab = "t",
   ylab = "X(t)",
   main = "",
-  col = "black",
   light = 0, # how to lighten up the color for the individual lines
-  lwd = 1,
-  lty = "solid"
+  col = NULL, # use default graphic parameters
+  lwd = NULL,
+  lty = NULL
 )  
 

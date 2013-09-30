@@ -71,7 +71,7 @@ plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
  
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
   argu <- list(...)
-  xopt <- updateoptions(updateoptions(x$options, ploptions), argu)
+  xopt <- getoptions(x, ploptions, ...)
   allopt <- uniquelist(c(xopt, unusedoptions(xopt, argu)))
   
   if (!add) # make a plot window
@@ -87,6 +87,7 @@ plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   # now do the plotting of envelopes and curves
  
   .grapar <- par(no.readonly = TRUE) 
+  allopt <- updateNULLoptions(allopt, .grapar)
   plopt <- updateoptions (.grapar, allopt)
   # plot individual lines
   if(allopt$light > 0) plopt$col <- lightcol(allopt$col, allopt$light)
@@ -178,7 +179,7 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
  
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
   argu <- list(...)
-  xopt <- updateoptions(updateoptions(x$options, ploptions), argu)
+  xopt <- getoptions(x, ploptions, ...)
   allopt <- uniquelist(c(xopt, unusedoptions(xopt, argu)))
   
   if (!add) # make a plot window
@@ -206,6 +207,8 @@ summaryplot <- function(x, sumfun = "mean", fopt = list(), envprob = NULL,
     plot(envy, allopt, add = T, col = env.col, 
          light = env.li)
   }
+  
+  allopt <- updateNULLoptions(allopt, par(no.readonly = TRUE))
   
   if (allopt$lwd > 0)  plot(x, allopt, add=T)
   

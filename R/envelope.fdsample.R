@@ -72,7 +72,7 @@ pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...)
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @examples
 #' # load example data and calculate 90 % envelope
-#' data(Exampledata)
+#' data(ExampleData)
 #' envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
 #' # using a predefined list of options
 #' blau <- list(col = "blue")
@@ -85,7 +85,7 @@ pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...)
 plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
   argu <- list(...)
-  xopt <- updateoptions(updateoptions(x$options, ploptions), argu)
+  xopt <- getoptions(x, ploptions, ...)
   allopt <- uniquelist(c(xopt, unusedoptions(xopt, argu)))
   
   if (!add) # make a plot window
@@ -101,7 +101,8 @@ plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
   # now do the plotting of envelopes and curves
  
   .grapar <- par(no.readonly = TRUE) 
-  plopt <- updateoptions (.grapar, allopt)
+  plopt <- updateoptions (.grapar, updateNULLoptions(allopt, .grapar))
+  # plopt <- updateoptions (.grapar, allopt)
   # plot individual lines
   if(allopt$light > 0) plopt$col <- lightcol(allopt$col, allopt$light)
   plopt$border <- NA

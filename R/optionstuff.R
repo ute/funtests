@@ -2,7 +2,7 @@
 
 #' Update a list of options, e.g. for plotting
 #' 
-#' Compares the optional ... arguments with the list elements in \code{default}
+#' Compares the optional ... arguments and the list \code{optlist} with the list elements in \code{default}
 #' and return an updated list. The function was written for setting plotting defaults
 #' for xy-lists, but may be useful also for other lists.
 #'
@@ -67,6 +67,48 @@ getoptions <- function(x, optlist=NULL, ...)
 {
   return(updateoptions(updateoptions(x$options, optlist), ...))
 }
+
+#' Update NULL values in a list
+#' 
+#' Compares the optional ... arguments with the list elements in \code{default}
+#' and return an updated list. The function was written for setting plotting defaults
+#' for xy-lists, but may be useful also for other lists.
+#'
+#' @param default the list to be updated
+#' @param optlist optional list of updates
+#' @param ... optional named pairs, updates for \code{default}
+#' @return a list with same names as the elements of \code{default}
+#' @export
+# @seealso \code{\link{unusedoptions}}
+#' @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+updateNULLoptions <- function(default, optlist=NULL, ...)
+{
+  owa <- options("warn")
+  options("warn" = -1) #because of is.na which may not be applied to functions etc
+  argu <- list(...)
+  if(is.list(optlist)) argu <- c(argu, optlist) 
+  result <- default
+#  wasnull <- lapply(default, function(x) is.null(x))
+  if(length(argu) > 0)
+  {
+    namdef <- names(default)
+    pmatch(names(argu), namdef) -> keys
+    if (length(keys) > 0) {
+      argna <- lapply(argu, function(z) if (is.null(z)) NA else z)
+      resna <- lapply(result, function(z) if (is.null(z)) NA else z)
+      for (ki in 1:length(keys)) 
+      { kii <- keys[ki]
+        # update only the nulls
+        if (!is.na(kii)) if (is.null(default[[kii]]))  resna[[kii]] <- argna[[ki]]
+      }
+      result <- lapply(resna, function(z) if(!is.na(z)) z else NULL)
+      }  
+  } 
+  options(owa)
+  return(result)
+}
+
 
 #' Internal functions for class \code{fdsample}
 #'
