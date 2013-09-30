@@ -32,7 +32,7 @@ updateoptions <- function(default, optlist=NULL, ...)
       result <- lapply(resna, function(z) if(!is.na(z)) z else NULL)
       }  
   } 
-  options("warn") <- owa
+  options(owa)
   return(result)
 }
 
