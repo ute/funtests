@@ -153,7 +153,7 @@ matchingoptions <- function(default = defaultoptions.fdsample, optlist,...)
 # @param optlist optional list of options to be updated
 # @param ... named pairs, updates for \code{default}
 # @return a list with elements with names that differ from those in \code{default}
-# @export
+#'  @export
 #' @rdname fdsample-internal
 #' @keywords internal
 # @seealso \code{\link{setoptions}}
@@ -173,7 +173,7 @@ unusedoptions <- function(default = defaultoptions.fdsample, optlist = NULL, ...
 # return unique elements
 # @param xlist the list to be simplified
 # @return a list with unique elements, priority: the first element counts
-# @export
+#' @export
 #' @rdname fdsample-internal
 #' @keywords {internal}
 # @seealso \code{\link{setoptions}}
