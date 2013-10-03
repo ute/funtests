@@ -47,26 +47,29 @@ NULL
 
 
 #' @name DeltaKBronze
+#' @aliases DeltaKBronze.s DeltaKBronze.t
 #' @title Delta K_dir estimates for bronzefilter point pattern
 #' @description Delta K_dir estimates for \pkg{spatstat} point pattern \code{bronzefilter}, 
 #' as in Hahn & Jensen (2013)
 #' @docType data
 # usage data(DeltaKBronze) 
-#' @details A list of two \code{\link{fdsample}}-objects, corresponding to the Delta K_dir function
-#' estimated on two subsets of the backtransformed bronze filter point pattern, see Hahn & Jensen (2013).
+#' @details Two list of two \code{\link{fdsample}}-objects, corresponding to the Delta K_dir function
+#' estimated on two subsets of the bronze filter point pattern, see Hahn & Jensen (2013).
+#' The data sets \code{DeltaKBronze.s} and \code{DeltaKBronze.t} contain estimates of 
+#' the rescaled and retransformed Delta K_dir function, respectively.
 #' 
-#'  The list has elements \code{high}  and \code{low} for the functions estimated high and 
+#'  The list have elements \code{high}  and \code{low} for the functions estimated high and 
 #'  low point density subsets of the point pattern.
 #' @examples
 #' data(DeltaKBronze)
 #' 
-#' # plot summary 
+#' # plot summary for rescaled DeltaK_dir
 #' 
-#' summaryplot(DeltaKBronze$high, col="red")
-#' summaryplot(DeltaKBronze$low,  col="blue")
+#' summaryplot(DeltaKBronze.s$high, col="red")
+#' summaryplot(DeltaKBronze.s$low,  col="blue", add = TRUE)
 #'
 #' # test significance
 #' 
-#' with(DeltaKBronze, studpermute.test(high, low))
+#' with(DeltaKBronze.t, studpermute.test(high, low))
 
 NULL

@@ -52,11 +52,11 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
-fdsample <- function(x, y, optlist, ...) #fun = mean, ...)
+fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
 {
-  xa <- as.array(x)
+  xa <- as.array(args)
   dimarg <- dim(xa)
-  ya <- as.array(y)
+  ya <- as.array(fvals)
   if (length(dim(xa)) == length(dim(ya))) groupsize <- 1 else groupsize <- dim(ya)[length(dim(ya))] # only one y
   if (groupsize == 1) my <- dim(ya) else my <- dim(ya)[-length(dim(ya))]
   if (any(dimarg != my)) stop("dimensions do not match")
@@ -87,15 +87,16 @@ fdsample <- function(x, y, optlist, ...) #fun = mean, ...)
 #' @aliases [.fdsample [<-.fdsample
 #' @S3method [ fdsample
 #' @method [ fdsample
+# @usage x[i, j, drop, ...]
 #' @export
 #' @param x an object of class \code{"fdsample"}. 
 #' @param i subset index.
-#' @param j,drop ignored.
+# @param j,drop,... ignored.
 #' @seealso \code{\link{fdsample}} for details on the class.
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
-"[.fdsample" <- function(x, i, j, drop, ...) 
+"[.fdsample" <- function(x, i) #, j, drop, ...) 
   {
     xx <- as.array(x$args)
     if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
@@ -107,12 +108,13 @@ fdsample <- function(x, y, optlist, ...) #fun = mean, ...)
 #' @rdname extract.fdsample
 #' @S3method [<- fdsample
 #' @method [<- fdsample
+# @usage x[i, j] <- value
 #' @export
 #' @param value Replacement for the subset, an array or an fdsample object. 
 #' @details Currently only possible if x$args is one-dimensional.
 #' Replacement y-values have to be of same dimension as the original.
 
-"[<-.fdsample" <- function(x, i, j, value) 
+"[<-.fdsample" <- function(x, i, value)# j, value) 
   {
     xx <- as.array(x$args)
     if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")

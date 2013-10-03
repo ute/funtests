@@ -1,34 +1,49 @@
-# fdsamples package
+# funtests package
 
 require(plyr)
 
 
 #'@import stats
 #'
-#'@name fdsamples-package
+#'@name funtests-package
 #'
-#'@aliases fdsamples-package  fdsamples
+#'@aliases funtests-package  funtests
 #'@docType package
-#'@title The fdsamples package
+#'@title The funtests package
 #'@description 
-#'  The package \pkg{fdsamples} is a collection of methods for analysis and 
+#'  The package \pkg{funtests} is a collection of tools for analysis and 
 #'  visualisation of grouped data that consist of an independent (\eqn{x}-) 
 #'  variable and a dependent (\eqn{y}-) variable.  Such data could be time 
 #'  series or values of a function, or generally any multivariate data.  
 #'  In the latter case, \eqn{x} is just an index variable.
 #'    Individual data sets are supposed to share the same \eqn{x}-variable 
 #'    (this   will be changed in a future version). 
-#'@section {Data class and generic methods}
+#'  
+#'@section Data classes, visualisation of data:
 #'   \tabular{ll}{
-#'    \code{\link{fdsample}} \tab basic data type\cr
+#'    \code{\link{fdsample}} \tab basic data type, a sample of curves\cr
+#'    \code{envelope} \tab data consisting of two boundary curves of an envelope\cr
 #'    \code{\link{print.fdsample}} \tab print brief details of an fdsample\cr
-#'    \code{\link{plot.fdsample}} \tab plot individual members, summary function \cr
-#'       \tab or envelopes of an fdsample\cr
-#'  } 
-#'@section {Manipulation and Analysis}
+#'    \code{\link{plot.fdsample}} \tab plot the individual members of an fdsample\cr
+#'    \code{\link{plot.envelope}} \tab plot an envelope\cr
+#'    \code{\link{summaryplot}}\tab plot individual curves, envelopes or summary\cr
+#'    \tab functions such as the mean of an \code{\link{fdsample}} object\cr
+#'    }
+#'@section {Manipulation and summary functions}:
 #'   \tabular{ll}{
+#'   \code{\link{[.fdsample}} \tab extract or replace curves\cr
 #'    \code{\link{apply.fdsample}} \tab apply a summary function on the function values\cr
-#'    \code{\link{studpermute.test}} \tab studentized permutation test for two samples\cr
+#'    \code{\link{mean.fdsample}} \tab mean of the function values\cr
+#'    \code{\link{median.fdsample}} \tab median of the function values\cr
+#'    \code{\link{quantile.fdsample}} \tab quantiles of  the function values\cr
+#'    \code{\link{pwEnvelope}} \tab pointwise envelope\cr
+#'  }
+#'@section {Permutation tests}:  
+#'   \tabular{ll}{
+#'    \code{\link{tL2.permtest}} \tab  Comparison of two groups,\cr
+#'                            \tab using square integrated Welch-t-statistic\cr
+#    \code{\link{tbar.L2ptest}} \tab  Comparison of two groups,\cr
+#                            \tab a variant of \code{\link{t.L2ptest}}\cr
 #'  } 
 #'@author Ute Hahn, \email{ute@@imf.au.dk}
 #'@references 
@@ -58,6 +73,6 @@ require(plyr)
 #'# and xyl2, but not between xyl1 and xyl1b. 
 #'# However, with simulated data, the result may be unexpected...
 #'
-#'studpermute.test(xy1, xy2) 
+#'tL2.permtest(xy1, xy2) 
 #'studpermute.test(xy1, xy1b) 
 NA

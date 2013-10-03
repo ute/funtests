@@ -1,6 +1,6 @@
-Package: fdsamples
+Package: funtests
 Version: 0.3
-Date: 2013-09-27
+Date: 2013-10-03
 Title: Methods for multivariate or functional data.
 Author: Ute Hahn <ute@imf.au.dk>
 Creator: Ute Hahn
@@ -16,9 +16,7 @@ Description: Nonparametric testing and visualization of samples consisting of
     The independent variable may be multidimensional, but plotting is currently 
     only possible for onedimensional arguments t (time series, functions of one variable).  
     Comparison of group means of the 
-    data by a permutation test using a  studentized statistic that 
-    can be considered a simplified version of Hotelling's T-squared test 
-    for two groups (currently, the number of groups is limited to two). 
+    data by a permutation tests (currently, the number of groups is limited to two). 
 License: GPL (>= 2)
 NeedsCompilation: no
 LazyData: true

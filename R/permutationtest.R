@@ -1,12 +1,12 @@
-#' Studentized Permutation Test for Two Samples of x-y-Data
+#' Integrated Welch-t Squared Permutation Test for Two Samples of x-y-Data
 #' 
-#' Perform a studentized permutation test of equal distribution (mean) for two 
-#' samples of functional or multivariate data.
-#' @param sample1,sample2 lists of function values, object of type \code{fovlist}, 
+#' Perform a permutation test of equal distribution (mean) for two  samples of 
+#' functional or multivariate data.
+#' @param sample1,sample2 lists of function values, object of type \code{\link{fdsample}}, 
 #'   need to have identical x-values. Below, let \eqn{m_1} \eqn{m_2} denote the group sizes
 #'  for  \code{sample1} and \code{sample2}.
-#' @param use.tbar logical, defaults to \code{FALSE}. Whether to apply 
-#'   studentization after integration, see `Details'.
+#' @param use.tbar logical, defaults to \code{FALSE}. If \code{TRUE}, integrated squared
+#'  mean differences are divided by integrated variance, see `Details'.
 #' @param nperm \code{NULL} or an integer giving the number of random 
 #'   permutations. If \code{NULL}, all permutations are used. Only feasible if 
 #'   group sizes \eqn{m_1}, \eqn{m_2} do not exceed 10. Default value is 25000,
@@ -50,7 +50,7 @@
 #' @keywords nonparametric
 #' @keywords ts    
 
-studpermute.test <- function (sample1, sample2, use.tbar=FALSE, nperm = 25000)
+tL2.permtest <- function (sample1, sample2, nperm = 25000, use.tbar=FALSE)
 {
   ##### preparations ----------------
   if(sample1$dimarg != sample2$dimarg) stop("not the same length of x vector")
