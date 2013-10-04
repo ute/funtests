@@ -30,25 +30,25 @@
 is.fdsample <- function(x) inherits(x, "fdsample")
 
 # fdsample is a list with elements
-#' Make a functional data sample
-#' 
-#' Generate an object of class \code{fdsample}.
-#' 
-#' @param args  numeric, array, the function arguments, dimension dimarg 
-#' @param fvals  numeric, array of function values, dimension: dimarg x groupsize 
-#' @param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
-#' @param ... plot options, see \code{\link{plot.fdsample}}
+#'Make a functional data sample
+#'
+#'Generate an object of class \code{fdsample}.
+#'
+#'@param args  numeric, array, the function arguments, dimension dimarg 
+#'@param fvals  numeric, array of function values, dimension: dimarg x groupsize 
+#'@param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
+#'@param ... plot options, see \code{\link{plot.fdsample}}
 # @param fun the summary function to be applied on the values of \code{y}, defaults to \code{mean}
-#' 
-#' @return a list with elements 
-#' \tabular{ll}{
-#'   \code{args} \tab{the function arguments}\cr
-#'  \code{fvals}  \tab{the function value samples}\cr
-#'  \code{dimarg} \tab{integer, dimension of \code{x}}\cr
-#'  \code{groupsize} \tab{integer, number of functions y included in the list}\cr
-#'  \code{options} \tab list of plot options, see \code{\link{plot.fdsample}}
-#' }
-#' @export
+#'
+#'@return a list with elements 
+#'\tabular{ll}{ 
+#'\code{args} \tab{the function arguments}
+#'\cr\code{fvals}  \tab{the function value samples}
+#'\cr\code{dimarg} \tab{integer, dimension of \code{x}}
+#'\cr\code{groupsize} \tab{integer, number of functions y included in the list}
+#'\cr\code{options} \tab list of plot options, see \code{\link{plot.fdsample}}
+#'}
+#'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
@@ -82,17 +82,17 @@ fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
 #' 
 #' Curves (rows of y-values) are extracted from or replaced in the sample.
 #' 
-#' @rdname extract.fdsample
+#'@rdname extract.fdsample
 # @name extract.fdsample 
-#' @aliases [.fdsample [<-.fdsample
-#' @S3method [ fdsample
-#' @method [ fdsample
+#'@aliases [.fdsample [<-.fdsample
+#'@S3method [ fdsample
+#'@method [ fdsample
 # @usage x[i, j, drop, ...]
-#' @export
-#' @param x an object of class \code{"fdsample"}. 
-#' @param i subset index.
+#'@export
+#'@param x an object of class \code{"fdsample"}. 
+#'@param i subset index.
 # @param j,drop,... ignored.
-#' @seealso \code{\link{fdsample}} for details on the class.
+#'@seealso \code{\link{fdsample}} for details on the class.
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
@@ -105,14 +105,14 @@ fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
     return(fdsample(xx, yy, opt))
   }
 
-#' @rdname extract.fdsample
-#' @S3method [<- fdsample
+#'@rdname extract.fdsample
+#'@S3method [<- fdsample
 # @method [<- fdsample
-#' @usage \method{[}{fdsample} (x, i) <- value 
-#' @export
-#' @param value Replacement for the subset, an array or an fdsample object. 
-#' @details Currently only possible if x$args is one-dimensional.
-#' Replacement y-values have to be of same dimension as the original.
+#'@usage \method{[}{fdsample} (x, i) <- value 
+#'@export
+#'@param value Replacement for the subset, an array or an fdsample object. 
+#'@details Currently only possible if \code{x$args} is one-dimensional.
+#'Replacement y-values have to be of same dimension as the original.
 
 "[<-.fdsample" <- function(x, i, value)# j, value) 
   {
@@ -126,28 +126,28 @@ fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
     return(fdsample(xx, yy, opt))
   }
 
-#' @title range of function values
-#' @description Range of \code{fvals} contained in an \code{fdasample} object, 
-#' purpose: convenient way to find plot y-limits.
-#' @param x the data to be inspected
-#' @param includy anything to be included in the range
-#' @return numeric vector of two
-#' @export
+#'@title range of function values
+#'@description Range of \code{fvals} contained in an \code{fdasample} object, 
+#'purpose: convenient way to find plot y-limits.
+#'@param x the data to be inspected
+#'@param includy anything to be included in the range
+#'@return Numeric vector of length two.
+#'@export
 # @rdname fdsample-internal
 # @keywords {internal}
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 yrange <- function(x, includy = NULL) range(c( range(x$fvals), includy))
 
-#' Print brief details of an xy-list
+#'Print brief details of an xy-list
 #'
-#' Gives short dimensions of the elements in the argument
+#'Prints a very short summary of the \code{fdsample}-object in the argument
 #'
-#' @S3method print fdsample
-#' @method print fdsample
-#' @param x object of type \code{\link{fdsample}}
-#' @param ... ignored
-#' @export
+#'@S3method print fdsample
+#'@method print fdsample
+#'@param x object of type \code{\link{fdsample}}
+#'@param ... ignored
+#'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
@@ -164,12 +164,12 @@ print.fdsample <- function (x, ...)
 
 # @rdname fdsample-internal
 # @keywords internal
-#' @export
+#'@export
 # @title Plotting defaults for fdsample
 # List of defaults for plotting \code{\link{fdsample}}-objects
-#' @rdname fdsample-internal
-#' @aliases defaultoptions.fdsample
-#' @docType data
+#'@rdname fdsample-internal
+#'@aliases defaultoptions.fdsample
+#'@docType data
 defaultoptions.fdsample <- list (
   xlab = "t",
   ylab = "X(t)",

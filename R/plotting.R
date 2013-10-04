@@ -26,44 +26,44 @@ lightcol <- function(col, light = 0){
 
 # plot an fdsample object
 
-#' Plot an fdsample object
+#'Plot an fdsample object
 #'
-#' Plots the individual functions  coerced in an object of class \code{\link{fdsample}}. 
+#'Plots the individual functions  coerced in an object of class \code{\link{fdsample}}. 
+#'
+#'@param x the fdsample to be plotted
+#'@param ploptions optional list of plotting parameters, see the Details
+#'@param includy optional numeric vector containing values that are to be included in the 
+#'\code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
+#'@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
+#'@param ... further arguments
+#'@details
+#'Plotting parameters can be given as list \code{"ploptions"} or separately. If not
+#'given explicitely, default values contained in the list \code{x$options} are used. 
+#'The list of options in an \code{fdsample}-object has elements
+#'\tabular{ll}{ 
+#'\code{col} \tab color for plotting the individual curves, defaults to "black"
+#'\cr\code{light} \tab numeric between 0 and 1. Regulates how much the color of individual
+#'\cr\tab functions is lightened up, 0 means no extra light. Defaults to 0. 
+#'\cr\code{lwd} \tab numeric, line width for individual function. Defaults to 1.
+#'\cr\code{lty} \tab line type (character or numeric), defaults to "solid".
+#'\cr\code{xlab,ylab} \tab character, axes labels, default to \code{"x"} and \code{"y"}.
+#'\cr\code{main} \tab character, axes labels, default to \code{""}.
+#'}
 #' 
-#' @param x the fdsample to be plotted
-#' @param ploptions optional list of plotting parameters, see the Details
-#' @param includy optional numeric vector containing values that are to be included in the 
-#' \code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
-#' @param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
-#' @param ... further arguments
-#' @details
-#' Plotting parameters can be given as list \code{"ploptions"} or separately. If not
-#' given explicitely, default values contained in the list \code{x$options} are used. 
-#' The list of options in an \code{fdsample}-object has elements
-#' \tabular{ll}{
-#'  \code{col} \tab color for plotting the individual functions, defaults to "black"\cr
-#' \code{light} \tab numeric between 0 and 1. Regulates how much the color of individual functions
-#' is \cr lightened up, 0 means no extra light. Defaults to 0. \cr
-#' \code{lwd} \tab numeric, line width for individual function. Defaults to 1.\cr
-#' \code{lty} \tab line type (character or numeric), defaults to "solid".\cr
-#' \code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and {"y"}.\cr
-#' \code{main} \tab character, axes labels, default to \code{""}.\cr
-#' }
-#' 
-#' @S3method plot fdsample 
-#' @method plot fdsample 
-#' @export
+#'@S3method plot fdsample 
+#'@method plot fdsample 
+#'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
-#' @seealso \code{\link{getoptions}}
-#' @examples
-#' # load example data
-#' data(ExampleData)
-#' plot(fuda)
-#' # using a predefined list of options
-#' blau <- list(col = "blue", light = .6)
-#' plot(fuda, blau, main="mein blau", includy = -2)
-#' # add mean
-#' plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
+#'@seealso \code{\link{getoptions}}
+#'@examples
+#'# load example data
+#'data(ExampleData)
+#'plot(fuda)
+#'# using a predefined list of options
+#'blau <- list(col = "blue", light = .6)
+#'plot(fuda, blau, main="mein blau", includy = -2)
+#'# add mean
+#'plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
 
 plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 {
@@ -99,67 +99,65 @@ plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 #----------------------------------------------------
 
 
-#' Plot summary of an fdsample object
+#'Plot summary of an fdsample object
 #'
-#' Plots the individual functions or a pointwise envelope, as well as a summary function, 
-#' of function values coerced in an object of class \code{\link{fdsample}}. 
-#' 
-#' @param x the fdsample to be plotted
-#' @param ploptions list of optional plotting parameters, see the Details.
-#' @param sumfun the summary function. If NULL, no summary function is plotted.
-#' Defaults to \code{"mean"}.
-#' @param fopt list of options for \code{sumfun}.
+#'Plots the individual functions or a pointwise envelope, as well as a summary function, 
+#'of function values coerced in an object of class \code{\link{fdsample}}. 
+#'
+#'@param x the fdsample to be plotted
+#'@param ploptions list of optional plotting parameters, see the Details.
+#'@param sumfun the summary function. If NULL, no summary function is plotted.
+#'Defaults to \code{"mean"}.
+#'@param fopt list of options for \code{sumfun}.
 # @param sumstyle optional list of plotting parameters for the summary function, see the Details.
-#' @param envprob coverage of the envelope, defaults to NULL: no envelope is plotted.
+#'@param envprob coverage of the envelope, defaults to NULL: no envelope is plotted.
 # @param envstyle optional list of plotting parameters for the envelope, see the Details.
-#' @param includy optional numeric vector containing values that are to be included in the 
-#' \code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
-#' @param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
-#' @param ... further arguments
-#' @details
-#' Plotting parameters for the individual functions can be given as list \code{"ploptions"} 
-#' or separately. If not given explicitely, default values contained in the list 
-#' \code{x$options} are used. If these are set to \code{NULL}, the global graphic
-#' parameters as reported by \code{\link{par}} are assumed. 
+#'@param includy optional numeric vector containing values that are to be included in the 
+#'\code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
+#'@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
+#'@param ... further arguments
+#'@details
+#'Plotting parameters for the individual functions can be given as list \code{"ploptions"} 
+#'or separately. If not given explicitely, default values contained in the list 
+#'\code{x$options} are used. If these are set to \code{NULL}, the global graphic
+#'parameters as reported by \code{\link{par}} are assumed. 
+#'
+#'\emph{Individual functions} are plotted using the parameters
+#'\tabular{ll}{
+#'\code{col} \tab character or numeric, color,
+#'\cr\code{lwd} \tab numeric, line width, 
+#'\cr\code{lty} \tab character or numeric, line type, 
+#'\cr\code{light} \tab numeric between 0 and 1, color brightness, defaults to 0.
+#'}
+#'For the \emph{summary function}, the parameters are
+#'\tabular{ll}{\code{col.sum} \tab character or numeric, color, defaulting to \code{col} 
+#'\cr\code{lwd.sum} \tab numeric, line width, defaulting to \code{2 * lwd},
+#'\cr\tab thus the summary function always plots stronger than the individual curves,
+#'\cr\code{lty.sum} \tab character or numeric, line type, defaults to \code{lty}.\cr
+#'}
+#'Plotting of \emph{envelopes} is controlled by the parameters
+#'\tabular{ll}{
+#'\code{col.env} \tab character or numeric, color, defaults to \code{col}
+#'\cr\code{light.env} \tab numeric between 0 and 1, color brightness. 
+#'Defaults to \code{0.3 + 0.7*light},
+#'\cr\tab thus the envelope will always plot lighter than individual functions.
+#'\cr
+#'}
+#'The summary function given in \code{x} is used, if not overridden by the parameter
+#'\code{sumfun}. By default this is the mean.
+#'
+#'To suppress plotting of the summary function or the individual functions, 
+#'set \code{sumfun = NULL} or \code{lwd = 0}, respectively.
+#'
+#'If \code{envprob} is a single number between 0 and 1, a central pointwise envelope covering
+#'\code{envprob}*100 percent of the function values is plotted. If two numbers are given, they are used to
+#'specify the lower and upper quantile used for the envelope.
+#'To suppress plotting of an envelope, let \code{envprob = NULL}.
 #' 
-#' \emph{Individual functions} are plotted using the parameters
-#' \tabular{ll}{
-#' \code{col} \tab character or numeric, color, \cr
-#' \code{lwd} \tab numeric, line width, \cr
-#' \code{lty} \tab character or numeric, line type, \cr
-#' \code{light} \tab numeric between 0 and 1, color brightness, defaults to 0.\cr
-#' }
-#' For the \emph{summary function}, the parameters are
-#' \tabular{ll}{
-#' \code{col.sum} \tab character or numeric, color, defaulting to \code{col} \cr
-#' \code{lwd.sum} \tab numeric, line width, defaulting to \code{2 * lwd},\cr
-#' \tab thus the summary function always plots stronger than the individual curves,\cr
-#' \code{lty.sum} \tab character or numeric, line type, defaults to \code{lty}.\cr
-#' }
-#' Plotting of \emph{envelopes} is controlled by the parameters
-#' \tabular{ll}{
-#' \code{col.env} \tab character or numeric, color, defaults to \code{col}\cr
-#' \code{light.env} \tab numeric between 0 and 1, color brightness. 
-#' Defaults
-#'  to \code{0.3 + 0.7*light}, thus the envelope will always plot lighter 
-#' than individual functions.
-#' \cr
-#' }
-#' The summary function given in \code{x} is used, if not overridden by the parameter
-#' \code{sumfun}. By default this is the mean.
-#' 
-#' To suppress plotting of the summary function or the individual functions, 
-#' set \code{sumfun = NULL} or \code{lwd = 0}, respectively.
-#' 
-#' If \code{envprob} is a single number between 0 and 1, a central pointwise envelope covering
-#' \code{envprob}*100 percent of the function values is plotted. If two numbers are given, they are used to
-#' specify the lower and upper quantile used for the envelope.
-#' To suppress plotting of an envelope, let \code{envprob = NULL}.
-#' 
-#' @export
+#'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
-#' @seealso \code{\link{getoptions}}
-#' @examples
+#'@seealso \code{\link{getoptions}}
+#'@examples
 # # make a fdsample-object first 
 # n <- 5
 # m <- 10
@@ -190,8 +188,8 @@ plot.fdsample <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
 
 
 summaryplot <- function(x, ploptions = NULL,
-                        sumfun = "mean", fopt = list(), #col.sum, lwd.sum, lty.sum,
-                        envprob = NULL, #col.env, light.env,
+                        sumfun = "mean", fopt = list(), 
+                        envprob = NULL, 
                         includy = NULL, add=F, ...)
 {
   if (length(x$dimarg) > 1) stop ("sorry, plotting of higher dimensional fdsamples not yet supported")

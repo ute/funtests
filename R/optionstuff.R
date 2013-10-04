@@ -2,14 +2,18 @@
 
 #' Update a list of options, e.g. for plotting
 #' 
-#' Compares the optional ... arguments and the list \code{optlist} with the list elements in \code{default}
-#' and return an updated list. The function was written for setting plotting defaults
+#' Compares the optional ... arguments and the list \code{optlist} with the list
+#'  elements in \code{default} and returns an updated list. The function was 
+#'  written for setting plotting defaults
 #' for xy-lists, but may be useful also for other lists.
 #'
 #' @param default the list to be updated
 #' @param optlist optional list of updates
 #' @param ... optional named pairs, updates for \code{default}
-#' @return a list with same names as the elements of \code{default}
+#' @return A list with same names as the elements of \code{default}. The value of the 
+#' element is updated if it was contained in \code{optlist} or equal to one of the 
+#' optional explicit \code{...} parameters. The explicit parameters overide entries
+#' in the list \code{optlist}.
 #' @export
 # @seealso \code{\link{unusedoptions}}
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
@@ -71,7 +75,7 @@ getoptions <- function(x, optlist=NULL, ...)
 #' Update NULL values in a list
 #' 
 #' Compares the optional ... arguments with the list elements in \code{default}
-#' and return an updated list. The function was written for setting plotting defaults
+#' and returns an updated list. The function was written for setting plotting defaults
 #' for xy-lists, but may be useful also for other lists.
 #'
 #' @param default the list to be updated
@@ -80,6 +84,11 @@ getoptions <- function(x, optlist=NULL, ...)
 #' @return a list with same names as the elements of \code{default}
 #' @export
 # @seealso \code{\link{unusedoptions}}
+#' @return A list with same names as the elements of \code{default}. The value of an 
+#' element is updated if it was originally equal to \code{NULL}, and contained in 
+#' \code{optlist} or one of the optional explicit \code{...} parameters. 
+#' The explicit parameters overide entries
+#' in the list \code{optlist}.
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 updateNULLoptions <- function(default, optlist=NULL, ...)
@@ -153,7 +162,7 @@ matchingoptions <- function(default = defaultoptions.fdsample, optlist,...)
 # @param optlist optional list of options to be updated
 # @param ... named pairs, updates for \code{default}
 # @return a list with elements with names that differ from those in \code{default}
-#'  @export
+#' @export
 #' @rdname fdsample-internal
 #' @keywords internal
 # @seealso \code{\link{setoptions}}

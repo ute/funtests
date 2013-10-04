@@ -3,8 +3,7 @@
 #' Perform a permutation test of equal distribution (mean) for two  samples of 
 #' functional or multivariate data.
 #' @param sample1,sample2 lists of function values, object of type \code{\link{fdsample}}, 
-#'   need to have identical x-values. Below, let \eqn{m_1} \eqn{m_2} denote the group sizes
-#'  for  \code{sample1} and \code{sample2}.
+#'   need to have identical x-values. 
 #' @param use.tbar logical, defaults to \code{FALSE}. If \code{TRUE}, integrated squared
 #'  mean differences are divided by integrated variance, see `Details'.
 #' @param nperm \code{NULL} or an integer giving the number of random 
@@ -20,16 +19,18 @@
 #'   \item \eqn{T = mean [ (mu_1(x)-mu_2(x))^2 / (s_1^2(x)/m_1 + s_2^2(x)/m_2) ]}    or
 #'   \item \eqn{Tbar = mean [ (mu_1(x)-mu_2(x))^2 ] / mean[ s_1^2(x)/m_1 + s_2^2(x)/m_2 ]}
 #'   }
-#'   where \eqn{mu_1(x), mu_2(x)} and \eqn{s_1^2(x), s_2^2(x)} are within group 
-#'   means and variances at a fixed argument \eqn{x}, and the overall
-#'   the mean is taken over all \eqn{n} arguments \eqn{x}.
+#'   where \eqn{m_1} \eqn{m_2} denote the group sizes
+#'   for  \code{sample1} and \code{sample2}, and \eqn{mu_1(x), mu_2(x)} 
+#'   and \eqn{s_1^2(x), s_2^2(x)} are within group 
+#'   means and variances at a fixed argument \eqn{x}. 
+#'   To calculate T, the mean is taken over all \eqn{n} arguments \eqn{x}.
 #'   
-#'   If \code{nperm == NULL}, the exact test with all permutations is used
-#'   (combinations, for symmetry reasons). This may cause memory or computing 
-#'   time issues.
-#'   If \code{nperm} is given as an integer, the permutations are \code{sample}d randomly, 
+
+#'   If \code{nperm} is given as an integer, the permutations are sampled randomly, 
 #'   unless \code{nperm} is larger than the number of disjoint combinations. In that
-#'   case, the exact version is used. 
+#'   case, and also if \code{nperm == NULL}, the exact test with all permutations is used
+#'   (combinations, for symmetry reasons). If this causes memory or computing 
+#'   time issues, set \code{nperm} to a fixed value. 
 #' @return 
 #' A list with class \code{"htest"} containing the following components:
 #' \item{statistic}{the value of the test statistic,}
