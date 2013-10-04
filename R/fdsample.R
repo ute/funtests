@@ -19,9 +19,9 @@
 # flipp1 <- fdsamplepar(col="blue", default=.flippdefault) # default values
 # 
 
-#' Check whether object is a function list
+#' Check whether object is a function sample
 #' 
-#' Checks whether object is of type \code{fdsample}
+#' Checks whether object is of type \code{fdsample}.
 #' @param x any R-object
 #' @return \code{TRUE}, if \code{x} belongs to class \code{fdsample}, otherwise \code{FALSE}
 #' @export
@@ -32,7 +32,7 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 # fdsample is a list with elements
 #' Make a functional data sample
 #' 
-#' Generate an object of class \code{fdsample}
+#' Generate an object of class \code{fdsample}.
 #' 
 #' @param args  numeric, array, the function arguments, dimension dimarg 
 #' @param fvals  numeric, array of function values, dimension: dimarg x groupsize 
@@ -80,7 +80,7 @@ fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
 
 #' Extract or replace subset of an fdsample
 #' 
-#' curves (rows of y-values) are extracted or replaced
+#' Curves (rows of y-values) are extracted from or replaced in the sample.
 #' 
 #' @rdname extract.fdsample
 # @name extract.fdsample 
@@ -107,8 +107,8 @@ fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
 
 #' @rdname extract.fdsample
 #' @S3method [<- fdsample
-#' @method [<- fdsample
-# @usage x[i, j] <- value
+# @method [<- fdsample
+#' @usage \method{[}{fdsample} (x, i) <- value 
 #' @export
 #' @param value Replacement for the subset, an array or an fdsample object. 
 #' @details Currently only possible if x$args is one-dimensional.

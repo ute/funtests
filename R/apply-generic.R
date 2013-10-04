@@ -2,7 +2,8 @@
 
 #' Apply summary function to the y-values in an fdsample
 #'
-#' Applies a function to the \eqn{y}-values in a list, for each \eqn{x}
+#' Applies a function to the curves function values (\eqn{y}-values) in an 
+#' \code{\link{fdsample}} object, for each argument value (\eqn{x}-value).
 #'
 # @S3method apply fdsample
 #' @param x object of type \code{\link{fdsample}}
@@ -23,6 +24,9 @@
 #' str(apply.fdsample(fuda, "median"))
 #' # apply median and change axis label
 #' str(apply.fdsample(fuda, median, xlab = "median of y-values"))
+#' # another way to get the median and change axis label
+#' str(apply.fdsample(fuda, quantile, list(prob = 0.5), xlab = "50% quantile of y-values"))
+
 
 apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
 {
@@ -45,7 +49,7 @@ apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
 #' @rdname summaryfunctions.fdsample
 #' @aliases mean.fdsample median.fdsample quantile.fdsample
 #' @description Calculate summary functions (mean, median or quantiles) of the 
-#' function values pointwise (for each argument value)
+#' function values pointwise (for each argument value).
 #' @return an \code{\link{fdsample}} object, where \code{fvals} represents 
 #' the values of the summary function(s)
 #' @seealso \code{\link{mean}}, \code{\link{median}}. \code{\link{quantile}}

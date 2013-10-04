@@ -39,7 +39,7 @@ updateoptions <- function(default, optlist=NULL, ...)
 #' Get options 
 #' 
 #' Update the options element in an \code{\link{fdsample}} object or another list with an element \code{$options}, 
-#' according to arguments
+#' according to arguments.
 #' 
 #' @param x list with element \code{options} to be updated
 #' @param optlist optional list of updates

@@ -1,14 +1,15 @@
-Package: funtests
+Package: fdnonpar
 Version: 0.3
-Date: 2013-10-03
+Date: 2013-10-09
 Title: Methods for multivariate or functional data.
 Author: Ute Hahn <ute@imf.au.dk>
 Creator: Ute Hahn
 Maintainer: Ute Hahn <ute@imf.au.dk>
 Depends:
     R (>= 2.15),
-    plyr,
     stats
+Imports:
+    plyr
 Description: Nonparametric testing and visualization of samples consisting of 
     vectors or arrays of observations x(t) taken at the same given measurement points t, 
     such as functional  data, time series or multivariate data 

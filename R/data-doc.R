@@ -70,6 +70,6 @@ NULL
 #'
 #' # test significance
 #' 
-#' with(DeltaKBronze.t, studpermute.test(high, low))
+#' with(DeltaKBronze.t, tL2.permtest(high, low))
 
 NULL
