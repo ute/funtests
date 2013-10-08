@@ -1,6 +1,6 @@
 Package: fdnonpar
-Version: 0.35
-Date: 2013-10-09
+Version: 0.10.0
+Date: 2013-10-04
 Title: Methods for multivariate or functional data.
 Author: Ute Hahn <ute@imf.au.dk>
 Creator: Ute Hahn
