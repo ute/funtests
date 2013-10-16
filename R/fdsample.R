@@ -36,10 +36,19 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 #'
 #'@param args  numeric, array, the function arguments, dimension dimarg 
 #'@param fvals  numeric, array of function values, dimension: dimarg x groupsize 
-#'@param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
-#'@param ... plot options, see \code{\link{plot.fdsample}}
+#@param xlab character, x-axis label for plotting
+#@param ylab character, y-axis label
+#@param name character, short label, used as title when plotting
+#@param descr character, description for printing
+#@param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
+#'@param ... predefined plot options or \code{\link{styles}}, see the details 
+#'and \code{\link{plot.fdsample}}
 # @param fun the summary function to be applied on the values of \code{y}, defaults to \code{mean}
 #'
+#'@details Predefining plot options may be particularly useful for plot 
+#'annotation, i.e. \code{xlab}, \code{ylab} and \code{main}. They may be also given
+#'as a \pkg{plottools}-\code{\link{style}}. Options with same name are overriden
+#'from left to right, i.e., the last one given counts.
 #'@return a list with elements 
 #'\tabular{ll}{ 
 #'\code{args} \tab{the function arguments}
@@ -52,21 +61,16 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
 
-fdsample <- function(args, fvals, optlist, ...) #fun = mean, ...)
+fdsample <- function(args, fvals, ...) #fun = mean, ...)
 {
   xa <- as.array(args)
   dimarg <- dim(xa)
   ya <- as.array(fvals)
-  if (length(dim(xa)) == length(dim(ya))) groupsize <- 1 else groupsize <- dim(ya)[length(dim(ya))] # only one y
-  if (groupsize == 1) my <- dim(ya) else my <- dim(ya)[-length(dim(ya))]
+  groupsize <- ifelse (length(dim(xa)) == length(dim(ya)),
+                       1, dim(ya)[length(dim(ya))])
+  my <- ifelse (groupsize == 1, dim(ya), dim(ya)[-length(dim(ya))])
   if (any(dimarg != my)) stop("dimensions do not match")
- # argu <- list(...)
-  if (missing(optlist)) optlist <- NULL
-  argu <- list(...)
-  
- #  options <- updateoptions(defaultoptions.fdsample, optlist)
-  options <- updateoptions(updateoptions(defaultoptions.fdsample, optlist), argu)
-#  options <- do.call(updateoptions, c(list(defaultoptions.fdsample), argu))
+  options <- style(...)
   xy <- list(args = xa, 
              fvals = ya,
              dimarg = dim(xa),
