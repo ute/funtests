@@ -106,7 +106,10 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
     yy <- x$fvals[,i]
     opt <- x$options
-    return(fdsample(xx, yy, opt))
+    newfd < fdsample(xx, yy, opt)
+    if (!is.null(comment(x))) 
+      comment(newfd) <- c(comment(x), "\nsubset")
+    return(newfd)
   }
 
 #'@rdname extract.fdsample
@@ -127,7 +130,10 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     else if(is.fdsample(value)) yy[, i] <- value$fvals
     else stop("can only replace with vectors or fdsample objects")
     opt <- x$options
-    return(fdsample(xx, yy, opt))
+    newfd <- fdsample(xx, yy, opt)
+    if (!is.null(comment(x)) 
+      comment(newfd) <- c(comment(x), "\nmodified")
+    return(newfd)
   }
 
 #'@title range of function values
@@ -162,6 +168,8 @@ print.fdsample <- function (x, ...)
   
   cat("fdsample with",dimx,"arg-values and", x$groupsize,"sets of function values,\n",
     "arg-range:", range(x$args), " fval-range:", range(x$fvals),"\n")
+  
+  if (!is.null(comment(x))) cat("comment:",comment(x))
 }
 
 
