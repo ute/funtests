@@ -37,7 +37,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   else quants <- range(prob)
   # not much user input rubbish control here...
   result <- quantile(x, probs = quants)
-  result$options <-  style(c(list(...), lightup = lightup))
+  result$options <-  style(..., lightup = lightup)
   class(result) <- c("envelope", class(x))
   attr(result, "prob") <- prob
   comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
@@ -102,8 +102,10 @@ plot.envelope <- function(x, ..., includy = NULL)
   # now do the plotting of envelopes and curves
   # adjust plot options: have a colour, at least
   allopt <- updateJoin(par("col"), allopt)
-  if(!is.null(allopt$alpha))
-    allopt$col <- alphacol(allopt$col, allopt$alpha)
+  alpha <- ifelse(!is.null(allopt$alpha), allopt$alpha, 1)
+  lightup <- ifelse(!is.null(allopt$lightup), allopt$lightup, 0.5)
+  allopt$col <- alphacol(allopt$col, alpha * lightup)
+        
   plopt <- matching(allopt, .graphparams)
   plopt$border <- NA
   do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
