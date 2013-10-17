@@ -5,6 +5,7 @@
 
 #'@import stats
 #'@import plyr
+#'@import plottools
 #'
 #'@name fdnonpar-package
 #'
@@ -48,8 +49,8 @@
 #'   \tabular{ll}{
 #'    \code{\link{tL2.permtest}} \tab  Comparison of two groups,
 #'        \cr\tab using square integrated Welch-t-statistic
-#'    \cr\code{\link{tbar.L2ptest}} \tab  Comparison of two groups,
-#'        \cr\tab a variant of \code{\link{t.L2ptest}}\cr
+#    \cr\code{\link{tbar.L2ptest}} \tab  Comparison of two groups,
+#        \cr\tab a variant of \code{\link{t.L2ptest}}\cr
 #'  } 
 #'@author Ute Hahn, \email{ute@@imf.au.dk}
 #'@references 

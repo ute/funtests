@@ -41,7 +41,7 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 #@param name character, short label, used as title when plotting
 #@param descr character, description for printing
 #@param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
-#'@param ... predefined plot options or \code{\link{styles}}, see the details 
+#'@param ... predefined plot options or \code{\link{style}}s, see the details 
 #'and \code{\link{plot.fdsample}}
 # @param fun the summary function to be applied on the values of \code{y}, defaults to \code{mean}
 #'
@@ -131,7 +131,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     else stop("can only replace with vectors or fdsample objects")
     opt <- x$options
     newfd <- fdsample(xx, yy, opt)
-    if (!is.null(comment(x)) 
+    if (!is.null(comment(x))) 
       comment(newfd) <- c(comment(x), "\nmodified")
     return(newfd)
   }
@@ -147,7 +147,8 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
 # @keywords {internal}
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 
-yrange <- function(x, includy = NULL) range(c( range(x$fvals), includy))
+yrange <- function(x, includy = NULL) 
+  range(c( range(x$fvals[is.finite(x$fvals)]), includy))
 
 #'Print brief details of an xy-list
 #'

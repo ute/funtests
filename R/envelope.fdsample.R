@@ -1,15 +1,15 @@
-# envelope of an functional data sample
+# envelope of a functional data sample
 
-#'@title Calculate pointwise envelope of an functional data sample
+#'@title Calculate pointwise envelope of a functional data sample
 #'
 #'@description Calculates symmetric or non symmetric pointwise envelopes of 
 #'the function values in an \code{fdsample} object.
 #'
 #'@param x object of class \code{\link{fdsample}}
 #'@param prob numeric, covering probability for the envelope, see Details.
-#'@param multi currently ignored
-#'@param lightup a number between 0 and 1, regulates brightness of color in plot.
+#@param multi currently ignored
 #'@param ... arguments for updating the \code{options} list in the result.
+#'@param lightup a number between 0 and 1, regulates brightness of color in plot.
 #'@return An object of class \code{envelope}, which is essentially an \code{fdsample}
 #'object with own \code{plot} method.
 #'
@@ -19,28 +19,28 @@
 #'If two numbers are given, they are used to specify the lower and upper quantile 
 #'used for the envelope.
 #'
-#'A default value for the brightness of the color is calculated from the options in \code{x} 
-#'and the argument \code{lightup}, namely
-#'\code{lightup + (1-lightup)*xy$options$light}.
-#\code{light = ((0.1 + x$options$light) / 1.1)^(1 - lightup)}.
+#'A default value for the brightness of the color is calculated from any \code{alpha}
+#'argument in the plot method and the argument \code{lightup}, namely the 
+#'\eqn{\alpha}-value is corrected to \code{lightup * alpha}. If not given, \eqn{\alpha}
+#'is set to one.
 #'Thus \code{lightup = 0} results in retaining original brightness, and \code{lightup = 1}
-#'in white color. Can be overridden by the \code{...} arguments.
+#'in white color.
+# Can be overridden by the \code{...} arguments.
 #' @export
 #' @examples
 #' data(ExampleData)
 #' str(pwEnvelope(fuda, 1, col = "blue"))
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
-pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...) 
+pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5) 
 {
   if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2) 
   else quants <- range(prob)
   # not much user input rubbish control here...
   result <- quantile(x, probs = quants)
-  opt <- result$options
-  opt$light = lightup + (1-lightup)*x$options$light
-  result$options <- updateoptions(opt, ...)
+  result$options <-  style(c(list(...), lightup = lightup))
   class(result) <- c("envelope", class(x))
   attr(result, "prob") <- prob
+  comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
   return(result)
 }  
 
@@ -51,10 +51,10 @@ pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...)
 #'Plots an object of class \code{\link{envelope}}. 
 #'
 #'@param x the envelop to be plotted
-#'@param ploptions optional list of plotting parameters, see the Details
+#@param ploptions optional list of plotting parameters, see the Details
 #'@param includy optional numeric vector containing values that are to be included in the 
 #'\code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
-#'@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
+#@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
 #'@param ... further arguments
 #'@details
 #'Plotting parameters can be given as list \code{"ploptions"} or separately. If not
@@ -82,29 +82,29 @@ pwEnvelope <- function (x, prob = 1, multi = FALSE, lightup = .5, ...)
 #'plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
 #'
 
-plot.envelope <- function(x, ploptions = NULL, includy = NULL, add=F,  ...)
+plot.envelope <- function(x, ..., includy = NULL)
 {
-  argu <- list(...)
-  xopt <- getoptions(x, ploptions, ...)
-  allopt <- uniquelist(c(xopt, unusedoptions(xopt, argu)))
+  if (length(x$dimarg) > 1) 
+    stop ("sorry, plotting of higher dimensional envelopes not yet supported")
+ 
+  allopt <- style(x$options, ..., NULL.rm = TRUE)
   
-  if (!add) # make a plot window
-  {  
-    # set information for plotwindow
+  if (is.null(allopt$add) || !allopt$add)
+  {
+    # make new plot
     if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
-    if(is.null(allopt$xlim)) allopt$xlim <- range(x$args)
-    # Want type = "n"
-    pargus <- updateoptions(.plotparams, allopt)
+    if(is.null(allopt$xlim)) allopt$xlim <- range(x$args[is.finite(x$args)])
+    pargus <- matching(allopt, .plotparams)
     pargus$type="n"
     do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus))
   }
+  
   # now do the plotting of envelopes and curves
- 
-  .grapar <- par(no.readonly = TRUE) 
-  plopt <- updateoptions (.grapar, updateNULLoptions(allopt, .grapar))
-  # plopt <- updateoptions (.grapar, allopt)
-  # plot individual lines
-  if(allopt$light > 0) plopt$col <- lightcol(allopt$col, allopt$light)
+  # adjust plot options: have a colour, at least
+  allopt <- updateJoin(par("col"), allopt)
+  if(!is.null(allopt$alpha))
+    allopt$col <- alphacol(allopt$col, allopt$alpha)
+  plopt <- matching(allopt, .graphparams)
   plopt$border <- NA
   do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
 }  
