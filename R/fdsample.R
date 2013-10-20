@@ -106,7 +106,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
     yy <- x$fvals[,i]
     opt <- x$options
-    newfd < fdsample(xx, yy, opt)
+    newfd <- fdsample(xx, yy, opt)
     if (!is.null(comment(x))) 
       comment(newfd) <- c(comment(x), "\nsubset")
     return(newfd)
@@ -167,8 +167,11 @@ print.fdsample <- function (x, ...)
   dimx <- x$dimarg[1]
   if (length(x$dimarg) > 1) for (i in 2: length(x$dimarg)) dimx <- paste(dimx, x$dimarg[i], sep="x")
   
-  cat("fdsample with",dimx,"arg-values and", x$groupsize,"sets of function values,\n",
-    "arg-range:", range(x$args), " fval-range:", range(x$fvals),"\n")
+  cat("fdsample with",dimx,"arg-values and", x$groupsize,"sets of function values,")
+  if (dimx > 0) 
+    cat("\narg-range:", range(x$args), " fval-range:", range(x$fvals),"\n")
+  else 
+    cat(" ... completely empty!\n")
   
   if (!is.null(comment(x))) cat("comment:",comment(x))
 }
