@@ -2,7 +2,7 @@
 
 #'@title Calculate pointwise envelope of a functional data sample
 #'
-#'@description Calculates symmetric or non symmetric pointwise envelopes of 
+#'@description Calculates symmetric or non symmetric pointwise envelopes of
 #'the function values in an \code{fdsample} object.
 #'
 #'@param x object of class \code{\link{fdsample}}
@@ -14,14 +14,14 @@
 #'object with own \code{plot} method.
 #'
 #'@details The envelope is specified as follows:
-#'If \code{prob} is a single number between 0 and 1, a central pointwise 
-#'envelope covering \code{prob}*100 percent of the function values is calculated. 
-#'If two numbers are given, they are used to specify the lower and upper quantile 
+#'If \code{prob} is a single number between 0 and 1, a central pointwise
+#'envelope covering \code{prob}*100 percent of the function values is calculated.
+#'If two numbers are given, they are used to specify the lower and upper quantile
 #'used for the envelope.
 #'
 #'A default value for the brightness of the color is calculated from any \code{alpha}
-#'argument in the plot method and the argument \code{lightup}, namely the 
-#'\eqn{\alpha}-value is corrected to \code{lightup * alpha}. If not given, \eqn{\alpha}
+#'argument in the plot method and the argument \code{lightup}, namely the
+#'\eqn{\alpha}-value is corrected to \code{(1-lightup) * alpha}. If not given, \eqn{\alpha}
 #'is set to one.
 #'Thus \code{lightup = 0} results in retaining original brightness, and \code{lightup = 1}
 #'in white color.
@@ -31,9 +31,9 @@
 #' data(ExampleData)
 #' str(pwEnvelope(fuda, 1, col = "blue"))
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
-pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5) 
+pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 {
-  if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2) 
+  if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2)
   else quants <- range(prob)
   # not much user input rubbish control here...
   result <- quantile(x, probs = quants, ..., lightup = lightup)
@@ -42,27 +42,27 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   attr(result, "prob") <- prob
   comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
   return(result)
-}  
+}
 
 
 
 #'Plot an envelope object
 #'
-#'Plots an object of class \code{\link{envelope}}. 
+#'Plots an object of class \code{\link{envelope}}.
 #'
 #'@param x the envelop to be plotted
 #@param ploptions optional list of plotting parameters, see the Details
-#'@param includy optional numeric vector containing values that are to be included in the 
+#'@param includy optional numeric vector containing values that are to be included in the
 #'\code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
 #@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
 #'@param ... further arguments
 #'@details
 #'Plotting parameters can be given as list \code{"ploptions"} or separately. If not
-#'given explicitely, default values contained in the list \code{x$options} are used. 
+#'given explicitely, default values contained in the list \code{x$options} are used.
 #'The following elements in the list of options in the \code{envelope}-object are used:
 #'\tabular{ll}{
 #'\code{col} \tab color, \cr
-#'\code{light} \tab numeric between 0 and 1. Regulates how much the color of 
+#'\code{lightup} \tab numeric between 0 and 1. Regulates how much the color of
 #'is lightened up,\cr\tab 0 means no extra light. \cr
 #'\code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and \code{"y"}. \cr
 #'}
@@ -78,17 +78,17 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'blau <- style(col = "blue")
 #'plot(envy, blau, main="mein blau", includy = -2)
 #'# add lines and mean
-#'plot(fuda, blau, light = 0.4, add = TRUE)
-#'plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
+#'plot(fuda, blau, lightup = 0.4, add = TRUE)
+#'plot(mean(fuda), blau, lightup = 0, lwd = 2, add = TRUE)
 #'
 
 plot.fdenvelope <- function(x, ..., includy = NULL)
 {
-  if (length(x$dimarg) > 1) 
+  if (length(x$dimarg) > 1)
     stop ("sorry, plotting of higher dimensional envelopes not yet supported")
- 
+
   allopt <- style(x$options, ..., NULL.rm = TRUE)
-  
+
   if (is.null(allopt$add) || !allopt$add)
   {
     # make new plot
@@ -98,15 +98,15 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
     pargus$type="n"
     do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus))
   }
-  
+
   # now do the plotting of envelopes and curves
   # adjust plot options: have a colour, at least
   allopt <- updateJoin(par("col"), allopt)
   alpha <- ifelse(!is.null(allopt$alpha), allopt$alpha, 1)
   lightup <- ifelse(!is.null(allopt$lightup), allopt$lightup, 0.5)
-  allopt$col <- alphacol(allopt$col, alpha * lightup)
-        
+  allopt$col <- alphacol(allopt$col, alpha * (1 - lightup))
+
   plopt <- matching(allopt, .graphparams)
   plopt$border <- NA
   do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
-}  
+}
