@@ -137,7 +137,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
   }
 
 #'@title range of function values
-#'@description Range of \code{fvals} contained in an \code{fdasample} object, 
+#'@description Range of \code{fvals} contained in an \code{fdsample} object, 
 #'purpose: convenient way to find plot y-limits.
 #'@param x the data to be inspected
 #'@param includy anything to be included in the range
@@ -149,6 +149,27 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
 
 yrange <- function(x, includy = NULL) 
   range(c( range(x$fvals[is.finite(x$fvals)]), includy))
+
+
+#' @title Report x- and y-range, generic function
+#'
+#'@description Range of \code{args} and \code{fvals} contained in 
+#'an \code{fdsample} object, purpose: convenient way to find plot limits.
+#'@param x the data to be inspected
+#'@param finite logical, indicating if all non-finite elements should be omitted.
+#'@return A list with elements \code{x} and \code{y}, which are numeric vectors of length two.
+#'@export
+#'@details
+#' If \code{finite} is \code{TRUE}, the minimum and maximum of all finite values is
+#' computed, and \code{NA} and \code{NaN} values are ignored.
+# @method rangexy fdsample
+#' @S3method rangexy fdsample
+#'
+rangexy.fdsample <- function (x, finite = TRUE, ...) {
+  list(x = range(x$args, finite = finite),
+       y = range(x$fvals, finite = finite))
+}
+
 
 #'Print brief details of an xy-list
 #'

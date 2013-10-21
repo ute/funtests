@@ -38,7 +38,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   # not much user input rubbish control here...
   result <- quantile(x, probs = quants)
   result$options <-  style(..., lightup = lightup)
-  class(result) <- c("envelope", class(x))
+  class(result) <- c("fdenvelope", class(x))
   attr(result, "prob") <- prob
   comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
   return(result)
@@ -66,8 +66,8 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'is lightened up,\cr\tab 0 means no extra light. \cr
 #'\code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and \code{"y"}. \cr
 #'}
-#'@S3method plot envelope
-#'@method plot envelope
+#'@S3method plot fdenvelope
+#'@method plot fdenvelope
 #'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #'@examples
@@ -82,7 +82,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'plot(mean(fuda), blau, light = 0, lwd = 2, add = TRUE)
 #'
 
-plot.envelope <- function(x, ..., includy = NULL)
+plot.fdenvelope <- function(x, ..., includy = NULL)
 {
   if (length(x$dimarg) > 1) 
     stop ("sorry, plotting of higher dimensional envelopes not yet supported")
