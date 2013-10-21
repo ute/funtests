@@ -28,7 +28,7 @@
 #' str(apply.fdsample(fuda, quantile, list(prob = 0.5), xlab = "50% quantile of y-values"))
 
 
-apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
+apply.fdsample <- function(x, fun = mean, ..., fopt = list())
 {
   stopifnot(is.fdsample(x))
   dimsx <- length(x$dimarg)
@@ -40,7 +40,8 @@ apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
   # }
   # dimly <- length(names(xy$fvals))
   # names(newy) <- names(xy$fvals)[-dimly]
-  newx <- fdsample(x$args, as.array(newy), x$options,  ...)
+  # TODO if concatenate is defined in plutils, change here
+  newx <- fdsample(x$args, as.array(newy), style(x$options,  style(...)))
   return(newx)
 } 
 
@@ -68,8 +69,8 @@ apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
 #' @examples
 #' str(mean(fuda))
 
-mean.fdsample <- function (x, trim = 0, na.rm = FALSE, ...) 
-  apply.fdsample (x, mean, fopt = list(trim = trim, na.rm = na.rm, ...)) 
+mean.fdsample <- function (x, ..., trim = 0, na.rm = FALSE) 
+  apply.fdsample (x, mean, ..., fopt = list(trim = trim, na.rm = na.rm)) 
 
 #' @rdname summaryfunctions.fdsample
 #' @S3method median fdsample 
@@ -79,8 +80,8 @@ mean.fdsample <- function (x, trim = 0, na.rm = FALSE, ...)
 #@param x an object of class \code{\link{fdsample}}
 #@param na.rm a logical value indicating whether NA values should be stripped 
 # before the computation proceeds.
-median.fdsample <- function (x, na.rm = FALSE)
-   apply.fdsample(x, median, fopt = list( na.rm = na.rm) )
+median.fdsample <- function (x, ...,  na.rm = FALSE)
+   apply.fdsample(x, median, ..., fopt = list( na.rm = na.rm))
 
 #' @rdname summaryfunctions.fdsample
 #' @S3method quantile fdsample 
@@ -97,8 +98,8 @@ median.fdsample <- function (x, na.rm = FALSE)
 #' see the documentation of \code{\link{quantile.default}}
 #@param ... further arguments passed to or from other methods.
 
-quantile.fdsample <- function(x, probs = seq(0, 1, 0.25), na.rm = FALSE,
-         names = FALSE, type = 7, ...)
- apply.fdsample(x, quantile, fopt = list(probs = probs,  na.rm = na.rm,  
-   names = names, type = type, ...))
+quantile.fdsample <- function(x, probs = seq(0, 1, 0.25), ..., 
+                              na.rm = FALSE,  names = FALSE, type = 7 )
+ apply.fdsample(x, quantile, ..., fopt = list(probs = probs,  na.rm = na.rm,  
+   names = names, type = type))
       
