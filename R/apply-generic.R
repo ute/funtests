@@ -40,7 +40,8 @@ apply.fdsample <- function(x, fun = mean, fopt = list(), ...)
   # }
   # dimly <- length(names(xy$fvals))
   # names(newy) <- names(xy$fvals)[-dimly]
-  newx <- fdsample(x$args, as.array(newy), x$options,  ...)
+  # TODO if concatenate is defined in plutils, change here
+  newx <- fdsample(x$args, as.array(newy), style(x$options,  style(...)))
   return(newx)
 } 
 
@@ -79,8 +80,8 @@ mean.fdsample <- function (x, trim = 0, na.rm = FALSE, ...)
 #@param x an object of class \code{\link{fdsample}}
 #@param na.rm a logical value indicating whether NA values should be stripped 
 # before the computation proceeds.
-median.fdsample <- function (x, na.rm = FALSE)
-   apply.fdsample(x, median, fopt = list( na.rm = na.rm) )
+median.fdsample <- function (x, na.rm = FALSE, ...)
+   apply.fdsample(x, median, fopt = list( na.rm = na.rm), ... )
 
 #' @rdname summaryfunctions.fdsample
 #' @S3method quantile fdsample 

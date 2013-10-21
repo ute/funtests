@@ -3,26 +3,26 @@
 # setting plot parameters -------------------------------------------------
 
 #.plotparx <- list(log = "", main="", sub="", xlab="", ylab="",  axes =TRUE) 
-.plotparams <- list(type = "p",  xlim = NULL, ylim = NULL,
-                    log = "", main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
-                    ann = par("ann"), axes = TRUE, frame.plot = TRUE,
-                    panel.first = NULL, panel.last = NULL, asp = NA,
-                    mgp = par("mgp"))
+#.plotparams <- list(type = "p",  xlim = NULL, ylim = NULL,
+#                    log = "", main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+#                    ann = par("ann"), axes = TRUE, frame.plot = TRUE,
+#                    panel.first = NULL, panel.last = NULL, asp = NA,
+#                    mgp = par("mgp"))
 # parameters that may cause warnings in low level plotting functions, but not in plot.default
 
 # lighten up a colour -----------------------------------------------------
 
 # @param col color
 # @param add coefficient on rgb, a single number
-#' @rdname fdsample-internal
-#' @keywords internal
-#' @export
+# @rdname fdsample-internal
+# @keywords internal
+# @export
 # @details works on all devices that support rgb
-
-lightcol <- function(col, light = 0){
-  RGB <- pmin(light + (1 - light) * col2rgb(col) / 255, 1) # pmin just to be on the safe side
-  rgb(RGB["red", ], RGB["green", ], RGB["blue", ])
-}  
+#
+#lightcol <- function(col, light = 0){
+#  RGB <- pmin(light + (1 - light) * col2rgb(col) / 255, 1) # pmin just to be on the safe side
+#  rgb(RGB["red", ], RGB["green", ], RGB["blue", ])
+#}  
 
 # plot an fdsample object
 

@@ -70,7 +70,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
                        1, dim(ya)[length(dim(ya))])
   my <- ifelse (groupsize == 1, dim(ya), dim(ya)[-length(dim(ya))])
   if (any(dimarg != my)) stop("dimensions do not match")
-  options <- style(...)
+  options <- style(defaultoptions.fdsample, ..., NULL.rm = TRUE)
   xy <- list(args = xa, 
              fvals = ya,
              dimarg = dim(xa),
@@ -157,6 +157,7 @@ yrange <- function(x, includy = NULL)
 #'an \code{fdsample} object, purpose: convenient way to find plot limits.
 #'@param x the data to be inspected
 #'@param finite logical, indicating if all non-finite elements should be omitted.
+#'@param ... ignored, just for compatibility with generic function
 #'@return A list with elements \code{x} and \code{y}, which are numeric vectors of length two.
 #'@export
 #'@details
@@ -207,7 +208,7 @@ print.fdsample <- function (x, ...)
 #'@rdname fdsample-internal
 #'@aliases defaultoptions.fdsample
 #'@docType data
-defaultoptions.fdsample <- list (
+defaultoptions.fdsample <- style (
   xlab = "t",
   ylab = "X(t)",
   main = "",

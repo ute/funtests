@@ -7,7 +7,7 @@
 #'of function values coerced in an object of class \code{\link{fdsample}}. 
 #'
 #'@param x the fdsample to be plotted
-#'@param ploptions list of optional plotting parameters, see the Details.
+#@param ploptions list of optional plotting parameters, see the Details.
 #'@param sumfun the summary function. If NULL, no summary function is plotted.
 #'Defaults to \code{"mean"}.
 #'@param fopt list of options for \code{sumfun}.

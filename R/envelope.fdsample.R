@@ -36,8 +36,8 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2) 
   else quants <- range(prob)
   # not much user input rubbish control here...
-  result <- quantile(x, probs = quants)
-  result$options <-  style(..., lightup = lightup)
+  result <- quantile(x, probs = quants, ..., lightup = lightup)
+  #result$options <-  style(result$options, ..., lightup = lightup)
   class(result) <- c("fdenvelope", class(x))
   attr(result, "prob") <- prob
   comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
@@ -75,7 +75,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'data(ExampleData)
 #'envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
 #'# using a predefined list of options
-#'blau <- list(col = "blue")
+#'blau <- style(col = "blue")
 #'plot(envy, blau, main="mein blau", includy = -2)
 #'# add lines and mean
 #'plot(fuda, blau, light = 0.4, add = TRUE)

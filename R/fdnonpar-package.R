@@ -32,7 +32,7 @@
 #'           \code{fdsample} object
 #'    \cr\code{\link{print.fdsample}} \tab print brief details of an fdsample
 #'    \cr\code{\link{plot.fdsample}} \tab plot the individual members of an fdsample
-#'    \cr\code{\link{plot.envelope}} \tab plot an \code{envelope} object
+#'    \cr\code{\link{plot.fdenvelope}} \tab plot an \code{envelope} object
 #'    \cr\code{\link{summaryplot}}\tab plot individual curves, envelopes or summary functions 
 #'    \cr\tab such as the mean of an \code{\link{fdsample}} objectr
 #'    }
