@@ -159,12 +159,12 @@ yrange <- function(x, includy = NULL)
 #'@param finite logical, indicating if all non-finite elements should be omitted.
 #'@param ... ignored, just for compatibility with generic function
 #'@return A list with elements \code{x} and \code{y}, which are numeric vectors of length two.
-#'@export
 #'@details
 #' If \code{finite} is \code{TRUE}, the minimum and maximum of all finite values is
 #' computed, and \code{NA} and \code{NaN} values are ignored.
 # @method rangexy fdsample
-#' @S3method rangexy fdsample
+#' @method rangexy fdsample
+#'@export rangexy.fdsample
 #'
 rangexy.fdsample <- function (x, finite = TRUE, ...) {
   list(x = range(x$args, finite = finite),
