@@ -51,7 +51,7 @@
 #'
 #@S3method plot fdsample 
 #'@method plot fdsample 
-#'@export
+#'@export plot.fdsample
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #'@seealso \code{\link{alphacol}} on defining transparent colors, and
 #'\code{\link{splot}} for the evaluation of plot parameters.
