@@ -85,7 +85,7 @@
 #' # using a predefined list of options,
 #' # summary function will be plotted in black (default)
 #'
-#' blau <- style(col = "blue", alpha.env = .8, col.smf = "green")
+#' blau <- simplist(col = "blue", alpha.env = .8, col.smf = "green")
 #' summaryplot(fuda, sumfun = "mean", envprob = .8, blau, alpha = .7)
 #' # adds individual lines, overriding light options contained in fuda and blau
 
@@ -99,10 +99,10 @@ summaryplot.fdsample <- function(x, ...,
   if (length(x$dimarg) > 1) stop ("sorry, plotting of higher dimensional fdsamples not yet supported")
 
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
-   dots <- style(...)
-  allopt <- style(style(alpha = 1, col.smf = NULL, lwd.smf = NULL,
+   dots <- simplist(...)
+  allopt <- simplist(simplist(alpha = 1, col.smf = NULL, lwd.smf = NULL,
                         lty.smf = NULL, col.env = NULL, alpha.env = NULL),
-                  x$options, dots, NULL.rm = FALSE)
+                  x$options, dots, .NULL.rm = FALSE)
   if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
   if(is.null(allopt$xlim)) allopt$xlim <- range(x$args[is.finite(x$args)])
 
@@ -126,7 +126,7 @@ summaryplot.fdsample <- function(x, ...,
 
   # adjust plot options: fill in necessary defaults
   allopt <- updateJoin(par("col", "lty", "lwd"), allopt)
-  class(allopt) <- c("style", "list")
+  firstclass(allopt) <- "simplist"
 
   #plopt <- matching(allopt, .graphparams, .plotparams,
   #                  list(alpha = 1, add = TRUE), plot.fdsample)

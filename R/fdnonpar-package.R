@@ -5,7 +5,7 @@
 
 #'@import stats
 #'@import plyr
-#'@import plottools
+#'@import plutils
 #'
 #'@name fdnonpar-package
 #'

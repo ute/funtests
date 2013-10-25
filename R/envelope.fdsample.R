@@ -37,7 +37,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   else quants <- range(prob)
   # not much user input rubbish control here...
   result <- quantile(x, probs = quants, ..., lightup = lightup)
-  #result$options <-  style(result$options, ..., lightup = lightup)
+  #result$options <-  simplist(result$options, ..., lightup = lightup)
   class(result) <- c("fdenvelope", class(x))
   attr(result, "prob") <- prob
   comment(result) <- c(comment(x), paste("\n",round(prob*100),"%-envelope"))
@@ -48,7 +48,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 
 #'Plot an envelope object
 #'
-#'Plots an object of class \code{\link{envelope}}.
+#'Plots an object of class \code{fdenvelope}.
 #'
 #'@param x the envelop to be plotted
 #@param ploptions optional list of plotting parameters, see the Details
@@ -75,7 +75,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'data(ExampleData)
 #'envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
 #'# using a predefined list of options
-#'blau <- style(col = "blue")
+#'blau <- simplist(col = "blue")
 #'plot(envy, blau, main="mein blau", includy = -2)
 #'# add lines and mean
 #'plot(fuda, blau, lightup = 0.4, add = TRUE)
@@ -87,7 +87,7 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
   if (length(x$dimarg) > 1)
     stop ("sorry, plotting of higher dimensional envelopes not yet supported")
 
-  allopt <- style(x$options, ..., NULL.rm = TRUE)
+  allopt <- simplist(x$options, ..., .NULL.rm = TRUE)
 
   if (is.null(allopt$add) || !allopt$add)
   {

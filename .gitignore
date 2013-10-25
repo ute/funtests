@@ -2,12 +2,13 @@
 .Rhistory
 # Example code in package build process
 *-Ex.R
-# Rstudio stuff
+# Rstudio stuff and Winedt hallØj
 .Rproj.user
 .Rhistory
 .RData
 .Rbuildignore
 *.Rproj
+*.prj
 #
 # backups
 #

@@ -6,7 +6,7 @@ Authors@R:
     person("Ute", "Hahn", email = "ute@imf.au.dk", role = c("aut", "cre"))
 Depends:
     R (>= 2.15),
-    plottools
+    plutils
 Imports:
     plyr,
     stats

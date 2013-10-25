@@ -41,13 +41,13 @@ is.fdsample <- function(x) inherits(x, "fdsample")
 #@param name character, short label, used as title when plotting
 #@param descr character, description for printing
 #@param optlist optional list of (plot) options, see \code{\link{plot.fdsample}}
-#'@param ... predefined plot options or \code{\link{style}}s, see the details
+#'@param ... predefined plot options or \code{\link{simplist}}s, see the details
 #'and \code{\link{plot.fdsample}}
 # @param fun the summary function to be applied on the values of \code{y}, defaults to \code{mean}
 #'
 #'@details Predefining plot options may be particularly useful for plot
 #'annotation, i.e. \code{xlab}, \code{ylab} and \code{main}. They may be also given
-#'as a \pkg{plottools}-\code{\link{style}}. Options with same name are overriden
+#'as a \pkg{plottools}-\code{\link{simplist}}. Options with same name are overriden
 #'from left to right, i.e., the last one given counts.
 #'@return a list with elements
 #'\tabular{ll}{
@@ -70,7 +70,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
                        1, dim(ya)[length(dim(ya))])
   my <- ifelse (groupsize == 1, dim(ya), dim(ya)[-length(dim(ya))])
   if (any(dimarg != my)) stop("dimensions do not match")
-  options <- style(defaultoptions.fdsample, ..., NULL.rm = TRUE)
+  options <- simplist(defaultoptions.fdsample, ..., .NULL.rm = TRUE)
   xy <- list(args = xa,
              fvals = ya,
              dimarg = dim(xa),
@@ -208,7 +208,7 @@ print.fdsample <- function (x, ...)
 #'@rdname fdsample-internal
 #'@aliases defaultoptions.fdsample
 #'@docType data
-defaultoptions.fdsample <- style (
+defaultoptions.fdsample <- simplist (
   xlab = "t",
   ylab = "X(t)",
   main = "",
