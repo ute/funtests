@@ -57,7 +57,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
 #'@param ... further arguments
 #'@details
-#'Plotting parameters can be given as list \code{"ploptions"} or separately. If not
+#'Plotting parameters can be given as \code{\link{simplist}} or separately. If not
 #'given explicitely, default values contained in the list \code{x$options} are used.
 #'The following elements in the list of options in the \code{envelope}-object are used:
 #'\tabular{ll}{
@@ -73,13 +73,13 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'@examples
 #'# load example data and calculate 90 % envelope
 #'data(ExampleData)
-#'envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
+#'envy <- pwEnvelope(fuda, prob = .9, lightup = .5)
 #'# using a predefined list of options
-#'blau <- simplist(col = "blue")
+#'blau <- simplist(col = "blue", alpha = .6)
 #'plot(envy, blau, main="mein blau", includy = -2)
 #'# add lines and mean
-#'plot(fuda, blau, lightup = 0.4, add = TRUE)
-#'plot(mean(fuda), blau, lightup = 0, lwd = 2, add = TRUE)
+#'plot(fuda, blau, add = TRUE)
+#'plot(mean(fuda), blau, alpha = 1, lwd = 2, add = TRUE)
 #'
 
 plot.fdenvelope <- function(x, ..., includy = NULL)
@@ -110,3 +110,44 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
   plopt$border <- NA
   do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
 }
+
+
+#'splot method for fdenvelope objects
+#'
+#'Plots an object of class \code{fdenvelope}. The function \code{splot.fdenvelope}
+#'is an alias for \code{\link{plot.fdenvelope}}
+#'
+#'@param x the envelop to be plotted
+#@param ploptions optional list of plotting parameters, see the Details
+#'@param includy optional numeric vector containing values that are to be included in the
+#'\code{ylim} extent of the \eqn{y-axis}. Can be used to always start at 0, for example.
+#@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
+#'@param ... further arguments
+#'@details
+#'Plotting parameters can be given as \code{\link{simplist}} or separately. If not
+#'given explicitely, default values contained in the list \code{x$options} are used.
+#'The following elements in the list of options in the \code{envelope}-object are used:
+#'\tabular{ll}{
+#'\code{col} \tab color, \cr
+#'\code{lightup} \tab numeric between 0 and 1. Regulates how much the color of
+#'is lightened up,\cr\tab 0 means no extra light. \cr
+#'\code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and \code{"y"}. \cr
+#'}
+#'@S3method splot fdenvelope
+#'@method splot fdenvelope
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+#'@examples
+#'# load example data and calculate 90 % envelope
+#'data(ExampleData)
+#'envy <- pwEnvelope(fuda, prob = .9, lightup = .9)
+#'# using a predefined list of options
+#'blau <- simplist(col = "blue", alpha = .6)
+#'splot(envy, blau, main="mein blau", includy = -2)
+#'# add lines and mean
+#'splot(fuda, blau, add = TRUE)
+#'splot(mean(fuda), blau, alpha = 1, lwd = 2, add = TRUE)
+#'
+splot.fdenvelope <- function(x, ..., includy = NULL) {
+  plot.fdenvelope(x, ..., includy = includy)
+}  
+  
