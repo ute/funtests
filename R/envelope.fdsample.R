@@ -104,6 +104,7 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
   allopt <- updateJoin(par("col"), allopt)
   alpha <- ifelse(!is.null(allopt$alpha), allopt$alpha, 1)
   lightup <- ifelse(!is.null(allopt$lightup), allopt$lightup, 0.5)
+  if (is.null(allopt$col)) allopt$col <- par("col")
   allopt$col <- alphacol(allopt$col, alpha * (1 - lightup))
 
   plopt <- matching(allopt, .graphparams)

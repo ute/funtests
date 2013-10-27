@@ -39,7 +39,7 @@
 #' \item{method}{a character string indicating what type of test was performed,}
 #' \item{data.name}{a character string giving the name(s) of the data.}
 #'    
-#' @example
+#' @examples
 #' # test the difference of atlantic and continental Canadian temperature curves
 #' tL2.permtest(TempAtla, TempCont, nperm = 999)
 #'    

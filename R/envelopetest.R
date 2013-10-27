@@ -1,0 +1,183 @@
+# global envelope test
+
+
+#'@title Envelope test of goodness of fit
+#'
+#'@description Test if an observed curve matches a sample of simulated curves (or 
+#'a group of other observations). A global envelope test is performed, with
+#'p-value corresponding to the most extreme pointwise percentile the observed  
+#'curve reaches among all curves. 
+#'@param obs object of class \code{fdsample}, the observed curve.
+#'@param sim object of class \code{fdsample}, the group of curves to which \code{obs} is
+#'compared.
+#'@param alternative a character string specifying the alternative hypothesis, one of
+#'\code{"two.sided"} (default), \code{"less"} or \code{"greater"}. May be abbreviated.
+#'@param conf.level a numerical vector of confidence levels (inclusion probabilities)  
+#'of the envelopes to be plotted, for use in \code{\link{plot.envtest}}
+#'@details The observed curve, represented by the \code{\link{fdsample}} object 
+#'\code{obs} containing only one curve, is compared to simulated curves collected 
+#'in the \code{fdsample} object '\code{sim}. 
+#'The two sets of curves have to share the same argument values.
+#'
+#'\code{alternative == "less"} means the alternative that the observed curve
+#'has (some) smaller function values than the simulated curves.
+#'
+#'The test is performed as described in Davison and Hinkley (1997), Equation (4.17), 
+#'and corresponds to the rank envelope test by Myllymäki et. al (2013), who suggest 
+#'refinements of the test procedure.
+#'
+#'The result of the test can be plotted, see \code{\link{plot.envtest}}.
+#' 
+#'@export
+#'@author Ute Hahn, \email{ute@@imf.au.dk} 
+#'@references
+#'Davison, A.C. and Hinkley, D.V. (1997) \emph{Bootstrap Methods and their 
+#'Applications}, Cambridge University Press, Cambridge.
+#'M. Myllymaki, T. Mrkvicka, H. Seijo  and P. Grabarnik (2013)
+#'\emph{Global envelope tests for spatial point patterns}, 
+#'\url{http://arxiv.org/abs/1307.0239}.
+#'
+#'@examples
+#'# make a sample of sinus curves
+#'tt <- seq(0, pi/2, length = 20)
+#'sinsim <- replicate(1000, sin(tt) + cumsum(rnorm(20, 0, 0.01)))
+#'sinobs <- sin(tt + pi/100) + cumsum(rnorm(20, 0, 0.01))
+#'sim <- fdsample(tt, sinsim)
+#'obs <- fdsample(tt, sinobs)
+#'
+#'testresult <- rankEnv.test(obs, sim)
+#'print(testresult)
+#'plot(testresult)
+  
+rankEnv.test <- 
+  function(obs, sim, alternative = c("two.sided", "less", "greater"),
+           conf.level = c(1,0.95,0.9,0.8)) {
+  alternative = match.arg(alternative)
+  if (!is.fdsample(obs) || !is.fdsample(sim)) {
+    stop("gof.envtest currently only takes data of type fdsample")
+  }
+  if (obs$groupsize > 1) {
+    warning("will only test the first function contained in obs")
+    obs <- obs[1]
+  }
+  # TODO the following needs to be improved
+  if (max(abs(obs$args - sim$args)) > 1e-10) 
+    stop("observed and simulated data do not have the same argument values")
+  
+  # ranking in the points of the curve
+  allvals <- cbind(obs$fvals, sim$fvals)
+  R <- sim$groupsize + 1
+  # from below, startin with 1 = lowest
+  lorank <- apply(allvals, 1, rank, ties = "min")
+  # from the top, starting with 1 = highest
+  hirank <- apply(-allvals, 1, rank, ties = "min")
+  
+  if (alternative == "two.sided") {
+    allrank <- pmin(lorank, hirank) # lowest achieved rank in all points of a curve
+  } else {
+    if (alternative == "greater") {
+      allrank <- hirank
+    } else {
+      allrank <- lorank
+    }
+  } 
+  
+  # now very simple: just use the minimum achieved rank as criterion to rank the curves
+  
+  minrank <- apply(allrank, 1, min)
+  obsrank <- minrank[1]
+# schnickschnack
+# whereHi <- hirank[1, ] == minrank[1]
+#  whereLo <- lorank[1, ] == minrank[1]
+# alsoHi <- sapply(whereHi, function(i) hirank[ , i] <= minrank[1])
+#  alsoLo <- sapply(whereLo, function(i) lorank[ , i] <= minrank[1])
+ 
+#   moreExtreme <- minrank[-1] < obsrank
+#   if (sum(moreExtreme) > 1) 
+#     EnvMore <- pwEnvelope(sim[moreExtreme], 1)
+#   else EnvMore <- NULL
+#   
+#   asExtreme <- minrank[-1] == obsrank
+#   if (sum(asExtreme) > 1) 
+#     EnvSame <- pwEnvelope(sim[asExtreme], 1)
+#   else EnvSame <- NULL
+#   
+#   lessExtreme <- minrank[-1] > obsrank
+#   if (sum(lessExtreme) > 1) 
+#     EnvLess <- pwEnvelope(sim[lessExtreme], 1)
+#   else EnvLess <- NULL
+#   
+  pvalue <- mean(minrank <= obsrank) 
+  
+  mrquant <- quantile(minrank,  1 - conf.level)
+  trueprob <- 1 - sapply(mrquant, function(q) mean(minrank < q))
+  
+  envs <- lapply(mrquant, function (q) pwEnvelope(sim[minrank[-1] >= q], 1))
+  
+  datname <- paste(deparse(substitute(obs)),
+                   ", simulated:", deparse(substitute(sim)),"=",
+                   sim$groupsize,"curves")
+  method <-"Simple simultaneous envelope rank test for fda"                
+  alternative <- "observation not from the same distribution as simulated data"
+  names(obsrank) <- "minimum rank"
+  erg <- list(
+    statistic = obsrank,
+    p.value = pvalue,
+    alternative = alternative, 
+    method = method, 
+    data.name = datname,
+    # for plotting
+    obs = obs, 
+    whereExtreme = (allrank[1,] == obsrank), 
+   # envLess = EnvLess, 
+  #  envSame = EnvSame,
+  #  envMore = EnvMore,
+    envs = envs,
+    trueprob = trueprob,
+    yrange = range(yrange(sim), yrange(obs)))
+  class(erg) <- c("envtest", "htest")
+  erg
+}
+
+#@rdname rankEnv.test
+#'@title Plot the result of a rank envelope test
+#'@description Plots simultaneous envelopes of a rank envelope test and
+#'prints the exact confidence levels.
+#'@param x test result to be plotted, an object of type \code{envtest}
+#'@param ... arguments passed to plot methods
+#'@param col.obs color for plotting the observations
+#'@export
+
+plot.envtest <- function(x, ..., col.obs = "red"){
+  dotargs <- simplist(...)
+  nenv <- length(x$envs)
+  alphas <- exp(seq(log(.2), log(.6), length.out = nenv))
+  for (i in seq_along(x$envs))
+  {
+    if (!is.null(x$envs[[i]])){
+      dotargs$alpha <- alphas[i]
+      plot(x$envs[[i]], ylim = x$yrange, dotargs)
+       dotargs$add <- TRUE
+    }  
+  }
+  cat("\ntrue envelope confidence levels", x$trueprob,"\n")
+#  if (!is.null(x$envMore)){
+#    plot(x$envMore, ylim = x$yrange, dotargs, alpha = .25)
+#    dotargs$add <- TRUE
+#  } 
+#  if (!is.null(x$envSame)){
+#    plot(x$envSame, ylim = x$yrange, dotargs, alpha = .4)
+#    dotargs$add <- TRUE
+#  } 
+#  if (!is.null(x$envLess)){
+#    plot(x$envLess, ylim = x$yrange, dotargs, alpha = .6)
+#    dotargs$add <- TRUE
+#  }
+  dotargs$alpha <- NULL
+  splot(x$obs, ylim = x$yrange, dotargs, col = col.obs)
+  dotargs$add <- NULL
+  splot(x$obs$args[x$whereExtreme], x$obs$fvals[x$whereExtreme], dotargs, 
+    col = col.obs, .plotmethod = "points")
+}
+  
+
