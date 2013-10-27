@@ -39,6 +39,10 @@
 #' \item{method}{a character string indicating what type of test was performed,}
 #' \item{data.name}{a character string giving the name(s) of the data.}
 #'    
+#' @example
+#' # test the difference of atlantic and continental Canadian temperature curves
+#' tL2.permtest(TempAtla, TempCont, nperm = 999)
+#'    
 #' @author Ute Hahn,  \email{ute@@imf.au.dk}
 #' @export
 #' @source Hahn(2012), with slight modification (using the mean instead of the 
