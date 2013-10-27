@@ -1,6 +1,6 @@
 Package: fdnonpar
-Version: 0.12.2
-Date: 2013-10-26
+Version: 0.12.4
+Date: 2013-10-28
 Title: Methods for multivariate or functional data.
 Authors@R: 
     person("Ute", "Hahn", email = "ute@imf.au.dk", role = c("aut", "cre"))
