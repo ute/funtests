@@ -28,7 +28,7 @@
 #'@section Data classes, visualisation of data:
 #'   \tabular{ll}{
 #'       \code{\link{fdsample}} \tab basic data type, a sample of curves
-#'    \cr\code{envelope} \tab two boundary curves of an envelope, a specialized 
+#'    \cr\code{fdenvelope} \tab two boundary curves of an envelope, a specialized 
 #'           \code{fdsample} object
 #'    \cr\code{\link{print.fdsample}} \tab print brief details of an fdsample
 #'    \cr\code{\link{plot.fdsample}} \tab plot the individual members of an fdsample
@@ -45,10 +45,12 @@
 #'   \cr\code{\link{quantile.fdsample}} \tab quantiles of  the function values
 #'   \cr\code{\link{pwEnvelope}} \tab pointwise envelope
 #'  }
-#'@section {Permutation tests}:  
+#'@section {Tests}:  
 #'   \tabular{ll}{
 #'    \code{\link{tL2.permtest}} \tab  Comparison of two groups,
 #'        \cr\tab using square integrated Welch-t-statistic
+#'    \cr\code{\link{rankEnv.test}} \tab Rank envelope test: compare a single 
+#'    observation to a group (e.g. simulated data)
 #    \cr\code{\link{tbar.L2ptest}} \tab  Comparison of two groups,
 #        \cr\tab a variant of \code{\link{t.L2ptest}}\cr
 #'  } 
