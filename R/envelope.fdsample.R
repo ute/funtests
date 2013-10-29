@@ -74,7 +74,8 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'# load example data and calculate 90 % envelope
 #'data(ExampleData)
 #'envy <- pwEnvelope(fuda, prob = .9, lightup = .5)
-#'# using a predefined list of options
+#'# using a predefined list of options, from plutils package
+#'require(plutils)
 #'blau <- simplist(col = "blue", alpha = .6)
 #'plot(envy, blau, main="mein blau", includy = -2)
 #'# add lines and mean

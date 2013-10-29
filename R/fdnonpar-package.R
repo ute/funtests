@@ -73,6 +73,8 @@
 #' xy1b <- fdsample(x, y1b)
 #'
 #'# visualize the data sets
+#'# require plutils which contains the generic to "summaryplot"
+#'require(plutils)
 #'
 #'summaryplot(xy1, envprob=1)
 #'summaryplot(xy1b, add = TRUE, col = "blue")

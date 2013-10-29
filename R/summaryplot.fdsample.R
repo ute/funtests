@@ -19,7 +19,11 @@
 #'@param add if \code{FALSE} (default), a new plot is started, if \code{TRUE}, adds to existing plot
 #'@param ... further arguments
 #'@details
-#'Plotting parameters for the individual functions can be given as list \code{"ploptions"}
+#'This function is a method to the generic \code{summaryplot} from package \code{plutils},
+#'therefore it is necessary to \code{require(plutils)}.
+#'
+#'Plotting parameters for the individual functions can be given as a \code{simplist} 
+#'(from the \code{plutils} package)
 #'or separately. If not given explicitely, default values contained in the list
 #'\code{x$options} are used. If these are set to \code{NULL}, the global graphic
 #'parameters as reported by \code{\link{par}} are assumed.
@@ -56,8 +60,10 @@
 #'specify the lower and upper quantile used for the envelope.
 #'To suppress plotting of an envelope, let \code{envprob = NULL}.
 #'
-#' @method summaryplot fdsample
-#'@export
+#@importFrom plutils summaryplot
+#@S3method summaryplot fdsample
+#'@method summaryplot fdsample
+#'@export summaryplot.fdsample
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #@seealso \code{\link{getoptions}}
 #'@examples
@@ -73,7 +79,9 @@
 # fuda <- fdsample(x, y, sumfun = mean)
 # summaryplot(fuda)
 #
-#' # load data, containing an example set "fuda"
+# # require plutils which contains the generic to "summaryplot"
+#' require(plutils)
+#'  # load data, containing an example set "fuda"
 #' data(ExampleData)
 #'
 #' # plot mean and median in a minimax envelope

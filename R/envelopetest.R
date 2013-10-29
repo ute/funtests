@@ -157,6 +157,7 @@ rankEnv.test <-
 #'are marked by points.
 #'
 #'For an example, see \code{\link{rankEnv.test}}
+#'@method plot envtest
 #'@export
 
 plot.envtest <- function(x, ..., col.obs = "red"){

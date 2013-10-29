@@ -106,7 +106,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
     if (x$groupsize < 1) stop("x is empty - nothing to subset here")
     if (x$groupsize == 1) {
-      x$fvals <- array(x$fvals, c(length(x$fvals, 1)))
+      x$fvals <- array(x$fvals, c(length(x$fvals), 1))
     } 
     yy <- x$fvals[,i]
     opt <- x$options

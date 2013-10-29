@@ -5,9 +5,9 @@ Title: Methods for multivariate or functional data.
 Authors@R: 
     person("Ute", "Hahn", email = "ute@imf.au.dk", role = c("aut", "cre"))
 Depends:
-    R (>= 2.15),
-    plutils
+    R (>= 2.15)
 Imports:
+    plutils,
     plyr,
     stats
 Description: Nonparametric testing and visualization of samples consisting of 

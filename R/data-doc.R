@@ -33,6 +33,8 @@
 #' \item \code{TempCont} data from 12 weather stations with continental climate.
 #' }
 #' @examples
+#' # require plutils which contains the generic to "summaryplot"
+#' require(plutils)
 #' data(CanadianTemperatures)
 #'
 #' # plot summary of the data together with 80% pointwise envelopes
@@ -61,6 +63,8 @@ NULL
 #'  The list have elements \code{high}  and \code{low} for the functions estimated high and
 #'  low point density subsets of the point pattern.
 #' @examples
+#' # require plutils which contains the generic to "summaryplot"
+#' require(plutils)
 #' data(DeltaKBronze)
 #'
 #' # plot summary for rescaled DeltaK_dir

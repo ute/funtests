@@ -31,7 +31,8 @@
 #'# load example data
 #'data(ExampleData)
 #'plot(fuda)
-#'# using a predefined list of options
+#'# using a predefined list of options, from plutils package
+#'require(plutils)
 #'blau <- simplist(col = "blue", alpha = 0.4)
 #'plot(fuda, blau, includy = -2)
 #'# add mean
