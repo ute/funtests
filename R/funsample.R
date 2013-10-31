@@ -76,22 +76,25 @@ is.funsample <- function(x) {
 }
 
 
-#'@name funsample_basic_methods
+#'@name funsample_list_methods
 #'@aliases c.funsample
-#'@title Basic methods for class funsample
+#'@title List like methods for class funsample
 #'@description Subsetting, concatenation and printing of \code{\link{funsample}}.
 #'object
 #'@author Ute Hahn \email{ute@@imf.au.dk}
 NA
 
-#'@rdname funsample_basic_methods
+#'@rdname funsample_list_methods
 #'@method c funsample
 #'@export 
-#'@param ... for method \code{"c"}:\code{funsample} objects to be concatenated, 
+#'@param ... for method \code{"c"}:\code{funsample} objects or functions to be concatenated, 
 #'otherwise further options passed to next methods
 #'@param recursive ignored, for compatibility with generic function \code{\link{c}}
-#'@details Method \code{"c"} concatenates the function lists contained its arguments
-#'(\code{funsample} objects). The attribute \code{"arglim"} of the result is obtained
+#'@details Method \code{"c"} concatenates the function lists (\code{funsample} objects) 
+#'or functions contained in its arguments. The first argument is always a \code{funsample}
+#'object, otherwise this method would not have been called. Any functions contained
+#'in the further arguments are appended to the function list of the first argument.
+#'The attribute \code{"arglim"} of the result is obtained
 #'as intersection of the \code{arglim}s in the arguments. If this intersection is empty,
 #'the method returns \code{NULL} and issues a warning. The \code{options} attribute
 #'which contains plot options (in particular axis labels) is coerced from the 
@@ -99,19 +102,27 @@ NA
 #'options with the same name, priority is on the options of the first 
 #'\code{funsample} in \code{...}.
 #'
-#'If \code{...} contains objects that are not \code{funsamples}, a \code{list} is returned.
-#'TODO: also allow functions to be appended
-#'
+#'If \code{...} contains objects that are neither \code{funsample}s nor \code{function}s, 
+#'an ordinary \code{\link{list}} object is returned.
+#'@examples
+#'myfuns <- funsample(list(sin = sin, cos = cos), arglim = c(0, 2*pi)) 
+#'myfuns2 <- funsample(list(exp = exp, log = log), arglim = c(0, 2*pi)) 
+#'myfuns3 <- c(myfuns, tan = tan, myfuns2)
+## the function "tan" gets appended at the end: - that was in the old version.
+#'myfuns3(c(0, pi/4, pi/2))   
+#' 
 c.funsample <- function(..., recursive = FALSE)
 {
   arglist <- list(...)
   if (length(arglist) < 1) return(NULL)
-  allfun <- all(sapply(arglist, is.funsample))
+  allfun <- all(sapply(arglist, is.funsample) | sapply(arglist, is.function))
   if (!allfun)
     return(arglist)
   if (length(arglist) < 2) return (arglist[[1]])
   # get intersection of arglims
-  lims <- sapply(arglist, attr, "arglim")
+  fsamples <- arglist[sapply(arglist, is.funsample)]
+  functions <- arglist[!sapply(arglist, is.funsample)]
+  lims <- sapply(fsamples, attr, "arglim")
   minarg <- max(lims[1, ])
   maxarg <- min(lims[2, ])
   if (maxarg <= minarg) {
@@ -119,11 +130,16 @@ c.funsample <- function(..., recursive = FALSE)
     return(NULL)
   }
   # coerce options into one simplist
-  lopt <- lapply(arglist, attr, "options")
+  lopt <- lapply(fsamples, attr, "options")
   newopt <- do.call(simplist, lopt)
   
   # get list of all functions
-  funlist <- unlist(lapply(myli, attr, "funs"))
+  funlist <- unlist(lapply(arglist, function (ele){
+    if(is.funsample(ele)) unlist(attr(ele, "funs")) 
+    else ele
+  }))
+  #funlist <- unlist(lapply(fsamples, attr, "funs"))
+  #funlist <- c(funlist, functions)
   
   funsample(funlist, arglim = c(minarg, maxarg), newopt)
 }
