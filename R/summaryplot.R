@@ -37,6 +37,7 @@
 #'}
 #'For the \emph{summary function}, the parameters are
 #'\tabular{ll}{\code{col.sum} \tab character or numeric, color, defaulting to \code{col}
+#'\cr\code{alpha.sum} \tab numeric between 0 and 1, alpha value, defaults to 1,
 #'\cr\code{lwd.sum} \tab numeric, line width, defaulting to \code{2 * lwd},
 #'\cr\tab thus the summary function always plots stronger than the individual curves,
 #'\cr\code{lty.sum} \tab character or numeric, line type, defaults to \code{lty}.\cr
@@ -62,8 +63,9 @@
 #'
 #@importFrom plutils summaryplot
 #@S3method summaryplot fdsample
-#'@method summaryplot fdsample
-#'@export summaryplot.fdsample
+#@method summaryplot fdsample
+#@export summaryplot.fdsample
+#'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}
 #@seealso \code{\link{getoptions}}
 #'@examples
@@ -99,7 +101,7 @@
 
 
 
-summaryplot.fdsample <- function(x, ...,
+summaryplot <- function(x, ...,
                         sumfun = "mean", fopt = list(),
                         envprob = NULL,
                         includy = NULL, add=F)
@@ -108,9 +110,10 @@ summaryplot.fdsample <- function(x, ...,
 
   # allopt <- uniquelist(c(list(...), ploptions, x$options)) this does not allow lazy evaluation
    dots <- simplist(...)
-  allopt <- simplist(simplist(alpha = 1, col.smf = NULL, lwd.smf = NULL,
+  allopt <- simplist(simplist(alpha = 1, 
+                        col.smf = NULL, lwd.smf = NULL, alpha.smf = NULL,
                         lty.smf = NULL, col.env = NULL, alpha.env = NULL),
-                  x$options, dots, .NULL.rm = FALSE)
+                     x$options, dots, .NULL.rm = FALSE)
   if(is.null(allopt$ylim)) allopt$ylim <- yrange(x, includy)
   if(is.null(allopt$xlim)) allopt$xlim <- range(x$args[is.finite(x$args)])
 
@@ -156,9 +159,9 @@ summaryplot.fdsample <- function(x, ...,
   {
     splopt <- within(allopt, {
               if (!is.null(col.smf)) col <- col.smf
+              if (!is.null(alpha.smf)) alpha <- alpha.smf else alpha <- 1
               if (!is.null(lty.smf)) lty <- lty.smf
               if (!is.null(lwd.smf)) lwd <- lwd.smf else lwd <- 2 * lwd
-              alpha = 1
     })
     sufu <- apply.fdsample(x, sumfun, fopt)
     plot(sufu, splopt, add = TRUE)

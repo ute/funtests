@@ -121,7 +121,7 @@ c.funsample <- function(..., recursive = FALSE)
   if (length(arglist) < 2) return (arglist[[1]])
   # get intersection of arglims
   fsamples <- arglist[sapply(arglist, is.funsample)]
-  functions <- arglist[!sapply(arglist, is.funsample)]
+  # functions <- arglist[!sapply(arglist, is.funsample)]
   lims <- sapply(fsamples, attr, "arglim")
   minarg <- max(lims[1, ])
   maxarg <- min(lims[2, ])
