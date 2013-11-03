@@ -77,7 +77,7 @@ is.funsample <- function(x) {
 
 
 #'@name funsample_list_methods
-#'@aliases c.funsample
+#'@aliases c.funsample $.funsample $<-.funsample
 #'@title List like methods for class funsample
 #'@description Subsetting, concatenation and printing of \code{\link{funsample}}.
 #'object
@@ -145,15 +145,45 @@ c.funsample <- function(..., recursive = FALSE)
 }
 
 #'@rdname funsample_list_methods
+#'@S3method $ funsample
+#@usage \method{$}{funsample} (x, name)
 #'@method $ funsample
 #'@export 
-#'@usage x$name
-#'@param x \code{funsample} object from which element is to be extracted
-#'@param name character string or name (possibly backtick quoted) of an element
-#'of \code{x}. 
+#'@param x \code{funsample} object from which a function is to be extracted
+#'or replaced
+#'@param name character string or name (possibly backtick quoted) of a function
+#'contained \code{x}. 
+#'@return A \code{function}, or \code{NULL}.
 "$.funsample" <- function(x, name) {
     if (!attr(x, "groupsize"))
         return(NULL)
     funs <- attr(x, "funs")
     funs[[name]]
+}
+
+
+#'@rdname funsample_list_methods
+#'@S3method $<- funsample
+#'@method $<- funsample
+#'@usage \method{$}{funsample}(x, name) <- value
+#'@export 
+#@param x \code{funsample} object in which a function is to be replaced
+#@param name character string or name (possibly backtick quoted) of a function
+#contained in \code{x}.
+#'@param value replacement value, needs to be a \code{function}, or \code{NULL}.
+#'@details Assigning \code{NULL} to a function element of in a funsample \code{x}
+#'is equivalent to removing that element from the function sample.
+#'@return For x$name <- value a \code{funsample}.
+"$<-.funsample" <- function(x, name, value) {
+    funs <- attr(x, "funs")
+   # if (is.null(value)){
+  #    funs <- funs[-name]
+  #    attr(x, "funs") <- funs
+  #    return(x)
+  #  }
+    stopifnot (is.null(value) || is.function(value))
+    funs[[name]]  <- value
+    attr(x, "groupsize") <- length(funs)
+    attr(x, "funs") <- funs
+    x
 }
