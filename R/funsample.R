@@ -143,3 +143,17 @@ c.funsample <- function(..., recursive = FALSE)
   
   funsample(funlist, arglim = c(minarg, maxarg), newopt)
 }
+
+#'@rdname funsample_list_methods
+#'@method $ funsample
+#'@export 
+#'@usage x$name
+#'@param x \code{funsample} object from which element is to be extracted
+#'@param name character string or name (possibly backtick quoted) of an element
+#'of \code{x}. 
+"$.funsample" <- function(x, name) {
+    if (!attr(x, "groupsize"))
+        return(NULL)
+    funs <- attr(x, "funs")
+    funs[[name]]
+}
