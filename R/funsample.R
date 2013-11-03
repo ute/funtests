@@ -107,9 +107,8 @@ NA
 #'@examples
 #'myfuns <- funsample(list(sin = sin, cos = cos), arglim = c(0, 2*pi)) 
 #'myfuns2 <- funsample(list(exp = exp, log = log), arglim = c(0, 2*pi)) 
-#'myfuns3 <- c(myfuns, tan = tan, myfuns2)
-## the function "tan" gets appended at the end: - that was in the old version.
-#'myfuns3(c(0, pi/4, pi/2))   
+#'myfuns <- c(myfuns, tan = tan, myfuns2, f = function(x) x^2)
+#'myfuns(c(0, pi/4, pi/2))   
 #' 
 c.funsample <- function(..., recursive = FALSE)
 {
@@ -154,6 +153,8 @@ c.funsample <- function(..., recursive = FALSE)
 #'@param name character string or name (possibly backtick quoted) of a function
 #'contained \code{x}. 
 #'@return A \code{function}, or \code{NULL}.
+#'@examples
+#'myfuns$f(3)
 "$.funsample" <- function(x, name) {
     if (!attr(x, "groupsize"))
         return(NULL)
@@ -173,17 +174,15 @@ c.funsample <- function(..., recursive = FALSE)
 #'@param value replacement value, needs to be a \code{function}, or \code{NULL}.
 #'@details Assigning \code{NULL} to a function element of in a funsample \code{x}
 #'is equivalent to removing that element from the function sample.
-#'@return For x$name <- value a \code{funsample}.
+#'@return For \code{x$name <- value}  a \code{funsample} object.
+#'@examples
+#'myfuns$f <- function(x) x - 1
+#'myfuns$g <- function(x) x^2 + 1
+#'myfuns$log <- NULL
+#'myfuns(c(0, pi/4, pi/2, 3))
 "$<-.funsample" <- function(x, name, value) {
     funs <- attr(x, "funs")
-   # if (is.null(value)){
-  #    funs <- funs[-name]
-  #    attr(x, "funs") <- funs
-  #    return(x)
-  #  }
     stopifnot (is.null(value) || is.function(value))
     funs[[name]]  <- value
-    attr(x, "groupsize") <- length(funs)
-    attr(x, "funs") <- funs
-    x
+    funsample(funs, attr(x, "arglim"), attr(x, "options"))
 }
