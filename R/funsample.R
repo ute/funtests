@@ -42,7 +42,7 @@
 #          main = "my trigo functions")
 #'myfuns(c(0, pi/4, pi/2))   
 #'       
-funsample <- function(funs, arglim = c(0, 1), ...) #fun = mean, ...)
+funsample <- function(funs, ..., arglim = c(0, 1)) #fun = mean, ...)
 {
   if (is.function(funs)){
     funs <- list(funs)
@@ -152,14 +152,19 @@ c.funsample <- function(..., recursive = FALSE)
 #'or replaced
 #'@param name character string or name (possibly backtick quoted) of a function
 #'contained \code{x}. 
-#'@return A \code{function}, or \code{NULL}.
+#'@return An \code{\link{urfunction}}, or \code{NULL}.
 #'@examples
 #'myfuns$f(3)
 "$.funsample" <- function(x, name) {
     if (!attr(x, "groupsize"))
         return(NULL)
     funs <- attr(x, "funs")
-    funs[[name]]
+    plopt <- attr(x,"options")
+    if (is.null(plopt$ylab) || identical(plopt$ylab, ""))
+      if (is.null(plopt$xlab) || identical(plopt$xlab, ""))
+        plopt$ylab <- name
+      else plopt$ylab <- paste(name, "(",plopt$xlab,")", sep = "")
+    urfunction(funs[[name]], plopt)
 }
 
 

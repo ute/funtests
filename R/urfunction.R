@@ -21,8 +21,9 @@ urfunction <- function(fun, ...) {
   funfrmls <- formals(fun)
   argname <- if (!is.null(funfrmls)) names(funfrmls)[1] else "x"
   options <- simplist(xlab = argname, 
-                      ylab = paste(funame, "(",argname,")", sep = ""),
                       main = "", ..., .NULL.rm = TRUE)
+  ylab <- paste(funame, "(", options$xlab, ")", sep = "")
+  options <- simplist(ylab = ylab, options)
   urfu <- fun
   firstclass(urfu) <- "urfunction"
   attr(urfu, "options") <- options
