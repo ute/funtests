@@ -12,21 +12,33 @@
 #'compared.
 #'@param alternative a character string specifying the alternative hypothesis, one of
 #'\code{"two.sided"} (default), \code{"less"} or \code{"greater"}. May be abbreviated.
-#'@param conf.level a numerical vector of confidence levels (inclusion probabilities)  
+#'@param inclprob a numerical vector of inclusion probabilities
 #'of the envelopes to be plotted, for use in \code{\link{plot.envtest}}
+#'@param minn number of minimum ranks per curve to average over when ranking, see details
 #'@details The observed curve, represented by the \code{\link{fdsample}} object 
-#'\code{obs} containing only one curve, is compared to simulated curves collected 
+#'\code{obs} is compared to simulated curves collected 
 #'in the \code{fdsample} object '\code{sim}. 
-#'The two sets of curves have to share the same argument values.
+#'The two sets of curves have to share the same argument values, and \code{obs} is
+#'supposed to contain only one curve.
 #'
-#'\code{alternative == "less"} means the alternative that the observed curve
-#'has (some) smaller function values than the simulated curves.
+#'\code{alternative == "less"} 
+#'is the one-sided alternative meaning that the observed curve
+#'has (some) smaller function values than the simulated curves, and
+#'\code{alternative == "greater"} is the opposite one-sided alternative.
 #'
-#'The test is performed as described in Davison and Hinkley (1997), Equation (4.17), 
-#'and corresponds to the rank envelope test by Myllymaki et. al (2013), who suggest 
-#'refinements of the test procedure.
+#'For \code{minn == 1}, the test is performed as described in Davison and Hinkley 
+#'(1997), Equation (4.17), and corresponds to the rank envelope test by 
+#'Myllymaki et. al (2013), who suggest further refinements of the test procedure.
+#'The  p-value is obtained by ranking the curves according to the minimum pointwise
+#'rank obtained in any point of the curve -- note that the curves are actually
+#'represented as vectors.
 #'
-#'The result of the test can be plotted, see \code{\link{plot.envtest}}.
+#'If \code{minn > 1}, the mean of the \code{minn} smallest pointwise ranks per curve
+#'is used instead, to rank the curves among each other. This may increase the power
+#'of the test, but the test is no longer usable as a graphical test.
+#'
+#'The result of the test can be plotted, see \code{\link{plot.envtest}}. If
+#'\code{minn} was set to a value \code{> 1}, a warning is issued when plotting.
 #' 
 #'@export
 #'@author Ute Hahn, \email{ute@@imf.au.dk} 
@@ -52,18 +64,25 @@
   
 rankEnv.test <- 
   function(obs, sim, alternative = c("two.sided", "less", "greater"),
-           conf.level = c(1,0.95,0.9,0.8)) {
+           inclprob = c(1,0.95,0.9,0.8),
+           minn = 1) {
   alternative = match.arg(alternative)
   if (!is.fdsample(obs) || !is.fdsample(sim)) {
-    stop("gof.envtest currently only takes data of type fdsample")
+    stop("rankEnv.test currently only takes data of type fdsample")
   }
   if (obs$groupsize > 1) {
     warning("will only test the first function contained in obs")
     obs <- obs[1]
   }
   # TODO the following needs to be improved
-  if (max(abs(obs$args - sim$args)) > 1e-10) 
+  if (max(abs(obs$args - sim$args)) > 1e-7) 
     stop("observed and simulated data do not have the same argument values")
+    
+  if (length(obs$args) < minn){
+    minn <- length(obs$args)
+    warning("required number for min average set to argument length,", minn)
+  }
+    
   
   # ranking in the points of the curve
   allvals <- cbind(obs$fvals, sim$fvals)
@@ -83,9 +102,9 @@ rankEnv.test <-
     }
   } 
   
-  # now very simple: just use the minimum achieved rank as criterion to rank the curves
+  # now use the mean minimum achieved rank as criterion to rank the curves
   
-  minrank <- apply(allrank, 1, min)
+  minrank <- apply(allrank, 1, function (a) mean(sort(as.vector(a))[1:minn]))
   obsrank <- minrank[1]
 # schnickschnack
 # whereHi <- hirank[1, ] == minrank[1]
@@ -110,7 +129,7 @@ rankEnv.test <-
 #   
   pvalue <- mean(minrank <= obsrank) 
   
-  mrquant <- quantile(minrank,  1 - conf.level)
+  mrquant <- quantile(minrank,  1 - inclprob)
   trueprob <- 1 - sapply(mrquant, function(q) mean(minrank < q))
   
   envs <- lapply(mrquant, function (q) pwEnvelope(sim[minrank[-1] >= q], 1))
@@ -135,7 +154,8 @@ rankEnv.test <-
   #  envMore = EnvMore,
     envs = envs,
     trueprob = trueprob,
-    yrange = range(yrange(sim), yrange(obs)))
+    yrange = range(yrange(sim), yrange(obs)),
+    minn = minn)
   class(erg) <- c("envtest", "htest")
   erg
 }
@@ -143,7 +163,7 @@ rankEnv.test <-
 #@rdname rankEnv.test
 #'@title Plot the result of an envelope test
 #'@description Plots simultaneous envelopes of a rank envelope test and
-#'prints the exact confidence levels.
+#'prints the exact inclusion probabilities.
 #'@param x test result to be plotted, an object of type \code{envtest}
 #'@param ... arguments passed to plot methods
 #'@param col.obs color for plotting the observations
@@ -151,7 +171,8 @@ rankEnv.test <-
 #'which calculates the result of a test comparing an observed curve to a family
 #'of other curves (most often simulated ones).
 #'
-#'Method \code{plot.envtest} plots envelopes according to the confidence levels given while
+#'Method \code{plot.envtest} plots envelopes according to the inclusion probabilities 
+#'given while
 #'calculating the test, and adds the observed curve. The most extreme points of 
 #'the observed curve, i.e. the points that are reponsible for the curve's p-value,
 #'are marked by points.
@@ -161,6 +182,9 @@ rankEnv.test <-
 #'@export
 
 plot.envtest <- function(x, ..., col.obs = "red"){
+  if (x$minn > 1) 
+    warning("Do not use this envelope as a graphical test, it is based on 
+      average ranks, minn =", x$minn, "!!!@%&!\n")
   dotargs <- simplist(...)
   nenv <- length(x$envs)
   alphas <- exp(seq(log(.2), log(.6), length.out = nenv))
@@ -172,7 +196,7 @@ plot.envtest <- function(x, ..., col.obs = "red"){
        dotargs$add <- TRUE
     }  
   }
-  cat("\ntrue envelope confidence levels", x$trueprob,"\n")
+  cat("\ntrue envelope inclusion probabilities", x$trueprob,"\n")
 #  if (!is.null(x$envMore)){
 #    plot(x$envMore, ylim = x$yrange, dotargs, alpha = .25)
 #    dotargs$add <- TRUE
