@@ -52,7 +52,6 @@ funsample <- function(funs, ..., arglim = c(0, 1)) #fun = mean, ...)
   }
   if(!all(is.finite(arglim))) stop ("need finite argument range")
   options <- simplist(defaultoptions.fdsample, ..., .NULL.rm = TRUE)
-  funvaltemplate <- array(0, c(length(funs),1))
   foos <- as.function(alist (x = , {
             result <- sapply(funs, function(f) (do.call(f, list(x))))
             if (is.vector(result)) result <- t(as.matrix(result))
@@ -159,12 +158,14 @@ c.funsample <- function(..., recursive = FALSE)
     if (!attr(x, "groupsize"))
         return(NULL)
     funs <- attr(x, "funs")
+    thefun <- funs[[name]]
     plopt <- attr(x,"options")
     if (is.null(plopt$ylab) || identical(plopt$ylab, ""))
       if (is.null(plopt$xlab) || identical(plopt$xlab, ""))
         plopt$ylab <- name
       else plopt$ylab <- paste(name, "(",plopt$xlab,")", sep = "")
-    urfunction(funs[[name]], plopt)
+    flopt <- if (is.urfunction(thefun)) attr(thefun, "options") else NULL 
+    urfunction(thefun, simplist(flopt, plopt))
 }
 
 

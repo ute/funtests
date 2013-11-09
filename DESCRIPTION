@@ -1,13 +1,13 @@
 Package: fdnonpar
-Version: 0.13.1
-Date: 2013-11-08
+Version: 0.13.3
+Date: 2013-11-09
 Title: Methods for multivariate or functional data.
 Authors@R: 
     person("Ute", "Hahn", email = "ute@imf.au.dk", role = c("aut", "cre"))
 Depends:
     R (>= 2.15)
 Imports:
-    plutils,
+    plutils (>= 0.3.0),
     plyr,
     stats
 Description: Nonparametric testing and visualization of samples consisting of 
