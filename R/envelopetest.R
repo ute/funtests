@@ -26,9 +26,9 @@
 #'has (some) smaller function values than the simulated curves, and
 #'\code{alternative == "greater"} is the opposite one-sided alternative.
 #'
-#'For \code{minn == 1}, the test is performed as described in Davison and Hinkley 
-#'(1997), Equation (4.17), and corresponds to the rank envelope test by 
-#'Myllymaki et. al (2013), who suggest further refinements of the test procedure.
+#'For \code{minn == 1}, the test corresponds to the rank envelope test by 
+#'Myllymaki et. al (2013), and to the procedure described in Davison and Hinkley 
+#'(1997), Equation (4.17).
 #'The  p-value is obtained by ranking the curves according to the minimum pointwise
 #'rank obtained in any point of the curve -- note that the curves are actually
 #'represented as vectors.
@@ -43,17 +43,18 @@
 #'@export
 #'@author Ute Hahn, \email{ute@@imf.au.dk} 
 #'@references
-#'Davison, A.C. and Hinkley, D.V. (1997) \emph{Bootstrap Methods and their 
-#'Applications}, Cambridge University Press, Cambridge.
-#'
 #'M. Myllymaki, T. Mrkvicka, H. Seijo  and P. Grabarnik (2013)
 #'\emph{Global envelope tests for spatial point patterns}, 
 #'\url{http://arxiv.org/abs/1307.0239}.
 #'
+#'Davison, A.C. and Hinkley, D.V. (1997) \emph{Bootstrap Methods and their 
+#'Applications}, Cambridge University Press, Cambridge.
+#'
+#'
 #'@examples
 #'# make a sample of sinus curves
 #'tt <- seq(0, 2*pi, length = 20)
-#'sinsim <- replicate(1000, sin(tt) + cumsum(rnorm(20, 0, 0.01)))
+#'sinsim <- replicate(5000, sin(tt) + cumsum(rnorm(20, 0, 0.01)))
 #'sinobs <- sin(tt - pi/50) + cumsum(rnorm(20, 0, 0.01))
 #'sim <- fdsample(tt, sinsim)
 #'obs <- fdsample(tt, sinobs)
