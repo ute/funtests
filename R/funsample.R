@@ -51,7 +51,7 @@ funsample <- function(funs, ..., arglim = c(0, 1)) #fun = mean, ...)
       stop ("funs should be a function or a list of functions")
   }
   if(!all(is.finite(arglim))) stop ("need finite argument range")
-  options <- simplist(defaultoptions.fdsample, ..., .NULL.rm = TRUE)
+  options <- simplist(defaultoptions.funsample, ..., .NULL.rm = TRUE)
   foos <- as.function(alist (x = , {
             result <- sapply(funs, function(f) (do.call(f, list(x))))
             if (is.vector(result)) result <- t(as.matrix(result))
