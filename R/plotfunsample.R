@@ -33,6 +33,11 @@
 #'require(plutils)
 #'blau <- simplist(col = "blue", alpha = 0.4)
 #'plot(myfuns, blau, includy = -2)
+#'# plot options can also be included when a funsample is generated:
+#'trigostyle <- list(sin = simplist(col = "red", lty = "dashed"), 
+#'                   cos = simplist(col = "green"))
+#'myfuns <- funsample(list(sin = sin, cos = cos), arglim = c(0, 2*pi), trigostyle)
+#'plot(myfuns)                   
 
 plot.funsample <- function(x, ..., includy = NULL)
 {
