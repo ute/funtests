@@ -12,8 +12,13 @@
 #'
 #'\code{"urfunction"} objects have an attribute \code{"options"} which is a \code{simplist}
 #'of options used for plotting, in particular axis labels and the title (\code{main}).
+#'It contains an additional element \code{legendtxt} which is used when the function is
+#'plotted as part of a \code{funsample}. This element, as well as all other elements of
+#'\code{"options"}, can be set as argument (\ldots). It defaults to \code{ylab}.
 #'@export
-#'
+#'@examples
+#'str(urfunction(sin))
+#'str(urfunction(sin, legendtxt = "sinus", col = 2))
 #
 urfunction <- function(fun, ...) {
   stopifnot(is.function(fun))
@@ -23,7 +28,7 @@ urfunction <- function(fun, ...) {
   options <- simplist(xlab = argname, 
                       main = "", ..., .NULL.rm = TRUE)
   ylab <- paste(funame, "(", options$xlab, ")", sep = "")
-  options <- simplist(ylab = ylab, options)
+  options <- simplist(ylab = ylab, legendtxt = ylab, options)
   urfu <- fun
   firstclass(urfu) <- "urfunction"
   attr(urfu, "options") <- options
