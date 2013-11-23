@@ -91,3 +91,19 @@ plot.urfunction <- function(x, ..., includy = NULL)
   }  
   invisible()
 }
+
+
+#'@keywords internal
+#'@export
+#'@title Legend information for an urfunction
+#'@rdname urfunction-internal
+#'@aliases legendinfo.urfunction
+legendinfo.urfunction <- function (urfu){
+  opt <- attr(urfu, "options")  
+  legli <- list(legend = opt$legend, fill = opt$fill,
+                col = if (is.null(opt$col)) par("col") else opt$col, 
+                lty = opt$lty, lwd = opt$lwd, pch = opt$pch)
+  legli
+}
+
+ 
