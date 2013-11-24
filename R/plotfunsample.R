@@ -82,3 +82,32 @@ defaultoptions.funsample <- simplist (
   lwd = NULL,
   lty = NULL
 )
+
+#'@title Add legend to plot of a funsample object
+#'@description Extracts legend information from any \code{\link{urfunction}}s
+#'contained in the \code{funsample} object and plots
+#'the legend.
+#'@param funsa \code{\link{funsample}} for which a legend is to be plotted
+#'@param ... additional arguments for plotting the legend, as in \code{\link{legend}}
+#'@details Does nothing if \code{funsa} does not contain any \code{urfunction}s.
+#'To plot a legend in that case, use the base function \code{\link{legend}} and 
+#'define legend contents and parameters manually.
+#'@seealso \code{\link{legend}} for arguments e.g. concerning positioning and
+#'border of the legend.
+#'@export
+#'@method plotlegend funsample
+plotlegend.funsample <- function (funsa, ...){
+  funz <- attr(funsa, "funs")
+  urfunz <- funz[sapply(funz, is.urfunction)]
+  result <- NULL
+  if (length(urfunz)) {
+    leginf <- sapply(urfunz, legendinfo.urfunction)
+    legparms <- apply(leginf, 1, unlist)
+    firstclass(legparms) <- "simplist"
+    legparms <- simplist(..., legparms, .NULL.rm = TRUE)
+    if(is.null(legparms$lwd) && is.null(legparms$lty)) legparms$lty <- "solid"
+    result <- do.call(legend, legparms)
+  }
+  invisible(result)
+}
+  

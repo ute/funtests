@@ -25,10 +25,12 @@ urfunction <- function(fun, ...) {
   funame <- deparse(substitute(fun))
   funfrmls <- formals(fun)
   argname <- if (!is.null(funfrmls)) names(funfrmls)[1] else "x"
+  # TODO need to find ylim for approxfuns
   options <- simplist(xlab = argname, 
                       main = "", ..., .NULL.rm = TRUE)
   ylab <- paste(funame, "(", options$xlab, ")", sep = "")
   options <- simplist(ylab = ylab, legendtxt = ylab, options)
+  # TODO here need to make a copy in the case of primitives
   urfu <- fun
   firstclass(urfu) <- "urfunction"
   attr(urfu, "options") <- options
