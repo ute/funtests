@@ -1,0 +1,12 @@
+  CHANGES IN fdnonpar VERSION 0.14.0
+
+    o new function rankCount.test
+    
+    o print method for rankEnv.test, giving p-interval as specified in 
+      Myllym"aki et al. (2015)
+    
+    o removed argument minn in rankEnv.test
+    
+    o set default envelope inclusion probability to 0.95
+
+    

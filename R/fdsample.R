@@ -89,7 +89,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
 #'@rdname extract.fdsample
 # @name extract.fdsample
 #'@aliases [.fdsample [<-.fdsample
-#'@S3method [ fdsample
+#@S3method [ fdsample
 #'@method [ fdsample
 # @usage x[i, j, drop, ...]
 #'@export
@@ -117,8 +117,8 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
   }
 
 #'@rdname extract.fdsample
-#'@S3method [<- fdsample
-# @method [<- fdsample
+#@S3method [<- fdsample
+#'@method [<- fdsample
 #'@usage \method{[}{fdsample} (x, i) <- value
 #'@export
 #'@param value Replacement for the subset, an array or an fdsample object.
@@ -180,7 +180,7 @@ rangexy.fdsample <- function (x, finite = TRUE, ...) {
 #'
 #'Prints a very short summary of the \code{fdsample}-object in the argument
 #'
-#'@S3method print fdsample
+#@S3method print fdsample
 #'@method print fdsample
 #'@param x object of type \code{\link{fdsample}}
 #'@param ... ignored

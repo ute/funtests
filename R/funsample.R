@@ -143,7 +143,7 @@ c.funsample <- function(..., recursive = FALSE)
 }
 
 #'@rdname funsample_list_methods
-#'@S3method $ funsample
+#@S3method $ funsample
 #@usage \method{$}{funsample} (x, name)
 #'@method $ funsample
 #'@export 
@@ -170,7 +170,7 @@ c.funsample <- function(..., recursive = FALSE)
 
 
 #'@rdname funsample_list_methods
-#'@S3method $<- funsample
+#@S3method $<- funsample
 #'@method $<- funsample
 #'@usage \method{$}{funsample}(x, name) <- value
 #'@export 

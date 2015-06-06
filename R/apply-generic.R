@@ -63,7 +63,7 @@ apply.fdsample <- function(x, fun = mean, ..., fopt = list())
 #'@param na.rm logical; if true, any NA and NaN's are removed from \code{x}
 #' before the quantiles are computed.
 #'@param ... further arguments passed to or from other methods.
-#' @S3method mean fdsample
+# @S3method mean fdsample
 #' @method mean fdsample
 #' @export
 #' @examples
@@ -73,7 +73,7 @@ mean.fdsample <- function (x, ..., trim = 0, na.rm = FALSE)
   apply.fdsample (x, mean, ..., fopt = list(trim = trim, na.rm = na.rm))
 
 #' @rdname summaryfunctions.fdsample
-#' @S3method median fdsample
+# @S3method median fdsample
 #' @method median fdsample
 # @usage median.fdsample (x, na.rm = FALSE)
 #' @export
@@ -84,7 +84,7 @@ median.fdsample <- function (x, ...,  na.rm = FALSE)
    apply.fdsample(x, median, ..., fopt = list( na.rm = na.rm))
 
 #' @rdname summaryfunctions.fdsample
-#' @S3method quantile fdsample
+# @S3method quantile fdsample
 #' @method quantile fdsample
 # @usage quantile.fdsample (x,  probs = seq(0, 1, 0.25), na.rm = FALSE,
 #          names = TRUE, type = 7, ...)

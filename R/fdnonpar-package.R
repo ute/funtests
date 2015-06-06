@@ -51,6 +51,7 @@
 #'        \cr\tab using square integrated Welch-t-statistic
 #'    \cr\code{\link{rankEnv.test}} \tab Rank envelope test: compare a single 
 #'    observation to a group (e.g. simulated data)
+#'    \cr\code{\link{rankCount.test}} \tab Rank count test: refined p-value for rank envelope test
 #    \cr\code{\link{tbar.L2ptest}} \tab  Comparison of two groups,
 #        \cr\tab a variant of \code{\link{t.L2ptest}}\cr
 #'  } 
@@ -59,6 +60,10 @@
 #'Hahn, U. (2012) A studentized permutation test for
 #'the comparison of spatial point  patterns.
 #'\emph{Journal of the American Statistical Association} \strong{107} (498), 754--764.
+#'
+#'M. Myllymaki, T. Mrkvicka, P. Grabarnik, H. Seijo and Ute Hahn (2015)
+#'\emph{Global envelope tests for spatial processes}, 
+#'\url{http://arxiv.org/abs/1307.0239v3}.
 #'
 #'@keywords package
 #'@examples 

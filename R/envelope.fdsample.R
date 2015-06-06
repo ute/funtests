@@ -66,7 +66,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
 #'is lightened up,\cr\tab 0 means no extra light. \cr
 #'\code{xlab, ylab} \tab character, axes labels, default to \code{"x"} and \code{"y"}. \cr
 #'}
-#'@S3method plot fdenvelope
+#@S3method plot fdenvelope
 #'@method plot fdenvelope
 #'@export
 # @author Ute Hahn,  \email{ute@@imf.au.dk}

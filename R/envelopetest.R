@@ -14,7 +14,6 @@
 #'\code{"two.sided"} (default), \code{"less"} or \code{"greater"}. May be abbreviated.
 #'@param inclprob a numerical vector of inclusion probabilities
 #'of the envelopes to be plotted, for use in \code{\link{plot.envtest}}
-#'@param minn number of minimum ranks per curve to average over when ranking, see details
 #'@details The observed curve, represented by the \code{\link{fdsample}} object 
 #'\code{obs} is compared to simulated curves collected 
 #'in the \code{fdsample} object '\code{sim}. 
@@ -26,26 +25,24 @@
 #'has (some) smaller function values than the simulated curves, and
 #'\code{alternative == "greater"} is the opposite one-sided alternative.
 #'
-#'For \code{minn == 1}, the test corresponds to the rank envelope test by 
-#'Myllymaki et. al (2013), and to the procedure described in Davison and Hinkley 
-#'(1997), Equation (4.17).
+#'The test corresponds to the rank envelope test by Myllymaki et. al (2013, 2015), 
+#'and to the procedure described in Davison and Hinkley (1997), Equation (4.17).
 #'The  p-value is obtained by ranking the curves according to the minimum pointwise
 #'rank obtained in any point of the curve -- note that the curves are actually
 #'represented as vectors.
 #'
-#'If \code{minn > 1}, the mean of the \code{minn} smallest pointwise ranks per curve
-#'is used instead, to rank the curves among each other. This may increase the power
-#'of the test, but the test is no longer usable as a graphical test.
-#'
-#'The result of the test can be plotted, see \code{\link{plot.envtest}}. If
-#'\code{minn} was set to a value \code{> 1}, a warning is issued when plotting.
+#'The result of the test can be plotted, see \code{\link{plot.envtest}}. 
 #' 
 #'@export
 #'@author Ute Hahn, \email{ute@@imf.au.dk} 
 #'@references
-#'M. Myllymaki, T. Mrkvicka, H. Seijo  and P. Grabarnik (2013)
-#'\emph{Global envelope tests for spatial point patterns}, 
-#'\url{http://arxiv.org/abs/1307.0239}.
+#'M. Myllymaki, T. Mrkvicka, H. Seijo and P. Grabarnik (2013)
+#'\emph{Global envelope tests for spatial processes}, 
+#'\url{http://arxiv.org/abs/1307.0239v2}.
+#'
+#'M. Myllymaki, T. Mrkvicka, P. Grabarnik, H. Seijo and Ute Hahn (2015)
+#'\emph{Global envelope tests for spatial processes}, 
+#'\url{http://arxiv.org/abs/1307.0239v3}.
 #'
 #'Davison, A.C. and Hinkley, D.V. (1997) \emph{Bootstrap Methods and their 
 #'Applications}, Cambridge University Press, Cambridge.
@@ -65,8 +62,7 @@
   
 rankEnv.test <- 
   function(obs, sim, alternative = c("two.sided", "less", "greater"),
-           inclprob = c(1,0.95,0.9,0.8),
-           minn = 1) {
+           inclprob = 0.95){
   alternative = match.arg(alternative)
   if (!is.fdsample(obs) || !is.fdsample(sim)) {
     stop("rankEnv.test currently only takes data of type fdsample")
@@ -79,12 +75,7 @@ rankEnv.test <-
   if (max(abs(obs$args - sim$args)) > 1e-7) 
     stop("observed and simulated data do not have the same argument values")
     
-  if (length(obs$args) < minn){
-    minn <- length(obs$args)
-    warning("required number for min average set to argument length,", minn)
-  }
-    
-  
+ 
   # ranking in the points of the curve
   allvals <- cbind(obs$fvals, sim$fvals)
   R <- sim$groupsize + 1
@@ -105,7 +96,7 @@ rankEnv.test <-
   
   # now use the mean minimum achieved rank as criterion to rank the curves
   
-  minrank <- apply(allrank, 1, function (a) mean(sort(as.vector(a))[1:minn]))
+  minrank <- apply(allrank, 1, function (a) sort(as.vector(a))[1])
   obsrank <- minrank[1]
 # schnickschnack
 # whereHi <- hirank[1, ] == minrank[1]
@@ -128,8 +119,7 @@ rankEnv.test <-
 #     EnvLess <- pwEnvelope(sim[lessExtreme], 1)
 #   else EnvLess <- NULL
 #   
-  pvalue <- mean(minrank <= obsrank) 
-  
+  pvalue <- c(mean(minrank < obsrank), mean(minrank <= obsrank))
   mrquant <- quantile(minrank,  1 - inclprob)
   trueprob <- 1 - sapply(mrquant, function(q) mean(minrank < q))
   
@@ -143,7 +133,8 @@ rankEnv.test <-
   names(obsrank) <- "minimum rank"
   erg <- list(
     statistic = obsrank,
-    p.value = pvalue,
+    p.value = pvalue[2],
+    p.interval = pvalue,
     alternative = alternative, 
     method = method, 
     data.name = datname,
@@ -155,8 +146,7 @@ rankEnv.test <-
   #  envMore = EnvMore,
     envs = envs,
     trueprob = trueprob,
-    yrange = range(yrange(sim), yrange(obs)),
-    minn = minn)
+    yrange = range(yrange(sim), yrange(obs)))
   class(erg) <- c("envtest", "htest")
   erg
 }
@@ -183,9 +173,9 @@ rankEnv.test <-
 #'@export
 
 plot.envtest <- function(x, ..., col.obs = "red"){
-  if (x$minn > 1) 
-    warning("Do not use this envelope as a graphical test, it is based on 
-      average ranks, minn =", x$minn, "!!!@%&!\n")
+  #if (x$minn > 1) 
+  #  warning("Do not use this envelope as a graphical test, it is based on 
+  #    average ranks, minn =", x$minn, "!!!@%&!\n")
   dotargs <- simplist(...)
   nenv <- length(x$envs)
   alphas <- exp(seq(log(.2), log(.6), length.out = nenv))
@@ -216,5 +206,16 @@ plot.envtest <- function(x, ..., col.obs = "red"){
   splot(x$obs$args[x$whereExtreme], x$obs$fvals[x$whereExtreme], dotargs, 
     col = col.obs, .plotmethod = "points")
 }
-  
 
+######### print envtest
+#'@method print envtest
+#'@export
+
+print.envtest <- function (x, digits = getOption("digits"), prefix = "\t", ...) 
+{
+   NextMethod()
+   cat("\n")
+   cat("p-interval:  [", format(x$p.interval[1],digits = max(1L, digits - 3L)),
+       ",", format(x$p.interval[2],digits = max(1L, digits - 3L)),"]")
+   invisible(x)
+}

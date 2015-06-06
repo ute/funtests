@@ -1,9 +1,9 @@
 Package: fdnonpar
-Version: 0.13.5
-Date: 2013-11-23
+Version: 0.14.0
+Date: 2015-06-06
 Title: Methods for multivariate or functional data.
 Authors@R: 
-    person("Ute", "Hahn", email = "ute@imf.au.dk", role = c("aut", "cre"))
+    person("Ute", "Hahn", email = "ute@math.au.dk", role = c("aut", "cre"))
 Depends:
     R (>= 2.15)
 Imports:
@@ -11,13 +11,15 @@ Imports:
     plyr,
     stats
 Description: Nonparametric testing and visualization of samples consisting of 
-    vectors or arrays of observations x(t) taken at the same given measurement points t, 
-    such as functional  data, time series or multivariate data 
+    vectors or arrays of observations x(t) taken at the same given measurement 
+    points t, such as functional data, time series or multivariate data 
     (in the latter case, t is just an index).
     The independent variable may be multidimensional, but plotting is currently 
-    only possible for onedimensional arguments t (time series, functions of one variable).  
-    Comparison of group means of the 
-    data by a permutation tests (currently, the number of groups is limited to two). 
+    only possible for onedimensional arguments t (time series, functions of one 
+    variable).  
+    Comparison of group means of the data by a permutation tests (currently, 
+    the number of groups is limited to two). 
+    Pointwise rank based tests for goodness of fit.
 License: GPL (>= 2)
 NeedsCompilation: no
 LazyData: true
