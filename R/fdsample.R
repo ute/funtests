@@ -6,7 +6,7 @@
 # groups of function values are stored as arrays
 # in the current version, it is required that they all are taken on the same x-values
 # later we can provide a unifying function
-# started 04.09.2013. Das wäre Hiltis 82. Geburtstag gewesen.
+# started 04.09.2013. Das w"are Hiltis 82. Geburtstag gewesen.
 #
 #
 #  WANT: testing. Requires aligned functions, one x, several y
