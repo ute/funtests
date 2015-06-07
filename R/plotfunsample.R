@@ -62,7 +62,7 @@ plot.funsample <- function(x, ..., includy = NULL)
 #     allopt$col <- alphacol(allopt$col, allopt$alpha)
 #   
 #   plopt <- matching(allopt, c(.graphparams, .plotparams, add = T))
-#   do.call(matplot, c(list(x = x$args, y = x$fvals), plopt))
+#   do.call(matplot, c(list(x = x$args, y = x$fvals), plopt), quote = TRUE)
 #   invisible()
 }
 

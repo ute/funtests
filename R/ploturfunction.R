@@ -87,7 +87,7 @@ plot.urfunction <- function(x, ..., includy = NULL)
     allopt$add <- !addF
     
     plopt <- matching(allopt, c(.graphparams, .plotparams, add = TRUE))
-    do.call(matplot, c(list(x = xx, y = yy), plopt))
+    do.call(matplot, c(list(x = xx, y = yy), plopt), quote = TRUE)
   }  
   invisible()
 }

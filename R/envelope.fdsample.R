@@ -97,7 +97,7 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
     if(is.null(allopt$xlim)) allopt$xlim <- range(x$args[is.finite(x$args)])
     pargus <- matching(allopt, .plotparams)
     pargus$type="n"
-    do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus))
+    do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus), quote = TRUE)
   }
 
   # now do the plotting of envelopes and curves
@@ -110,6 +110,6 @@ plot.fdenvelope <- function(x, ..., includy = NULL)
 
   plopt <- matching(allopt, .graphparams)
   plopt$border <- NA
-  do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt))
+  do.call (polygon, c(list(c(x$args, rev(x$args)), c(x$fvals[ ,1], rev(x$fvals[ ,2]))), plopt), quote = TRUE)
 }
 

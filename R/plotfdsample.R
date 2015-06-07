@@ -53,7 +53,7 @@ plot.fdsample <- function(x, ..., includy = NULL)
   if(is.null(allopt$type)) allopt$type <- "l"
 
   plopt <- matching(allopt, c(.graphparams, .plotparams, add = T))
-  do.call(matplot, c(list(x = x$args, y = x$fvals), plopt))
+  do.call(matplot, c(list(x = x$args, y = x$fvals), plopt), quote = TRUE)
   invisible()
 }
 

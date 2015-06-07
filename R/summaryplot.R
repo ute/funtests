@@ -132,7 +132,7 @@ summaryplot <- function(x, ...,
     # Want type = "n"
     pargus <- matching(allopt, .plotparams)
     pargus$type="n"
-    do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus))
+    do.call(plot.default, c(list(allopt$xlim, allopt$ylim), pargus), quote = TRUE)
   }
 
   # adjust plot options: fill in necessary defaults
