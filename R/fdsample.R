@@ -140,6 +140,35 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
     return(newfd)
   }
 
+
+#'@title Restrict fdsample
+#'
+#'@description  Restrict fdsample to a range of argument values.
+#'
+#'
+#'@export
+#'@param x an object of class \code{"fdsample"}.
+#'@param argrange numeric, of length 2.
+#'
+#'@details Restricts the sample to argument values within argrange
+#'
+#'@seealso \code{\link{fdsample}} for details on the class.
+# @author Ute Hahn,  \email{ute@@imf.au.dk}
+
+restrict.fdsample <- function(x, argrange = c(-Inf, Inf))
+{
+  xx <- as.array(x$args)
+  if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
+  if (length(argrange) != 2) stop("argrange should be a vector of lenght two")
+  ok <- xx >= argrange[1] & xx <= argrange[2]
+  yy <- x$fvals[ok, ]
+  opt <- x$options
+  newfd <- fdsample(xx[ok], yy, opt)
+  if (!is.null(comment(x)))
+    comment(newfd) <- c(comment(x), paste("\nargument subset", argrange))
+  return(newfd)
+}
+
 #'@title range of function values
 #'@description Range of \code{fvals} contained in an \code{fdsample} object,
 #'purpose: convenient way to find plot y-limits.

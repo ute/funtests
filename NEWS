@@ -1,3 +1,7 @@
+  CHANGES IN fdnonpar VERSION 0.14.2
+   
+    o new function restrict.fdsample to restrict argument range
+
   CHANGES IN fdnonpar VERSION 0.14.1
   
     o rankEnvelope: for ties in original data use max (was min)
