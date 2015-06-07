@@ -80,9 +80,9 @@ rankEnv.test <-
   allvals <- cbind(obs$fvals, sim$fvals)
   R <- sim$groupsize + 1
   # from below, startin with 1 = lowest
-  lorank <- apply(allvals, 1, rank, ties = "min")
+  lorank <- apply(allvals, 1, rank, ties = "max") # was: "min"
   # from the top, starting with 1 = highest
-  hirank <- apply(-allvals, 1, rank, ties = "min")
+  hirank <- apply(-allvals, 1, rank, ties = "max") # was: "min"
   
   if (alternative == "two.sided") {
     allrank <- pmin(lorank, hirank) # lowest achieved rank in all points of a curve
@@ -187,7 +187,8 @@ plot.envtest <- function(x, ..., col.obs = "red"){
        dotargs$add <- TRUE
     }  
   }
-  cat("\ntrue envelope inclusion probabilities", x$trueprob,"\n")
+  if (length(x$trueprob) == 1) cat("\ntrue envelope inclusion probability", x$trueprob,"\n")
+   else cat("\ntrue envelope inclusion probabilities", x$trueprob,"\n")
 #  if (!is.null(x$envMore)){
 #    plot(x$envMore, ylim = x$yrange, dotargs, alpha = .25)
 #    dotargs$add <- TRUE
@@ -214,8 +215,7 @@ plot.envtest <- function(x, ..., col.obs = "red"){
 print.envtest <- function (x, digits = getOption("digits"), prefix = "\t", ...) 
 {
    NextMethod()
-   cat("\n")
-   cat("p-interval:  [", format(x$p.interval[1],digits = max(1L, digits - 3L)),
+   if (!is.null(x$p.interval)) cat("p-interval:  [", format(x$p.interval[1],digits = max(1L, digits - 3L)),
        ",", format(x$p.interval[2],digits = max(1L, digits - 3L)),"]")
    invisible(x)
 }

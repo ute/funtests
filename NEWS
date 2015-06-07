@@ -1,3 +1,8 @@
+  CHANGES IN fdnonpar VERSION 0.14.1
+  
+    o rankEnvelope: for ties in original data use max (was min)
+    
+
   CHANGES IN fdnonpar VERSION 0.14.0
 
     o new function rankCount.test

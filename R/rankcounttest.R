@@ -50,7 +50,7 @@ rankCount.test <-
             {
   alternative = match.arg(alternative)
   if (!is.fdsample(obs) || !is.fdsample(sim)) {
-    stop("lexicalrank.test currently only takes data of type fdsample")
+    stop("rankCount.test currently only takes data of type fdsample")
   }
   if (obs$groupsize > 1) {
     warning("will only test the first function contained in obs")
@@ -119,7 +119,7 @@ rankCount.test <-
                    sim$groupsize,"curves")
   method <-"Rank count test for fda"                
   alternative <- "observation not from the same distribution as simulated data"
-  names(obsrank) <- "lexical rank"
+  names(obsrank) <- "extreme rank counts rank"
   erg <- list(
     statistic = obsrank,
     p.value = pvalue,
@@ -132,10 +132,10 @@ rankCount.test <-
    # envLess = EnvLess, 
   #  envSame = EnvSame,
   #  envMore = EnvMore,
-    envs = envs,
+   # envs = envs,
     trueprob = trueprob,
     yrange = range(yrange(sim), yrange(obs)))
-  class(erg) <- c("envtest", "htest")
+  class(erg) <- "htest" #c("envtest", "htest")
   erg
 }
 
