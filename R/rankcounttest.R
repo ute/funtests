@@ -65,9 +65,9 @@ rankCount.test <-
   allvals <- cbind(obs$fvals, sim$fvals)
   R <- sim$groupsize + 1
   # from below, startin with 1 = lowest
-  lorank <- apply(allvals, 1, rank, ties = "min")
+  lorank <- apply(allvals, 1, rank, ties = "max")
   # from the top, starting with 1 = highest
-  hirank <- apply(-allvals, 1, rank, ties = "min")
+  hirank <- apply(-allvals, 1, rank, ties = "max")
   
   if (alternative == "two.sided") {
     allrank <- pmin(lorank, hirank) # lowest achieved rank in all points of a curve
