@@ -161,7 +161,8 @@ restrict.fdsample <- function(x, argrange = c(-Inf, Inf))
   if (length(dim(xx))>1) stop("sorry, not implemented yet for higher dimensions")
   if (length(argrange) != 2) stop("argrange should be a vector of lenght two")
   ok <- xx >= argrange[1] & xx <= argrange[2]
-  yy <- x$fvals[ok, ]
+  yy <- x$fvals
+  if (length(dim(yy))>1) yy <- yy[ok, ] else yy <- yy[ok]
   opt <- x$options
   newfd <- fdsample(xx[ok], yy, opt)
   if (!is.null(comment(x)))
