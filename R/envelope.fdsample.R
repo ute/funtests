@@ -36,7 +36,7 @@ pwEnvelope <- function (x, prob = 1, ..., lightup = 0.5)
   if(length(prob) == 1) quants <- c( 0.5 - prob / 2, 0.5 + prob / 2)
   else quants <- range(prob)
   # not much user input rubbish control here...
-  result <- quantile(x, probs = quants, ..., lightup = lightup)
+  result <- quantile(x, probs = quants, ..., lightup = lightup, type = 1)
   #result$options <-  simplist(result$options, ..., lightup = lightup)
   class(result) <- c("fdenvelope", class(x))
   attr(result, "prob") <- prob

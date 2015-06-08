@@ -14,6 +14,7 @@
 #'\code{"two.sided"} (default), \code{"less"} or \code{"greater"}. May be abbreviated.
 #'@param inclprob a numerical vector of inclusion probabilities
 #'of the envelopes to be plotted, for use in \code{\link{plot.envtest}}
+#'@param includeobs logical, if TRUE, observed curve is also used in the envelope
 #'@details The observed curve, represented by the \code{\link{fdsample}} object 
 #'\code{obs} is compared to simulated curves collected 
 #'in the \code{fdsample} object '\code{sim}. 
@@ -62,7 +63,7 @@
   
 rankEnv.test <- 
   function(obs, sim, alternative = c("two.sided", "less", "greater"),
-           inclprob = 0.95){
+           inclprob = 0.95, includeobs = TRUE){
   alternative = match.arg(alternative)
   if (!is.fdsample(obs) || !is.fdsample(sim)) {
     stop("rankEnv.test currently only takes data of type fdsample")
@@ -120,10 +121,15 @@ rankEnv.test <-
 #   else EnvLess <- NULL
 #   
   pvalue <- c(mean(minrank < obsrank), mean(minrank <= obsrank))
-  mrquant <- quantile(minrank,  1 - inclprob)
-  trueprob <- 1 - sapply(mrquant, function(q) mean(minrank < q))
-  
-  envs <- lapply(mrquant, function (q) pwEnvelope(sim[minrank[-1] >= q], 1))
+  mrquant <- quantile(minrank,  1 - inclprob, type = 1)
+  if (includeobs) {
+    trueprob <- 1 - sapply(mrquant, function(q) mean(minrank <= q))
+    allfdsamples <- fdsample(obs$args, allvals)
+    envs <- lapply(mrquant, function (q) pwEnvelope(allfdsamples[minrank >= q], 1))  
+  } else {
+    trueprob <- 1 - sapply(mrquant, function(q) mean(minrank < q))
+    envs <- lapply(mrquant, function (q) pwEnvelope(sim[minrank[-1] >= q], 1))
+  }
   
   datname <- paste(deparse(substitute(obs)),
                    ", simulated:", deparse(substitute(sim)),"=",

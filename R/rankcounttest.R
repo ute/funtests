@@ -109,7 +109,7 @@ rankCount.test <-
 #   
   pvalue <- mean(therank <= obsrank) 
   
-  mrquant <- quantile(therank,  1 - inclprob)
+  mrquant <- quantile(therank,  1 - inclprob, type = 1)
   trueprob <- 1 - sapply(mrquant, function(q) mean(therank < q))
   
   envs <- lapply(mrquant, function (q) pwEnvelope(sim[therank[-1] >= q], 1))
