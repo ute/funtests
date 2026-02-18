@@ -1,6 +1,7 @@
-  CHANGES IN fdnonpar VERSION 0.14.2-1
+  CHANGES IN fdnonpar VERSION 0.14.3
    
     o rankEnv.test now includes the observation in the envelope by default
+    o rankCount.test plotting enabled again (was commented out for political reasons)
     
   CHANGES IN fdnonpar VERSION 0.14.2
    

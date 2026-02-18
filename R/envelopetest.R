@@ -178,7 +178,6 @@ rankEnv.test <-
 #'@method plot envtest
 #'@export
 
-
 plot.envtest <- function(x, ..., col.obs = "red"){
   #if (x$minn > 1) 
   #  warning("Do not use this envelope as a graphical test, it is based on 
@@ -214,25 +213,6 @@ plot.envtest <- function(x, ..., col.obs = "red"){
   splot(x$obs$args[x$whereExtreme], x$obs$fvals[x$whereExtreme], dotargs, 
     col = col.obs, .plotmethod = "points")
 }
-
-plotest.envtest <- function(x, ..., col.obs = "red"){
-  dotargs <- simplist(...)
-  nenv <- length(x$envs)
-  alphas <- exp(seq(log(.2), log(.6), length.out = nenv))
-  for (i in seq_along(x$envs))
-  {
-    if (!is.null(x$envs[[i]])){
-      dotargs$alpha <- alphas[i]
-      plot(x$envs[[i]], ylim = x$yrange, dotargs)
-      dotargs$add <- TRUE
-    }  
-  }
-  if (length(x$trueprob) == 1) cat("\ntrue envelope inclusion probability", x$trueprob,"\n")
-  else cat("\ntrue envelope inclusion probabilities", x$trueprob,"\n")
-  dotargs$alpha <- NULL
-  cat("hallo hier",class(x$obs))
-}
-
 
 ######### print envtest
 #'@method print envtest

@@ -20,9 +20,9 @@
 #'  
 #'  The proposed tests do not take the \eqn{x}-variable into account. Since the
 #'  \eqn{x}-values are usually equidistant, this does not really matter.
-#'  In the current version (0.3), it is assumed that the data samples to be compared
+#'  In the current version, it is assumed that the data samples to be compared
 #'  share the same (equidistant) \eqn{x}-variables. 
-#    (this   will be changed in a future version). 
+#    (changes are on the way). 
 #'  
 #'@section Data classes, visualisation of data:
 #'   \tabular{ll}{
@@ -34,6 +34,9 @@
 #'    \cr\code{\link{plot.fdenvelope}} \tab plot an \code{envelope} object
 #'    \cr\code{\link{summaryplot}}\tab plot individual curves, envelopes or summary functions 
 #'    \cr\tab such as the mean of an \code{\link{fdsample}} objectr
+#'    \cr\code{\link{funsample}} \tab another basic data type, a sample of functions.
+#'     A funsample is actually a multivariate R-function. It can be converted into 
+#'     an fdsample.
 #'    }
 #'@section {Manipulation and summary functions}:
 #'   \tabular{ll}{

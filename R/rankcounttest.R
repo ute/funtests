@@ -1,8 +1,7 @@
 #'@title Rank count test of goodness of fit
 #'
 #'@description Test if an observed curve matches a sample of simulated curves (or 
-#'a group of other observations). Refines the result of the rank envelope test, but
-#'does not have a direct graphical representation.
+#'a group of other observations). Refines the result of the original rank envelope test.
 #'@param obs object of class \code{fdsample}, the observed curve.
 #'@param sim object of class \code{fdsample}, the group of curves to which \code{obs} is
 #'compared.
@@ -26,7 +25,7 @@
 #'represented as vectors), see Myllymaki et al. (2015).
 #'
 #'@export
-#'@author Ute Hahn, \email{ute@@imf.au.dk} 
+#'@author Ute Hahn, \email{ute@@math.au.dk} 
 #'@references
 #'M. Myllymaki, T. Mrkvicka, P. Grabarnik, H. Seijo and U.Hahn (2015)
 #'\emph{Global envelope tests for spatial processes}, 
@@ -43,6 +42,7 @@
 #'
 #'testresult <- rankCount.test(obs, sim)
 #'print(testresult)
+#'plot(testresult)
 
 rankCount.test <- 
   function(obs, sim, alternative = c("two.sided", "less", "greater"),
@@ -132,10 +132,10 @@ rankCount.test <-
    # envLess = EnvLess, 
   #  envSame = EnvSame,
   #  envMore = EnvMore,
-   # envs = envs,
+    envs = envs,
     trueprob = trueprob,
     yrange = range(yrange(sim), yrange(obs)))
-  class(erg) <- "htest" #c("envtest", "htest")
+  class(erg) <- c("envtest", "htest")
   erg
 }
 
