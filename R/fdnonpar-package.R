@@ -10,7 +10,6 @@
 #'@name fdnonpar-package
 #'
 #'@aliases fdnonpar-package  fdnonpar
-#'@docType package
 #'@title The fdnonpar package
 #'@description 
 #'  The package \pkg{fdnonpar} is a collection of tools for visualisation 
@@ -91,4 +90,5 @@
 #'
 #'tL2.permtest(xy1, xy2) 
 #'tL2.permtest(xy1, xy1b) 
-NA
+"_PACKAGE"
+NULL

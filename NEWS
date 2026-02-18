@@ -15,7 +15,7 @@
     o new function rankCount.test
     
     o print method for rankEnv.test, giving p-interval as specified in 
-      Myllym"aki et al. (2015)
+      Myllymäki et al. (2015)
     
     o removed argument minn in rankEnv.test
     

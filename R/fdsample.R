@@ -70,7 +70,7 @@ fdsample <- function(args, fvals, ...) #fun = mean, ...)
                        1, dim(ya)[length(dim(ya))])
   my <- ifelse (groupsize == 1, dim(ya), dim(ya)[-length(dim(ya))])
   if (any(dimarg != my)) stop("dimensions do not match")
-  options <- simplist(defaultoptions.fdsample, ..., .NULL.rm = TRUE)
+  options <- plutils::simplist(defaultoptions.fdsample, ..., .NULL.rm = TRUE)
   xy <- list(args = xa,
              fvals = ya,
              dimarg = dim(xa),
@@ -242,7 +242,7 @@ print.fdsample <- function (x, ...)
 #'@rdname fdsample-internal
 #'@aliases defaultoptions.fdsample
 #'@docType data
-defaultoptions.fdsample <- simplist (
+defaultoptions.fdsample <- plutils::simplist (
   xlab = "t",
   ylab = "X(t)",
   main = "",

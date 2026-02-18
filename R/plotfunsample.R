@@ -41,7 +41,7 @@
 
 plot.funsample <- function(x, ..., includy = NULL)
 {
-  allopt <- simplist(attr(x,"options"), ..., .NULL.rm = TRUE)
+  allopt <- plutils::simplist(attr(x,"options"), ..., .NULL.rm = TRUE)
   if(is.null(allopt$xlim)) 
     allopt$xlim <- range(attr(x, "arglim"))
   attr(x, "arglim") <- allopt$xlim
@@ -53,7 +53,7 @@ plot.funsample <- function(x, ..., includy = NULL)
 #   for (foo in funz)
 #   {
 #     if (is.urfunction(foo))  
-#       plopt <- simplist(attr(foo,"options"), allopt))
+#       plopt <- plutils::simplist(attr(foo,"options"), allopt))
 #     else 
 #       plopt <- allopt
 #   }
@@ -74,7 +74,7 @@ plot.funsample <- function(x, ..., includy = NULL)
 #'@rdname funsample-internal
 #'@aliases defaultoptions.funsample
 #'@docType data
-defaultoptions.funsample <- simplist (
+defaultoptions.funsample <- plutils::simplist (
   xlab = "t",
   ylab = "X(t)",
   main = "",

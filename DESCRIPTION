@@ -1,5 +1,5 @@
 Package: fdnonpar
-Version: 0.14.2-1
+Version: 0.14.2-2
 Date: 2015-06-08
 Title: Methods for Multivariate or Functional Data
 Authors@R: 
@@ -23,3 +23,5 @@ Description: Nonparametric testing and visualization of samples consisting of
 License: GPL (>= 2)
 NeedsCompilation: no
 LazyData: true
+RoxygenNote: 7.3.3
+Encoding: UTF-8

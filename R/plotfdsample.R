@@ -21,10 +21,9 @@
 #'from package \code{plottools}. In particular,  plot parameters can be given as
 #'\code{"\link{simplist}"}s or separately.
 #'
-#@S3method plot fdsample
 #'@method plot fdsample
-#'@export plot.fdsample
-# @author Ute Hahn,  \email{ute@@imf.au.dk}
+#'@export 
+# @author Ute Hahn,  \email{ute@@math.au.dk}
 #'@seealso \code{\link{alphacol}} on defining transparent colors, and
 #'\code{\link{splot}} for the evaluation of plot parameters.
 #'@examples
